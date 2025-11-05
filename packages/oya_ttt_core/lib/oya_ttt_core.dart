@@ -3,4 +3,6 @@
 /// More dartdocs go here.
 library;
 
-export 'src/game.dart';
+export 'src/basic/game.dart';
+
+export 'src/meta/game.dart';
