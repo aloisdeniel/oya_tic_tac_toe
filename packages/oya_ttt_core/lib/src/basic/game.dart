@@ -78,7 +78,7 @@ class Board with BoardMappable {
 
   /// Returns the winner if any, otherwise null.
   GamePlayer? get winner {
-    for (final line in _winningLines) {
+    for (final line in winningLines) {
       final a = cells[line[0]], b = cells[line[1]], c = cells[line[2]];
       if (a != null && a == b && b == c) return a;
     }
@@ -104,7 +104,7 @@ ${cell(6)} ${cell(7)} ${cell(8)}
   }
 
   // Winning line triplets (indices into _cells).
-  static const List<List<int>> _winningLines = <List<int>>[
+  static const List<List<int>> winningLines = <List<int>>[
     // rows
     [0, 1, 2],
     [3, 4, 5],
