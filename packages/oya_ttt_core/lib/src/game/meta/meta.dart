@@ -1,35 +1,9 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:oya_ttt_core/src/modes/basic/game.dart';
+import 'package:oya_ttt_core/src/game/basic/basic.dart';
+import 'package:oya_ttt_core/src/game/game.dart';
+import 'package:oya_ttt_core/src/game/player.dart';
 
-part 'game.mapper.dart';
-
-/// A position in the meta game, referencing both a board and a cell within it.
-@MappableClass()
-class MetaPosition with MetaPositionMappable {
-  const MetaPosition(this.boardPos, this.cellPos);
-
-  /// Position of the board in the 3x3 meta grid.
-  final Position boardPos;
-
-  /// Position of the cell within that board.
-  final Position cellPos;
-
-  @override
-  String toString() => 'Meta[board:$boardPos, cell:$cellPos]';
-}
-
-/// One move in the meta game.
-@MappableClass()
-class MetaMove with MetaMoveMappable {
-  const MetaMove({required this.turn, required this.player, required this.pos});
-
-  final int turn; // 1-based move number
-  final GamePlayer player; // who played this move
-  final MetaPosition pos; // where they played
-
-  @override
-  String toString() => '#$turn ${player.name} -> $pos';
-}
+part 'meta.mapper.dart';
 
 /// Immutable meta tic-tac-toe game state.
 ///
@@ -39,7 +13,7 @@ class MetaMove with MetaMoveMappable {
 /// - If sent to a completed board, you can play on any available board.
 /// - Win by getting three-in-a-row on the meta board.
 @MappableClass()
-class MetaGameState with MetaGameStateMappable {
+class MetaGameState extends GameState with MetaGameStateMappable {
   const MetaGameState({
     required this.boards,
     required this.metaBoard,
@@ -48,24 +22,9 @@ class MetaGameState with MetaGameStateMappable {
     required this.activeBoard,
   });
 
-  /// The 9 individual tic-tac-toe boards (indexed by Position).
-  final Map<Position, Board> boards;
-
-  /// The meta board tracking which player won each small board.
-  final Board metaBoard;
-
-  /// Complete chronological history of moves.
-  final List<MetaMove> history;
-
-  /// Who goes next.
-  final GamePlayer nextPlayer;
-
-  /// Which board position the next player must play in (null = any available).
-  final Position? activeBoard;
-
   /// Start a fresh meta game.
   factory MetaGameState.initial({
-    GamePlayer startingPlayer = GamePlayer.player1,
+    GamePlayerId startingPlayer = GamePlayerId.player1,
   }) {
     final boards = <Position, Board>{};
     for (var row = 0; row < 3; row++) {
@@ -81,6 +40,51 @@ class MetaGameState with MetaGameStateMappable {
       nextPlayer: startingPlayer,
       activeBoard: null, // can play anywhere initially
     );
+  }
+
+  /// The 9 individual tic-tac-toe boards (indexed by Position).
+  final Map<Position, Board> boards;
+
+  /// The meta board tracking which player won each small board.
+  final Board metaBoard;
+
+  /// Complete chronological history of moves.
+  final List<MetaMove> history;
+
+  /// Who goes next.
+  @override
+  final GamePlayerId nextPlayer;
+
+  /// Which board position the next player must play in (null = any available).
+  final Position? activeBoard;
+
+  /// Winner of the meta game, or null if none yet.
+  @override
+  GamePlayerId? get winner => metaBoard.winner;
+
+  /// True if no winner and all boards are complete.
+  @override
+  bool get isDraw => metaBoard.winner == null && metaBoard.isFull;
+
+  /// True if the meta game is finished.
+  @override
+  bool get isOver => metaBoard.isTerminal;
+
+  /// All legal next moves for the current player.
+  Iterable<MetaPosition> get legalMoves sync* {
+    if (isOver) return;
+
+    // If there's an active board constraint, only consider that board.
+    final boardsToCheck = activeBoard != null
+        ? [activeBoard!]
+        : boards.keys.where((pos) => metaBoard.at(pos) == null);
+
+    for (final boardPos in boardsToCheck) {
+      final board = boards[boardPos]!;
+      for (final cellPos in board.emptyPositions) {
+        yield MetaPosition(boardPos, cellPos);
+      }
+    }
   }
 
   /// Play a move and return the next immutable MetaGameState.
@@ -148,32 +152,6 @@ class MetaGameState with MetaGameStateMappable {
     );
   }
 
-  /// Winner of the meta game, or null if none yet.
-  GamePlayer? get winner => metaBoard.winner;
-
-  /// True if no winner and all boards are complete.
-  bool get isDraw => metaBoard.winner == null && metaBoard.isFull;
-
-  /// True if the meta game is finished.
-  bool get isOver => metaBoard.isTerminal;
-
-  /// All legal next moves for the current player.
-  Iterable<MetaPosition> get legalMoves sync* {
-    if (isOver) return;
-
-    // If there's an active board constraint, only consider that board.
-    final boardsToCheck = activeBoard != null
-        ? [activeBoard!]
-        : boards.keys.where((pos) => metaBoard.at(pos) == null);
-
-    for (final boardPos in boardsToCheck) {
-      final board = boards[boardPos]!;
-      for (final cellPos in board.emptyPositions) {
-        yield MetaPosition(boardPos, cellPos);
-      }
-    }
-  }
-
   /// Jump (immutably) to a previous turn (0 = initial).
   MetaGameState rewind(int toTurn) {
     if (toTurn < 0 || toTurn > history.length) {
@@ -215,8 +193,8 @@ class MetaGameState with MetaGameStateMappable {
             final cellPos = Position(boardRow, boardCol);
             final cell = board.at(cellPos);
             final char = switch (cell) {
-              GamePlayer.player1 => 'X',
-              GamePlayer.player2 => 'O',
+              GamePlayerId.player1 => 'X',
+              GamePlayerId.player2 => 'O',
               null => '.',
             };
             buffer.write(char);
@@ -241,4 +219,32 @@ class MetaGameState with MetaGameStateMappable {
 
     return buffer.toString();
   }
+}
+
+/// A position in the meta game, referencing both a board and a cell within it.
+@MappableClass()
+class MetaPosition with MetaPositionMappable {
+  const MetaPosition(this.boardPos, this.cellPos);
+
+  /// Position of the board in the 3x3 meta grid.
+  final Position boardPos;
+
+  /// Position of the cell within that board.
+  final Position cellPos;
+
+  @override
+  String toString() => 'Meta[board:$boardPos, cell:$cellPos]';
+}
+
+/// One move in the meta game.
+@MappableClass()
+class MetaMove with MetaMoveMappable {
+  const MetaMove({required this.turn, required this.player, required this.pos});
+
+  final int turn; // 1-based move number
+  final GamePlayerId player; // who played this move
+  final MetaPosition pos; // where they played
+
+  @override
+  String toString() => '#$turn ${player.name} -> $pos';
 }

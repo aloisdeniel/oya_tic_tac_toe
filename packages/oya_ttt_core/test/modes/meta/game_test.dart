@@ -19,12 +19,12 @@ void main() {
     test('creates move with correct properties', () {
       final move = MetaMove(
         turn: 5,
-        player: GamePlayer.player1,
+        player: GamePlayerId.player1,
         pos: MetaPosition(Position(0, 0), Position(1, 1)),
       );
 
       expect(move.turn, 5);
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
       expect(move.pos.boardPos, Position(0, 0));
       expect(move.pos.cellPos, Position(1, 1));
     });
@@ -32,7 +32,7 @@ void main() {
     test('toString returns formatted string', () {
       final move = MetaMove(
         turn: 3,
-        player: GamePlayer.player2,
+        player: GamePlayerId.player2,
         pos: MetaPosition(Position(2, 1), Position(0, 2)),
       );
 
@@ -47,7 +47,7 @@ void main() {
       expect(state.boards.length, 9);
       expect(state.metaBoard.cells.every((cell) => cell == null), true);
       expect(state.history.isEmpty, true);
-      expect(state.nextPlayer, GamePlayer.player1);
+      expect(state.nextPlayer, GamePlayerId.player1);
       expect(state.activeBoard, null);
 
       // All boards should be empty
@@ -57,8 +57,8 @@ void main() {
     });
 
     test('initial can specify starting player', () {
-      final state = MetaGameState.initial(startingPlayer: GamePlayer.player2);
-      expect(state.nextPlayer, GamePlayer.player2);
+      final state = MetaGameState.initial(startingPlayer: GamePlayerId.player2);
+      expect(state.nextPlayer, GamePlayerId.player2);
     });
 
     test('play makes a move and returns new state', () {
@@ -70,9 +70,9 @@ void main() {
       expect(newState.history.length, 1);
       expect(
         newState.boards[Position(1, 1)]!.at(Position(0, 0)),
-        GamePlayer.player1,
+        GamePlayerId.player1,
       );
-      expect(newState.nextPlayer, GamePlayer.player2);
+      expect(newState.nextPlayer, GamePlayerId.player2);
     });
 
     test('play sets active board based on cell position', () {
@@ -97,7 +97,7 @@ void main() {
       ); // X wins board (1,1)
 
       // Verify board (1,1) was won
-      expect(state.metaBoard.at(Position(1, 1)), GamePlayer.player1);
+      expect(state.metaBoard.at(Position(1, 1)), GamePlayerId.player1);
     });
 
     test('play throws when game is over', () {
@@ -137,7 +137,7 @@ void main() {
         MetaPosition(Position(1, 1), Position(0, 2)),
       ); // X wins board (1,1)
 
-      expect(state.metaBoard.at(Position(1, 1)), GamePlayer.player1);
+      expect(state.metaBoard.at(Position(1, 1)), GamePlayerId.player1);
 
       // Active board is now (0,2), play there to set next active to something else
       state = state.play(MetaPosition(Position(0, 2), Position(2, 2)));
@@ -255,11 +255,11 @@ void main() {
       expect(rewound.history.length, 2);
       expect(
         rewound.boards[Position(1, 1)]!.at(Position(0, 0)),
-        GamePlayer.player1,
+        GamePlayerId.player1,
       );
       expect(
         rewound.boards[Position(0, 0)]!.at(Position(1, 1)),
-        GamePlayer.player2,
+        GamePlayerId.player2,
       );
       expect(rewound.boards[Position(1, 1)]!.at(Position(2, 2)), null);
     });
@@ -282,7 +282,7 @@ void main() {
         () => state.history.add(
           MetaMove(
             turn: 99,
-            player: GamePlayer.player1,
+            player: GamePlayerId.player1,
             pos: MetaPosition(Position(0, 0), Position(0, 0)),
           ),
         ),
@@ -307,9 +307,9 @@ void main() {
           .play(MetaPosition(Position(0, 0), Position(1, 1)))
           .play(MetaPosition(Position(1, 1), Position(2, 2)));
 
-      expect(state.history[0].player, GamePlayer.player1);
-      expect(state.history[1].player, GamePlayer.player2);
-      expect(state.history[2].player, GamePlayer.player1);
+      expect(state.history[0].player, GamePlayerId.player1);
+      expect(state.history[1].player, GamePlayerId.player2);
+      expect(state.history[2].player, GamePlayerId.player1);
     });
 
     test('winning a small board updates meta board', () {
@@ -324,8 +324,8 @@ void main() {
         MetaPosition(Position(1, 1), Position(0, 2)),
       ); // X wins board (1,1)
 
-      expect(state.boards[Position(1, 1)]!.winner, GamePlayer.player1);
-      expect(state.metaBoard.at(Position(1, 1)), GamePlayer.player1);
+      expect(state.boards[Position(1, 1)]!.winner, GamePlayerId.player1);
+      expect(state.metaBoard.at(Position(1, 1)), GamePlayerId.player1);
     });
 
     test('active board becomes null when target is won', () {
@@ -378,7 +378,7 @@ void main() {
         MetaPosition(Position(1, 1), Position(0, 2)),
       ); // X wins board (1,1) with row
 
-      expect(state.metaBoard.at(Position(1, 1)), GamePlayer.player1);
+      expect(state.metaBoard.at(Position(1, 1)), GamePlayerId.player1);
 
       // This test shows X can win one board - verifying both players
       // can win different boards is complex to set up correctly

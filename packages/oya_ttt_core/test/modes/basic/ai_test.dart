@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('calculateNextMove', () {
     test('throws when game is over', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 0))
           .play(Position(0, 1))
@@ -15,16 +15,16 @@ void main() {
     });
 
     test('returns center position for first move', () {
-      final state = GameState.initial();
+      final state = BasicGameState.initial();
       final move = state.calculateNextMove();
 
       expect(move.pos, Position(1, 1));
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
       expect(move.turn, 1);
     });
 
     test('returns a legal move', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(1, 1)) // Center
           .play(Position(0, 0)); // Corner
 
@@ -32,7 +32,7 @@ void main() {
       final legalPositions = state.legalMoves.toList();
 
       expect(legalPositions.contains(move.pos), true);
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
       expect(move.turn, 3);
     });
 
@@ -40,7 +40,7 @@ void main() {
       // X X _
       // O _ _
       // _ _ _
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(1, 0)) // O
           .play(Position(0, 1)); // X
@@ -55,7 +55,7 @@ void main() {
       // X O _
       // X _ _
       // _ _ _
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(0, 1)) // O
           .play(Position(1, 0)); // X
@@ -70,7 +70,7 @@ void main() {
       // X O _
       // _ X _
       // _ _ _
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(0, 1)) // O
           .play(Position(1, 1)); // X
@@ -85,7 +85,7 @@ void main() {
       // O O _
       // X X _
       // _ _ _
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(1, 0)) // X
           .play(Position(0, 0)) // O
           .play(Position(1, 1)) // X
@@ -100,10 +100,10 @@ void main() {
 
       // After AI's move, either AI wins or blocks opponent's win
       expect(
-        nextState.winner == GamePlayer.player2 ||
+        nextState.winner == GamePlayerId.player2 ||
             !nextState.legalMoves.any((pos) {
               final testState = nextState.play(pos);
-              return testState.winner == GamePlayer.player1;
+              return testState.winner == GamePlayerId.player1;
             }),
         true,
       );
@@ -114,7 +114,7 @@ void main() {
       // _ X _
       // O O _
       // X can win at (2,2) with diagonal, O can win at (2,2) with row
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(2, 0)) // O
           .play(Position(1, 1)) // X
@@ -128,7 +128,7 @@ void main() {
 
     test('plays perfect game - never loses as first player', () {
       // Simulate a game where AI plays optimally as player1
-      var state = GameState.initial();
+      var state = BasicGameState.initial();
 
       // Play out a full game with AI making all moves for player1
       // and suboptimal moves for player2
@@ -140,14 +140,14 @@ void main() {
 
       // Game should not result in a loss for AI
       // (will be either a draw or win)
-      expect(state.winner != GamePlayer.player2, true);
+      expect(state.winner != GamePlayerId.player2, true);
     });
 
     test('handles near-end game correctly', () {
       // X O X
       // O X _
       // _ _ O
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(0, 1)) // O
           .play(Position(0, 2)) // X
@@ -160,12 +160,12 @@ void main() {
 
       // Should return one of the remaining legal moves
       expect(legalMoves.contains(move.pos), true);
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
     });
 
     test('AI can force a draw against perfect opponent', () {
       // When both players play perfectly, the game should end in a draw
-      var state = GameState.initial();
+      var state = BasicGameState.initial();
 
       // AI plays first
       state = state.play(Position(1, 1)); // Center
@@ -173,7 +173,7 @@ void main() {
 
       // Continue with AI making optimal moves
       while (!state.isOver) {
-        final isAiTurn = state.nextPlayer == GamePlayer.player1;
+        final isAiTurn = state.nextPlayer == GamePlayerId.player1;
 
         if (isAiTurn) {
           final move = state.calculateNextMove();
@@ -186,11 +186,11 @@ void main() {
       }
 
       // Game should be a draw when both play perfectly
-      expect(state.isDraw || state.winner == GamePlayer.player1, true);
+      expect(state.isDraw || state.winner == GamePlayerId.player1, true);
     });
 
     test('returns correct turn number', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(1, 1))
           .play(Position(0, 0))
           .play(Position(2, 2));
@@ -205,7 +205,7 @@ void main() {
       // _ X _
       // _ _ O
       // X has two ways to win next turn if unblocked
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(2, 2)) // O
           .play(Position(1, 1)); // X
@@ -223,7 +223,7 @@ void main() {
       // O O _
       // X _ _
       // X _ _
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(1, 0)) // X
           .play(Position(0, 0)) // O
           .play(Position(2, 0)) // X
@@ -239,7 +239,7 @@ void main() {
       // X O X
       // O X O
       // O X _
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(0, 1)) // O
           .play(Position(0, 2)) // X
@@ -253,7 +253,7 @@ void main() {
 
       // Only one move left
       expect(move.pos, Position(2, 2));
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
     });
   });
 }

@@ -57,7 +57,7 @@ void main() {
 
       expect(move.pos.boardPos, Position(1, 1));
       expect(move.pos.cellPos, Position(1, 1));
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
       expect(move.turn, 1);
     });
 
@@ -76,7 +76,7 @@ void main() {
         ),
         true,
       );
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
       expect(move.turn, 3);
     });
 

@@ -4,8 +4,8 @@ import 'package:test/test.dart';
 void main() {
   group('GamePlayer', () {
     test('other returns the opposite player', () {
-      expect(GamePlayer.player1.other, GamePlayer.player2);
-      expect(GamePlayer.player2.other, GamePlayer.player1);
+      expect(GamePlayerId.player1.other, GamePlayerId.player2);
+      expect(GamePlayerId.player2.other, GamePlayerId.player1);
     });
   });
 
@@ -69,17 +69,17 @@ void main() {
 
     test('place marks a position and returns new board', () {
       final board = Board.empty();
-      final newBoard = board.place(GamePlayer.player1, Position(0, 0));
+      final newBoard = board.place(GamePlayerId.player1, Position(0, 0));
 
       expect(board.at(Position(0, 0)), null);
-      expect(newBoard.at(Position(0, 0)), GamePlayer.player1);
+      expect(newBoard.at(Position(0, 0)), GamePlayerId.player1);
     });
 
     test('place throws when cell is occupied', () {
-      final board = Board.empty().place(GamePlayer.player1, Position(0, 0));
+      final board = Board.empty().place(GamePlayerId.player1, Position(0, 0));
 
       expect(
-        () => board.place(GamePlayer.player2, Position(0, 0)),
+        () => board.place(GamePlayerId.player2, Position(0, 0)),
         throwsA(isA<StateError>()),
       );
     });
@@ -90,28 +90,28 @@ void main() {
       // X O O
       // O X X
       var board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0)) // X
-          .place(GamePlayer.player2, Position(0, 1)) // O
-          .place(GamePlayer.player1, Position(0, 2)) // X
-          .place(GamePlayer.player1, Position(1, 0)) // X
-          .place(GamePlayer.player2, Position(1, 1)) // O
-          .place(GamePlayer.player2, Position(1, 2)) // O
-          .place(GamePlayer.player2, Position(2, 0)) // O
-          .place(GamePlayer.player1, Position(2, 1)) // X
-          .place(GamePlayer.player1, Position(2, 2)); // X
+          .place(GamePlayerId.player1, Position(0, 0)) // X
+          .place(GamePlayerId.player2, Position(0, 1)) // O
+          .place(GamePlayerId.player1, Position(0, 2)) // X
+          .place(GamePlayerId.player1, Position(1, 0)) // X
+          .place(GamePlayerId.player2, Position(1, 1)) // O
+          .place(GamePlayerId.player2, Position(1, 2)) // O
+          .place(GamePlayerId.player2, Position(2, 0)) // O
+          .place(GamePlayerId.player1, Position(2, 1)) // X
+          .place(GamePlayerId.player1, Position(2, 2)); // X
 
       expect(board.isFull, true);
       expect(board.winner, null); // No winner, just full
       expect(
-        () => board.place(GamePlayer.player1, Position(0, 0)),
+        () => board.place(GamePlayerId.player1, Position(0, 0)),
         throwsA(isA<StateError>()),
       );
     });
 
     test('emptyPositions returns all empty positions', () {
       final board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0))
-          .place(GamePlayer.player2, Position(1, 1));
+          .place(GamePlayerId.player1, Position(0, 0))
+          .place(GamePlayerId.player2, Position(1, 1));
 
       final empty = board.emptyPositions.toList();
       expect(empty.length, 7);
@@ -128,15 +128,15 @@ void main() {
       // X O O
       // O X X
       board = board
-          .place(GamePlayer.player1, Position(0, 0)) // X
-          .place(GamePlayer.player2, Position(0, 1)) // O
-          .place(GamePlayer.player1, Position(0, 2)) // X
-          .place(GamePlayer.player1, Position(1, 0)) // X
-          .place(GamePlayer.player2, Position(1, 1)) // O
-          .place(GamePlayer.player2, Position(1, 2)) // O
-          .place(GamePlayer.player2, Position(2, 0)) // O
-          .place(GamePlayer.player1, Position(2, 1)) // X
-          .place(GamePlayer.player1, Position(2, 2)); // X
+          .place(GamePlayerId.player1, Position(0, 0)) // X
+          .place(GamePlayerId.player2, Position(0, 1)) // O
+          .place(GamePlayerId.player1, Position(0, 2)) // X
+          .place(GamePlayerId.player1, Position(1, 0)) // X
+          .place(GamePlayerId.player2, Position(1, 1)) // O
+          .place(GamePlayerId.player2, Position(1, 2)) // O
+          .place(GamePlayerId.player2, Position(2, 0)) // O
+          .place(GamePlayerId.player1, Position(2, 1)) // X
+          .place(GamePlayerId.player1, Position(2, 2)); // X
 
       expect(board.isFull, true);
     });
@@ -146,9 +146,9 @@ void main() {
       for (var row = 0; row < 3; row++) {
         var board = Board.empty();
         for (var col = 0; col < 3; col++) {
-          board = board.place(GamePlayer.player1, Position(row, col));
+          board = board.place(GamePlayerId.player1, Position(row, col));
         }
-        expect(board.winner, GamePlayer.player1);
+        expect(board.winner, GamePlayerId.player1);
       }
     });
 
@@ -157,41 +157,41 @@ void main() {
       for (var col = 0; col < 3; col++) {
         var board = Board.empty();
         for (var row = 0; row < 3; row++) {
-          board = board.place(GamePlayer.player2, Position(row, col));
+          board = board.place(GamePlayerId.player2, Position(row, col));
         }
-        expect(board.winner, GamePlayer.player2);
+        expect(board.winner, GamePlayerId.player2);
       }
     });
 
     test('winner detects diagonal wins', () {
       // Test main diagonal (top-left to bottom-right)
       var board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0))
-          .place(GamePlayer.player1, Position(1, 1))
-          .place(GamePlayer.player1, Position(2, 2));
-      expect(board.winner, GamePlayer.player1);
+          .place(GamePlayerId.player1, Position(0, 0))
+          .place(GamePlayerId.player1, Position(1, 1))
+          .place(GamePlayerId.player1, Position(2, 2));
+      expect(board.winner, GamePlayerId.player1);
 
       // Test anti-diagonal (top-right to bottom-left)
       board = Board.empty()
-          .place(GamePlayer.player2, Position(0, 2))
-          .place(GamePlayer.player2, Position(1, 1))
-          .place(GamePlayer.player2, Position(2, 0));
-      expect(board.winner, GamePlayer.player2);
+          .place(GamePlayerId.player2, Position(0, 2))
+          .place(GamePlayerId.player2, Position(1, 1))
+          .place(GamePlayerId.player2, Position(2, 0));
+      expect(board.winner, GamePlayerId.player2);
     });
 
     test('winner returns null when no winner', () {
       final board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0))
-          .place(GamePlayer.player2, Position(1, 1));
+          .place(GamePlayerId.player1, Position(0, 0))
+          .place(GamePlayerId.player2, Position(1, 1));
 
       expect(board.winner, null);
     });
 
     test('isTerminal returns true when there is a winner', () {
       final board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0))
-          .place(GamePlayer.player1, Position(0, 1))
-          .place(GamePlayer.player1, Position(0, 2));
+          .place(GamePlayerId.player1, Position(0, 0))
+          .place(GamePlayerId.player1, Position(0, 1))
+          .place(GamePlayerId.player1, Position(0, 2));
 
       expect(board.isTerminal, true);
     });
@@ -199,27 +199,27 @@ void main() {
     test('isTerminal returns true when board is full', () {
       // Create a draw
       var board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0))
-          .place(GamePlayer.player2, Position(0, 1))
-          .place(GamePlayer.player1, Position(0, 2))
-          .place(GamePlayer.player1, Position(1, 0))
-          .place(GamePlayer.player2, Position(1, 1))
-          .place(GamePlayer.player2, Position(1, 2))
-          .place(GamePlayer.player2, Position(2, 0))
-          .place(GamePlayer.player1, Position(2, 1))
-          .place(GamePlayer.player1, Position(2, 2));
+          .place(GamePlayerId.player1, Position(0, 0))
+          .place(GamePlayerId.player2, Position(0, 1))
+          .place(GamePlayerId.player1, Position(0, 2))
+          .place(GamePlayerId.player1, Position(1, 0))
+          .place(GamePlayerId.player2, Position(1, 1))
+          .place(GamePlayerId.player2, Position(1, 2))
+          .place(GamePlayerId.player2, Position(2, 0))
+          .place(GamePlayerId.player1, Position(2, 1))
+          .place(GamePlayerId.player1, Position(2, 2));
 
       expect(board.isTerminal, true);
     });
 
     test('place throws when game already has winner', () {
       final board = Board.empty()
-          .place(GamePlayer.player1, Position(0, 0))
-          .place(GamePlayer.player1, Position(0, 1))
-          .place(GamePlayer.player1, Position(0, 2));
+          .place(GamePlayerId.player1, Position(0, 0))
+          .place(GamePlayerId.player1, Position(0, 1))
+          .place(GamePlayerId.player1, Position(0, 2));
 
       expect(
-        () => board.place(GamePlayer.player2, Position(1, 1)),
+        () => board.place(GamePlayerId.player2, Position(1, 1)),
         throwsA(isA<StateError>()),
       );
     });
@@ -229,19 +229,19 @@ void main() {
     test('creates move with correct properties', () {
       final move = Move(
         turn: 1,
-        player: GamePlayer.player1,
+        player: GamePlayerId.player1,
         pos: Position(0, 0),
       );
 
       expect(move.turn, 1);
-      expect(move.player, GamePlayer.player1);
+      expect(move.player, GamePlayerId.player1);
       expect(move.pos, Position(0, 0));
     });
 
     test('toString returns formatted string', () {
       final move = Move(
         turn: 5,
-        player: GamePlayer.player2,
+        player: GamePlayerId.player2,
         pos: Position(1, 2),
       );
 
@@ -251,31 +251,33 @@ void main() {
 
   group('GameState', () {
     test('initial creates empty game', () {
-      final state = GameState.initial();
+      final state = BasicGameState.initial();
 
       expect(state.board.cells.every((cell) => cell == null), true);
       expect(state.history.isEmpty, true);
-      expect(state.nextPlayer, GamePlayer.player1);
+      expect(state.nextPlayer, GamePlayerId.player1);
     });
 
     test('initial can specify starting player', () {
-      final state = GameState.initial(startingPlayer: GamePlayer.player2);
+      final state = BasicGameState.initial(
+        startingPlayer: GamePlayerId.player2,
+      );
 
-      expect(state.nextPlayer, GamePlayer.player2);
+      expect(state.nextPlayer, GamePlayerId.player2);
     });
 
     test('play makes a move and returns new state', () {
-      final state = GameState.initial();
+      final state = BasicGameState.initial();
       final newState = state.play(Position(1, 1));
 
       expect(state.history.isEmpty, true);
       expect(newState.history.length, 1);
-      expect(newState.board.at(Position(1, 1)), GamePlayer.player1);
-      expect(newState.nextPlayer, GamePlayer.player2);
+      expect(newState.board.at(Position(1, 1)), GamePlayerId.player1);
+      expect(newState.nextPlayer, GamePlayerId.player2);
     });
 
     test('play throws when game is over', () {
-      var state = GameState.initial()
+      var state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 0))
           .play(Position(0, 1))
@@ -286,18 +288,18 @@ void main() {
     });
 
     test('winner returns the winning player', () {
-      var state = GameState.initial()
+      var state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 0))
           .play(Position(0, 1))
           .play(Position(1, 1))
           .play(Position(0, 2)); // Player1 wins with top row
 
-      expect(state.winner, GamePlayer.player1);
+      expect(state.winner, GamePlayerId.player1);
     });
 
     test('isDraw returns true for draw game', () {
-      var state = GameState.initial()
+      var state = BasicGameState.initial()
           .play(Position(0, 0)) // X
           .play(Position(0, 1)) // O
           .play(Position(0, 2)) // X
@@ -313,7 +315,7 @@ void main() {
     });
 
     test('isOver returns true when game is complete', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 0))
           .play(Position(0, 1))
@@ -324,7 +326,7 @@ void main() {
     });
 
     test('legalMoves returns empty when game is over', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 0))
           .play(Position(0, 1))
@@ -335,7 +337,7 @@ void main() {
     });
 
     test('legalMoves returns available positions', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(1, 1))
           .play(Position(0, 0));
 
@@ -346,7 +348,7 @@ void main() {
     });
 
     test('rewind returns to initial state', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 1))
           .play(Position(2, 2));
@@ -357,38 +359,38 @@ void main() {
     });
 
     test('rewind returns to intermediate state', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 1))
           .play(Position(2, 2));
 
       final rewound = state.rewind(2);
       expect(rewound.history.length, 2);
-      expect(rewound.board.at(Position(0, 0)), GamePlayer.player1);
-      expect(rewound.board.at(Position(1, 1)), GamePlayer.player2);
+      expect(rewound.board.at(Position(0, 0)), GamePlayerId.player1);
+      expect(rewound.board.at(Position(1, 1)), GamePlayerId.player2);
       expect(rewound.board.at(Position(2, 2)), null);
     });
 
     test('rewind throws for invalid turn number', () {
-      final state = GameState.initial().play(Position(0, 0));
+      final state = BasicGameState.initial().play(Position(0, 0));
 
       expect(() => state.rewind(-1), throwsA(isA<RangeError>()));
       expect(() => state.rewind(5), throwsA(isA<RangeError>()));
     });
 
     test('history is immutable', () {
-      final state = GameState.initial().play(Position(0, 0));
+      final state = BasicGameState.initial().play(Position(0, 0));
 
       expect(
         () => state.history.add(
-          Move(turn: 99, player: GamePlayer.player1, pos: Position(0, 0)),
+          Move(turn: 99, player: GamePlayerId.player1, pos: Position(0, 0)),
         ),
         throwsUnsupportedError,
       );
     });
 
     test('move history tracks correct turn numbers', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 1))
           .play(Position(2, 2));
@@ -399,14 +401,14 @@ void main() {
     });
 
     test('move history tracks correct players', () {
-      final state = GameState.initial()
+      final state = BasicGameState.initial()
           .play(Position(0, 0))
           .play(Position(1, 1))
           .play(Position(2, 2));
 
-      expect(state.history[0].player, GamePlayer.player1);
-      expect(state.history[1].player, GamePlayer.player2);
-      expect(state.history[2].player, GamePlayer.player1);
+      expect(state.history[0].player, GamePlayerId.player1);
+      expect(state.history[1].player, GamePlayerId.player2);
+      expect(state.history[2].player, GamePlayerId.player1);
     });
   });
 }

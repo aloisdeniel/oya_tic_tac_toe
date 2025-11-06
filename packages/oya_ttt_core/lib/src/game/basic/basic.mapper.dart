@@ -5,7 +5,171 @@
 // ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
-part of 'game.dart';
+part of 'basic.dart';
+
+class BasicGameStateMapper extends SubClassMapperBase<BasicGameState> {
+  BasicGameStateMapper._();
+
+  static BasicGameStateMapper? _instance;
+  static BasicGameStateMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = BasicGameStateMapper._());
+      GameStateMapper.ensureInitialized().addSubMapper(_instance!);
+      BoardMapper.ensureInitialized();
+      MoveMapper.ensureInitialized();
+      GamePlayerIdMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'BasicGameState';
+
+  static Board _$board(BasicGameState v) => v.board;
+  static const Field<BasicGameState, Board> _f$board = Field('board', _$board);
+  static List<Move> _$history(BasicGameState v) => v.history;
+  static const Field<BasicGameState, List<Move>> _f$history = Field(
+    'history',
+    _$history,
+  );
+  static GamePlayerId _$nextPlayer(BasicGameState v) => v.nextPlayer;
+  static const Field<BasicGameState, GamePlayerId> _f$nextPlayer = Field(
+    'nextPlayer',
+    _$nextPlayer,
+  );
+
+  @override
+  final MappableFields<BasicGameState> fields = const {
+    #board: _f$board,
+    #history: _f$history,
+    #nextPlayer: _f$nextPlayer,
+  };
+
+  @override
+  final String discriminatorKey = 'type';
+  @override
+  final dynamic discriminatorValue = 'BasicGameState';
+  @override
+  late final ClassMapperBase superMapper = GameStateMapper.ensureInitialized();
+
+  static BasicGameState _instantiate(DecodingData data) {
+    return BasicGameState(
+      board: data.dec(_f$board),
+      history: data.dec(_f$history),
+      nextPlayer: data.dec(_f$nextPlayer),
+    );
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static BasicGameState fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<BasicGameState>(map);
+  }
+
+  static BasicGameState fromJson(String json) {
+    return ensureInitialized().decodeJson<BasicGameState>(json);
+  }
+}
+
+mixin BasicGameStateMappable {
+  String toJson() {
+    return BasicGameStateMapper.ensureInitialized().encodeJson<BasicGameState>(
+      this as BasicGameState,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return BasicGameStateMapper.ensureInitialized().encodeMap<BasicGameState>(
+      this as BasicGameState,
+    );
+  }
+
+  BasicGameStateCopyWith<BasicGameState, BasicGameState, BasicGameState>
+  get copyWith => _BasicGameStateCopyWithImpl<BasicGameState, BasicGameState>(
+    this as BasicGameState,
+    $identity,
+    $identity,
+  );
+  @override
+  String toString() {
+    return BasicGameStateMapper.ensureInitialized().stringifyValue(
+      this as BasicGameState,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return BasicGameStateMapper.ensureInitialized().equalsValue(
+      this as BasicGameState,
+      other,
+    );
+  }
+
+  @override
+  int get hashCode {
+    return BasicGameStateMapper.ensureInitialized().hashValue(
+      this as BasicGameState,
+    );
+  }
+}
+
+extension BasicGameStateValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, BasicGameState, $Out> {
+  BasicGameStateCopyWith<$R, BasicGameState, $Out> get $asBasicGameState =>
+      $base.as((v, t, t2) => _BasicGameStateCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class BasicGameStateCopyWith<$R, $In extends BasicGameState, $Out>
+    implements GameStateCopyWith<$R, $In, $Out> {
+  BoardCopyWith<$R, Board, Board> get board;
+  ListCopyWith<$R, Move, MoveCopyWith<$R, Move, Move>> get history;
+  @override
+  $R call({Board? board, List<Move>? history, GamePlayerId? nextPlayer});
+  BasicGameStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  );
+}
+
+class _BasicGameStateCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, BasicGameState, $Out>
+    implements BasicGameStateCopyWith<$R, BasicGameState, $Out> {
+  _BasicGameStateCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<BasicGameState> $mapper =
+      BasicGameStateMapper.ensureInitialized();
+  @override
+  BoardCopyWith<$R, Board, Board> get board =>
+      $value.board.copyWith.$chain((v) => call(board: v));
+  @override
+  ListCopyWith<$R, Move, MoveCopyWith<$R, Move, Move>> get history =>
+      ListCopyWith(
+        $value.history,
+        (v, t) => v.copyWith.$chain(t),
+        (v) => call(history: v),
+      );
+  @override
+  $R call({Board? board, List<Move>? history, GamePlayerId? nextPlayer}) =>
+      $apply(
+        FieldCopyWithData({
+          if (board != null) #board: board,
+          if (history != null) #history: history,
+          if (nextPlayer != null) #nextPlayer: nextPlayer,
+        }),
+      );
+  @override
+  BasicGameState $make(CopyWithData data) => BasicGameState(
+    board: data.get(#board, or: $value.board),
+    history: data.get(#history, or: $value.history),
+    nextPlayer: data.get(#nextPlayer, or: $value.nextPlayer),
+  );
+
+  @override
+  BasicGameStateCopyWith<$R2, BasicGameState, $Out2> $chain<$R2, $Out2>(
+    Then<$Out2, $R2> t,
+  ) => _BasicGameStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
 
 class PositionMapper extends ClassMapperBase<Position> {
   PositionMapper._();
@@ -123,6 +287,7 @@ class BoardMapper extends ClassMapperBase<Board> {
   static BoardMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = BoardMapper._());
+      GamePlayerIdMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -130,8 +295,11 @@ class BoardMapper extends ClassMapperBase<Board> {
   @override
   final String id = 'Board';
 
-  static List<GamePlayer?> _$cells(Board v) => v.cells;
-  static const Field<Board, List<GamePlayer?>> _f$cells = Field('cells', _$cells);
+  static List<GamePlayerId?> _$cells(Board v) => v.cells;
+  static const Field<Board, List<GamePlayerId?>> _f$cells = Field(
+    'cells',
+    _$cells,
+  );
 
   @override
   final MappableFields<Board> fields = const {#cells: _f$cells};
@@ -186,8 +354,13 @@ extension BoardValueCopy<$R, $Out> on ObjectCopyWith<$R, Board, $Out> {
 
 abstract class BoardCopyWith<$R, $In extends Board, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, GamePlayer?, ObjectCopyWith<$R, GamePlayer?, GamePlayer?>?> get cells;
-  $R call({List<GamePlayer?>? cells});
+  ListCopyWith<
+    $R,
+    GamePlayerId?,
+    ObjectCopyWith<$R, GamePlayerId?, GamePlayerId?>?
+  >
+  get cells;
+  $R call({List<GamePlayerId?>? cells});
   BoardCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -198,14 +371,18 @@ class _BoardCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Board, $Out>
   @override
   late final ClassMapperBase<Board> $mapper = BoardMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, GamePlayer?, ObjectCopyWith<$R, GamePlayer?, GamePlayer?>?> get cells =>
-      ListCopyWith(
-        $value.cells,
-        (v, t) => ObjectCopyWith(v, $identity, t),
-        (v) => call(cells: v),
-      );
+  ListCopyWith<
+    $R,
+    GamePlayerId?,
+    ObjectCopyWith<$R, GamePlayerId?, GamePlayerId?>?
+  >
+  get cells => ListCopyWith(
+    $value.cells,
+    (v, t) => ObjectCopyWith(v, $identity, t),
+    (v) => call(cells: v),
+  );
   @override
-  $R call({List<GamePlayer?>? cells}) =>
+  $R call({List<GamePlayerId?>? cells}) =>
       $apply(FieldCopyWithData({if (cells != null) #cells: cells}));
   @override
   Board $make(CopyWithData data) => Board(data.get(#cells, or: $value.cells));
@@ -222,6 +399,7 @@ class MoveMapper extends ClassMapperBase<Move> {
   static MoveMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MoveMapper._());
+      GamePlayerIdMapper.ensureInitialized();
       PositionMapper.ensureInitialized();
     }
     return _instance!;
@@ -232,8 +410,8 @@ class MoveMapper extends ClassMapperBase<Move> {
 
   static int _$turn(Move v) => v.turn;
   static const Field<Move, int> _f$turn = Field('turn', _$turn);
-  static GamePlayer _$player(Move v) => v.player;
-  static const Field<Move, GamePlayer> _f$player = Field('player', _$player);
+  static GamePlayerId _$player(Move v) => v.player;
+  static const Field<Move, GamePlayerId> _f$player = Field('player', _$player);
   static Position _$pos(Move v) => v.pos;
   static const Field<Move, Position> _f$pos = Field('pos', _$pos);
 
@@ -299,7 +477,7 @@ extension MoveValueCopy<$R, $Out> on ObjectCopyWith<$R, Move, $Out> {
 abstract class MoveCopyWith<$R, $In extends Move, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   PositionCopyWith<$R, Position, Position> get pos;
-  $R call({int? turn, GamePlayer? player, Position? pos});
+  $R call({int? turn, GamePlayerId? player, Position? pos});
   MoveCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -313,7 +491,7 @@ class _MoveCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Move, $Out>
   PositionCopyWith<$R, Position, Position> get pos =>
       $value.pos.copyWith.$chain((v) => call(pos: v));
   @override
-  $R call({int? turn, GamePlayer? player, Position? pos}) => $apply(
+  $R call({int? turn, GamePlayerId? player, Position? pos}) => $apply(
     FieldCopyWithData({
       if (turn != null) #turn: turn,
       if (player != null) #player: player,
@@ -330,153 +508,5 @@ class _MoveCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Move, $Out>
   @override
   MoveCopyWith<$R2, Move, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
       _MoveCopyWithImpl<$R2, $Out2>($value, $cast, t);
-}
-
-class GameStateMapper extends ClassMapperBase<GameState> {
-  GameStateMapper._();
-
-  static GameStateMapper? _instance;
-  static GameStateMapper ensureInitialized() {
-    if (_instance == null) {
-      MapperContainer.globals.use(_instance = GameStateMapper._());
-      BoardMapper.ensureInitialized();
-      MoveMapper.ensureInitialized();
-    }
-    return _instance!;
-  }
-
-  @override
-  final String id = 'GameState';
-
-  static Board _$board(GameState v) => v.board;
-  static const Field<GameState, Board> _f$board = Field('board', _$board);
-  static List<Move> _$history(GameState v) => v.history;
-  static const Field<GameState, List<Move>> _f$history = Field(
-    'history',
-    _$history,
-  );
-  static GamePlayer _$nextPlayer(GameState v) => v.nextPlayer;
-  static const Field<GameState, GamePlayer> _f$nextPlayer = Field(
-    'nextPlayer',
-    _$nextPlayer,
-  );
-
-  @override
-  final MappableFields<GameState> fields = const {
-    #board: _f$board,
-    #history: _f$history,
-    #nextPlayer: _f$nextPlayer,
-  };
-
-  static GameState _instantiate(DecodingData data) {
-    return GameState(
-      board: data.dec(_f$board),
-      history: data.dec(_f$history),
-      nextPlayer: data.dec(_f$nextPlayer),
-    );
-  }
-
-  @override
-  final Function instantiate = _instantiate;
-
-  static GameState fromMap(Map<String, dynamic> map) {
-    return ensureInitialized().decodeMap<GameState>(map);
-  }
-
-  static GameState fromJson(String json) {
-    return ensureInitialized().decodeJson<GameState>(json);
-  }
-}
-
-mixin GameStateMappable {
-  String toJson() {
-    return GameStateMapper.ensureInitialized().encodeJson<GameState>(
-      this as GameState,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return GameStateMapper.ensureInitialized().encodeMap<GameState>(
-      this as GameState,
-    );
-  }
-
-  GameStateCopyWith<GameState, GameState, GameState> get copyWith =>
-      _GameStateCopyWithImpl<GameState, GameState>(
-        this as GameState,
-        $identity,
-        $identity,
-      );
-  @override
-  String toString() {
-    return GameStateMapper.ensureInitialized().stringifyValue(
-      this as GameState,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return GameStateMapper.ensureInitialized().equalsValue(
-      this as GameState,
-      other,
-    );
-  }
-
-  @override
-  int get hashCode {
-    return GameStateMapper.ensureInitialized().hashValue(this as GameState);
-  }
-}
-
-extension GameStateValueCopy<$R, $Out> on ObjectCopyWith<$R, GameState, $Out> {
-  GameStateCopyWith<$R, GameState, $Out> get $asGameState =>
-      $base.as((v, t, t2) => _GameStateCopyWithImpl<$R, $Out>(v, t, t2));
-}
-
-abstract class GameStateCopyWith<$R, $In extends GameState, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
-  BoardCopyWith<$R, Board, Board> get board;
-  ListCopyWith<$R, Move, MoveCopyWith<$R, Move, Move>> get history;
-  $R call({Board? board, List<Move>? history, GamePlayer? nextPlayer});
-  GameStateCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
-}
-
-class _GameStateCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, GameState, $Out>
-    implements GameStateCopyWith<$R, GameState, $Out> {
-  _GameStateCopyWithImpl(super.value, super.then, super.then2);
-
-  @override
-  late final ClassMapperBase<GameState> $mapper =
-      GameStateMapper.ensureInitialized();
-  @override
-  BoardCopyWith<$R, Board, Board> get board =>
-      $value.board.copyWith.$chain((v) => call(board: v));
-  @override
-  ListCopyWith<$R, Move, MoveCopyWith<$R, Move, Move>> get history =>
-      ListCopyWith(
-        $value.history,
-        (v, t) => v.copyWith.$chain(t),
-        (v) => call(history: v),
-      );
-  @override
-  $R call({Board? board, List<Move>? history, GamePlayer? nextPlayer}) => $apply(
-    FieldCopyWithData({
-      if (board != null) #board: board,
-      if (history != null) #history: history,
-      if (nextPlayer != null) #nextPlayer: nextPlayer,
-    }),
-  );
-  @override
-  GameState $make(CopyWithData data) => GameState(
-    board: data.get(#board, or: $value.board),
-    history: data.get(#history, or: $value.history),
-    nextPlayer: data.get(#nextPlayer, or: $value.nextPlayer),
-  );
-
-  @override
-  GameStateCopyWith<$R2, GameState, $Out2> $chain<$R2, $Out2>(
-    Then<$Out2, $R2> t,
-  ) => _GameStateCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 

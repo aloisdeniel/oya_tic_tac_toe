@@ -1,10 +1,13 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
 library;
 
-export 'src/modes/basic/game.dart';
-export 'src/modes/basic/ai.dart';
+export 'src/game/basic/basic.dart';
+export 'src/game/basic/ai.dart';
 
-export 'src/modes/meta/game.dart';
-export 'src/modes/meta/ai.dart';
+export 'src/game/meta/meta.dart';
+export 'src/game/meta/ai.dart';
+
+export 'src/game/character.dart';
+export 'src/game/game.dart';
+export 'src/game/player.dart';
+
+export 'src/user.dart';

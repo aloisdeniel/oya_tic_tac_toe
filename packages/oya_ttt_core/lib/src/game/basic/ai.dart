@@ -1,6 +1,7 @@
-import 'package:oya_ttt_core/src/modes/basic/game.dart';
+import 'package:oya_ttt_core/src/game/basic/basic.dart';
+import 'package:oya_ttt_core/src/game/player.dart';
 
-extension AI on GameState {
+extension AI on BasicGameState {
   /// Calculates the best next move for the AI using the minimax algorithm.
   /// Returns a Move object representing the optimal move for the current player.
   Move calculateNextMove() {
@@ -50,9 +51,9 @@ extension AI on GameState {
 /// Minimax algorithm with alpha-beta pruning.
 /// Returns the score for the maximizing player (the AI).
 int _minimax(
-  GameState state,
+  BasicGameState state,
   bool isMaximizing,
-  GamePlayer aiPlayer,
+  GamePlayerId aiPlayer,
   int alpha,
   int beta,
 ) {
