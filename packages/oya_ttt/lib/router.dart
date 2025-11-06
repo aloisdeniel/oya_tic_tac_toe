@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'features/onboarding/screen.dart';
 import 'features/home/screen.dart';
@@ -21,18 +20,12 @@ final GoRouter appRouter = GoRouter(
       path: '/onboarding',
       builder: (context, state) => const OnboardingScreen(),
     ),
-    GoRoute(
-      path: '/home',
-      builder: (context, state) => const HomeScreen(),
-    ),
+    GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
     ),
-    GoRoute(
-      path: '/users',
-      builder: (context, state) => const UsersScreen(),
-    ),
+    GoRoute(path: '/users', builder: (context, state) => const UsersScreen()),
     GoRoute(
       path: '/create-user',
       builder: (context, state) => const CreateUserScreen(),
@@ -52,8 +45,9 @@ final GoRouter appRouter = GoRouter(
       path: '/opponent',
       builder: (context, state) {
         final mode = state.uri.queryParameters['mode'] ?? 'basic';
-        final unavailableCharacter =
-            int.parse(state.uri.queryParameters['unavailableCharacter'] ?? '0');
+        final unavailableCharacter = int.parse(
+          state.uri.queryParameters['unavailableCharacter'] ?? '0',
+        );
         return OpponentScreen(
           mode: mode,
           unavailableCharacter: unavailableCharacter,
@@ -78,10 +72,7 @@ final GoRouter appRouter = GoRouter(
       path: '/game-result',
       builder: (context, state) => const GameResultScreen(),
     ),
-    GoRoute(
-      path: '/replay',
-      builder: (context, state) => const ReplayScreen(),
-    ),
+    GoRoute(path: '/replay', builder: (context, state) => const ReplayScreen()),
     GoRoute(
       path: '/statistics',
       builder: (context, state) => const StatisticsScreen(),
