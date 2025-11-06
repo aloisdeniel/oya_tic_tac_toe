@@ -3,6 +3,8 @@
 /// More dartdocs go here.
 library;
 
-export 'src/basic/game.dart';
+export 'src/modes/basic/game.dart';
+export 'src/modes/basic/ai.dart';
 
-export 'src/meta/game.dart';
+export 'src/modes/meta/game.dart';
+export 'src/modes/meta/ai.dart';

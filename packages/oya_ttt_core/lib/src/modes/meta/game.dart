@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:oya_ttt_core/src/basic/game.dart';
+import 'package:oya_ttt_core/src/modes/basic/game.dart';
 
 part 'game.mapper.dart';
 

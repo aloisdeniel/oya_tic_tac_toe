@@ -1,59 +1,62 @@
-import 'package:oya_ttt_core/src/basic/game.dart';
-import 'package:oya_ttt_core/src/meta/game.dart';
+import 'package:oya_ttt_core/src/modes/basic/game.dart';
+import 'package:oya_ttt_core/src/modes/meta/game.dart';
 
-/// Calculates the best next move for the AI in meta tic-tac-toe.
-/// Uses a heuristic-based evaluation with limited-depth minimax search.
-MetaMove calculateNextMove(MetaGameState state) {
-  if (state.isOver) {
-    throw StateError('Cannot calculate move: game is already over');
-  }
-
-  final legalMoves = state.legalMoves.toList();
-  if (legalMoves.isEmpty) {
-    throw StateError('No legal moves available');
-  }
-
-  // For the first move, prefer center board, center cell
-  if (state.history.isEmpty) {
-    return MetaMove(
-      turn: 1,
-      player: state.nextPlayer,
-      pos: const MetaPosition(Position(1, 1), Position(1, 1)),
-    );
-  }
-
-  MetaPosition? bestMove;
-  double bestScore = -double.infinity;
-
-  // Evaluate each legal move
-  for (final pos in legalMoves) {
-    final nextState = state.play(pos);
-
-    // Use minimax with limited depth due to computational complexity
-    final score = _minimax(
-      nextState,
-      2,
-      false,
-      state.nextPlayer,
-      -double.infinity,
-      double.infinity,
-    );
-
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = pos;
+extension MetaAI on MetaGameState {
+  /// Calculates the best next move for the AI in meta tic-tac-toe.
+  /// Uses a heuristic-based evaluation with limited-depth minimax search.
+  MetaMove calculateNextMove() {
+    final state = this;
+    if (state.isOver) {
+      throw StateError('Cannot calculate move: game is already over');
     }
-  }
 
-  if (bestMove == null) {
-    throw StateError('Failed to find a valid move');
-  }
+    final legalMoves = state.legalMoves.toList();
+    if (legalMoves.isEmpty) {
+      throw StateError('No legal moves available');
+    }
 
-  return MetaMove(
-    turn: state.history.length + 1,
-    player: state.nextPlayer,
-    pos: bestMove,
-  );
+    // For the first move, prefer center board, center cell
+    if (state.history.isEmpty) {
+      return MetaMove(
+        turn: 1,
+        player: state.nextPlayer,
+        pos: const MetaPosition(Position(1, 1), Position(1, 1)),
+      );
+    }
+
+    MetaPosition? bestMove;
+    double bestScore = -double.infinity;
+
+    // Evaluate each legal move
+    for (final pos in legalMoves) {
+      final nextState = state.play(pos);
+
+      // Use minimax with limited depth due to computational complexity
+      final score = _minimax(
+        nextState,
+        2,
+        false,
+        state.nextPlayer,
+        -double.infinity,
+        double.infinity,
+      );
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestMove = pos;
+      }
+    }
+
+    if (bestMove == null) {
+      throw StateError('Failed to find a valid move');
+    }
+
+    return MetaMove(
+      turn: state.history.length + 1,
+      player: state.nextPlayer,
+      pos: bestMove,
+    );
+  }
 }
 
 /// Minimax algorithm with alpha-beta pruning and limited depth.
