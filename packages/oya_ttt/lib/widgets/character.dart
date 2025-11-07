@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 enum AppCharacterDirection { right, left }
@@ -26,6 +28,37 @@ class AppCharacterAvatar extends StatelessWidget {
       );
     }
     return result;
+  }
+}
+
+class AppCharacterSymbol extends StatelessWidget {
+  const AppCharacterSymbol({
+    super.key,
+    required this.character,
+    this.size = 32,
+    this.color,
+  });
+
+  final GameCharacter character;
+  final Color? color;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    late final theme = AppTheme.of(context);
+    final color = this.color ?? theme.color.accents(character).foreground;
+    return Icon(
+      switch (character) {
+        GameCharacter.cross => Icons.close,
+        GameCharacter.circle => Icons.circle_outlined,
+        GameCharacter.spade => Icons.diamond,
+        GameCharacter.heart => Icons.heart_broken,
+        GameCharacter.diamond => Icons.diamond,
+        GameCharacter.clover => Icons.nature,
+      },
+      color: color,
+      size: size,
+    );
   }
 }
 

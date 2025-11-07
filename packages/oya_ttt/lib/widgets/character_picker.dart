@@ -237,18 +237,9 @@ class _CharacterPickerState extends State<CharacterPicker> {
                                   Curves.easeInOutCubic.transform(1 - opacity) *
                                       10,
                                 ),
-                                child: Icon(
-                                  switch (character) {
-                                    GameCharacter.cross => Icons.close,
-                                    GameCharacter.circle =>
-                                      Icons.circle_outlined,
-                                    GameCharacter.spade => Icons.diamond,
-                                    GameCharacter.heart => Icons.heart_broken,
-                                    GameCharacter.diamond => Icons.diamond,
-                                    GameCharacter.clover => Icons.nature,
-                                  },
+                                child: AppCharacterSymbol(
+                                  character: character,
                                   size: 64,
-                                  color: accent.foreground,
                                 ),
                               ),
                             ),
