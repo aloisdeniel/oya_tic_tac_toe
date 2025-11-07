@@ -4,6 +4,7 @@ import 'package:oya_ttt/widgets/base/default_padding.dart';
 import 'package:oya_ttt/widgets/base/frame.dart';
 import 'package:oya_ttt/widgets/base/pointer_area.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -27,7 +28,7 @@ class AppButton extends StatelessWidget {
       child: PointerArea(
         onTap: onPressed,
         builder: (context, state, _) {
-          return DefaultFrameStyle(
+          Widget result = DefaultFrameStyle(
             style: style,
             text: theme.text.button,
             variant: switch (state) {
@@ -38,6 +39,14 @@ class AppButton extends StatelessWidget {
             },
             child: Frame(child: child),
           );
+          if (state.isPressed || state.isHovering) {
+            result = AnimatedGlitch(
+              scanLineJitter: 0.2,
+              colorDrift: 0.12,
+              child: result,
+            );
+          }
+          return result;
         },
       ),
     );

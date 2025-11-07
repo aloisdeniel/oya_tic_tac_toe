@@ -18,10 +18,26 @@ class AppTheme extends InheritedWidget {
     return AppTheme(
       data: AppThemeData(
         text: AppThemeTextData(
-          header1: TextStyle(fontFamily: 'Tilt Warp', fontSize: 72),
-          header2: TextStyle(fontFamily: 'Lexend', fontSize: 44),
-          body: TextStyle(fontFamily: 'Lexend', fontSize: 16),
-          button: TextStyle(fontFamily: 'Tilt Warp', fontSize: 32),
+          header1: TextStyle(
+            fontFamily: 'Tilt Warp',
+            fontSize: 72,
+            decoration: TextDecoration.none,
+          ),
+          header2: TextStyle(
+            fontFamily: 'Lexend',
+            fontSize: 44,
+            decoration: TextDecoration.none,
+          ),
+          body: TextStyle(
+            fontFamily: 'Lexend',
+            fontSize: 16,
+            decoration: TextDecoration.none,
+          ),
+          button: TextStyle(
+            fontFamily: 'Tilt Warp',
+            fontSize: 32,
+            decoration: TextDecoration.none,
+          ),
         ),
         color: const AppThemeColorData(
           main: AppThemeMainColorData(

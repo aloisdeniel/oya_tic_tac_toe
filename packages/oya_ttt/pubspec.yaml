@@ -36,3 +36,5 @@ flutter:
     - family: Lexend
       fonts:
         - asset: assets/fonts/Lexend-Variable.ttf
+  shaders:
+    - shaders/glitch.frag

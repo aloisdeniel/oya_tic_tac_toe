@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
 
 enum BackgroundIllustration { room, city }
 
@@ -24,19 +25,26 @@ class Background extends StatelessWidget {
     if (decoration case final decoration?) {
       child = DecoratedBox(decoration: decoration, child: child);
     }
+    final asset = switch (illustration) {
+      BackgroundIllustration.room => 'assets/background/room.png',
+      BackgroundIllustration.city => 'assets/background/city.png',
+    };
 
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.color.main.background,
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage(switch (illustration) {
-            BackgroundIllustration.room => 'assets/background/room.png',
-            BackgroundIllustration.city => 'assets/background/city.png',
-          }),
-        ),
+    return DecoratedBox(
+      decoration: BoxDecoration(color: theme.color.main.background),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            key: Key('bg'),
+            child: AnimatedGlitch(
+              scanLineJitter: 0.2,
+              horizontalShake: 0.001,
+              child: Image.asset(asset, fit: BoxFit.cover),
+            ),
+          ),
+          child,
+        ],
       ),
-      child: child,
     );
   }
 }
