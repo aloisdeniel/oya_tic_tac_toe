@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/default_decoration.dart';
 import 'package:oya_ttt/widgets/base/default_foreground.dart';
+import 'package:oya_ttt/widgets/base/default_padding.dart';
 
 enum FrameStyle { regular, highlight }
 
@@ -16,17 +17,19 @@ class DefaultFrameStyle extends StatelessWidget {
     required this.style,
     this.variant = FrameStyleVariant.normal,
     this.text,
+    this.padding,
   });
 
   final Widget child;
   final FrameStyle style;
   final FrameStyleVariant variant;
   final TextStyle? text;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    return DefaultBoxDecoration(
+    Widget result = DefaultBoxDecoration(
       decoration: switch (style) {
         FrameStyle.regular => switch (variant) {
           FrameStyleVariant.normal => BoxDecoration(
@@ -76,5 +79,9 @@ class DefaultFrameStyle extends StatelessWidget {
         child: child,
       ),
     );
+    if (padding case final padding?) {
+      result = DefaultPadding(padding: padding, child: result);
+    }
+    return result;
   }
 }

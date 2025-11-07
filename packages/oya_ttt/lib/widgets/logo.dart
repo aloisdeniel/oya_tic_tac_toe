@@ -1,4 +1,22 @@
 import 'package:flutter/widgets.dart';
+import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
+
+class GlitchingAppLogo extends StatelessWidget {
+  const GlitchingAppLogo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
+    return AnimatedGlitch(
+      scanLineJitter: 0.3,
+      verticalJump: 0,
+      horizontalShake: 0.02,
+      colorDrift: 0.1,
+      child: AppLogo(color: theme.color.main.foreground),
+    );
+  }
+}
 
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key, required this.color});

@@ -1,16 +1,15 @@
 import 'package:flutter/widgets.dart';
-
-enum AppAccentColor { circle, cross, spade, clover, heart, diamond }
+import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class AppThemeColorData {
   const AppThemeColorData({
     required this.main,
     required this.highlight,
-    required this.accent,
+    required this.accents,
   });
   final AppThemeMainColorData main;
   final AppThemeMainColorData highlight;
-  final AppThemeAccentsColorData accent;
+  final AppThemeAccentsColorData accents;
 }
 
 class AppThemeMainColorData {
@@ -40,6 +39,17 @@ class AppThemeAccentsColorData {
   final AppThemeAccentColorData clover;
   final AppThemeAccentColorData heart;
   final AppThemeAccentColorData diamond;
+
+  AppThemeAccentColorData call(GameCharacter character) {
+    return switch (character) {
+      GameCharacter.circle => circle,
+      GameCharacter.cross => cross,
+      GameCharacter.spade => spade,
+      GameCharacter.clover => clover,
+      GameCharacter.heart => heart,
+      GameCharacter.diamond => diamond,
+    };
+  }
 }
 
 class AppThemeAccentColorData {

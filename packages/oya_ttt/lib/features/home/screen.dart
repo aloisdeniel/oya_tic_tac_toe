@@ -6,7 +6,6 @@ import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
-import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt/widgets/logo.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
@@ -37,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Logo(),
+                      const GlitchingAppLogo(),
                       const SizedBox(height: 60),
                       const NewGameButton(),
                       const SizedBox(height: 20),
@@ -66,7 +65,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(48.0),
               child: Stack(
                 children: [
-                  Positioned(top: 0, left: 0, child: Logo()),
+                  Positioned(top: 0, left: 0, child: GlitchingAppLogo()),
                   Positioned(
                     bottom: 0,
                     left: 0,
@@ -87,23 +86,6 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class Logo extends StatelessWidget {
-  const Logo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
-
-    return AnimatedGlitch(
-      scanLineJitter: 0.3,
-      verticalJump: 0,
-      horizontalShake: 0.02,
-      colorDrift: 0.1,
-      child: AppLogo(color: theme.color.main.foreground),
     );
   }
 }

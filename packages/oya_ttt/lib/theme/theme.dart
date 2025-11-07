@@ -50,7 +50,7 @@ class AppTheme extends InheritedWidget {
             foreground: Color(0xFF0F1A29),
             foregroundSecondary: Color(0xFF0F1A29),
           ),
-          accent: AppThemeAccentsColorData(
+          accents: AppThemeAccentsColorData(
             circle: AppThemeAccentColorData(
               foreground: Color(0xFF64DEF2),
               foregroundOnHighlight: Color(0xFF64DEF2),

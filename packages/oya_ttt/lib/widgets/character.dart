@@ -30,12 +30,29 @@ class AppCharacterAvatar extends StatelessWidget {
 }
 
 class AppCharacter extends StatelessWidget {
-  const AppCharacter({super.key, required this.character});
+  const AppCharacter({
+    super.key,
+    required this.character,
+    this.gradientFromBottom,
+  });
 
   final GameCharacter character;
+  final List<Color>? gradientFromBottom;
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/character/${character.name}.png');
+    Widget result = Image.asset('assets/character/${character.name}.png');
+    if (gradientFromBottom case final colors?) {
+      result = ShaderMask(
+        shaderCallback: (bounds) => LinearGradient(
+          colors: colors,
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+        ).createShader(bounds),
+        blendMode: BlendMode.srcATop,
+        child: result,
+      );
+    }
+    return result;
   }
 }
