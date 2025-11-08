@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-class ReadyToStartScreen extends StatelessWidget {
-  final String mode;
+class ReadyToStartModal extends StatelessWidget {
+  const ReadyToStartModal({super.key, required this.game});
+  final Game game;
 
-  const ReadyToStartScreen({super.key, required this.mode});
+  static Future<Game?> show(BuildContext context, {required Game game}) {
+    return Navigator.push<Game>(
+      context,
+      MaterialPageRoute(builder: (context) => ReadyToStartModal(game: game)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ready to Start'),
-      ),
+      appBar: AppBar(title: const Text('Ready to Start')),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -24,7 +28,7 @@ class ReadyToStartScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             Text(
-              mode == 'basic' ? 'Basic Mode' : 'Meta Mode',
+              game.mode == GameMode.basic ? 'Basic Mode' : 'Meta Mode',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
@@ -44,7 +48,7 @@ class ReadyToStartScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    mode == 'basic'
+                    game.mode == GameMode.basic
                         ? 'Basic tic-tac-toe rules: Get three in a row to win!'
                         : 'Meta mode: Play tic-tac-toe within tic-tac-toe!',
                   ),
@@ -66,7 +70,10 @@ class ReadyToStartScreen extends StatelessWidget {
                     const Text('Player 1', style: TextStyle(fontSize: 16)),
                   ],
                 ),
-                const Text('VS', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const Text(
+                  'VS',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
                 Column(
                   children: [
                     CircleAvatar(
@@ -82,7 +89,7 @@ class ReadyToStartScreen extends StatelessWidget {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: () => context.push('/game?mode=$mode'),
+              onPressed: () => Navigator.pop(context, game),
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 child: Text('Start Game', style: TextStyle(fontSize: 18)),

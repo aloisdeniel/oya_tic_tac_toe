@@ -3,7 +3,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 
-enum BackgroundIllustration { city, city2, room, room2, park1, park2 }
+enum BackgroundIllustration { city, city2, room, room2, park1, park2, elevator }
 
 class Background extends StatelessWidget {
   const Background.room({super.key, required this.child, this.decoration})
@@ -23,6 +23,16 @@ class Background extends StatelessWidget {
 
   const Background.park2({super.key, required this.child, this.decoration})
     : illustration = BackgroundIllustration.park2;
+
+  const Background.elevator({super.key, required this.child, this.decoration})
+    : illustration = BackgroundIllustration.elevator;
+
+  const Background({
+    super.key,
+    required this.child,
+    required this.illustration,
+    this.decoration,
+  });
 
   final Widget child;
 

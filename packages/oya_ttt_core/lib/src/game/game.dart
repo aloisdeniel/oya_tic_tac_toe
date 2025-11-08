@@ -22,6 +22,14 @@ class Game with GameMappable {
   final GamePlayer player2;
   final GameState state;
 
+  GameMode get mode {
+    return switch (state) {
+      BasicGameState() => GameMode.basic,
+      MetaGameState() => GameMode.meta,
+      _ => throw Exception('Unsupported $state'),
+    };
+  }
+
   bool get isOver => state.isOver;
 
   bool get isDraw => state.isDraw;

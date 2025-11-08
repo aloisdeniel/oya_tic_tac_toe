@@ -11,10 +11,34 @@ class PickCharacterModal extends StatefulWidget {
     super.key,
     this.title,
     this.character = GameCharacter.circle,
+    this.characters = GameCharacter.values,
+    this.background = BackgroundIllustration.room2,
   });
+
+  static Future<GameCharacter?> show(
+    BuildContext context, {
+    required GameCharacter character,
+    List<GameCharacter> characters = GameCharacter.values,
+    String? title,
+    BackgroundIllustration background = BackgroundIllustration.room2,
+  }) {
+    return Navigator.push<GameCharacter>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PickCharacterModal(
+          title: title,
+          background: background,
+          character: character,
+          characters: characters,
+        ),
+      ),
+    );
+  }
 
   final String? title;
   final GameCharacter character;
+  final List<GameCharacter> characters;
+  final BackgroundIllustration background;
 
   @override
   State<PickCharacterModal> createState() => _PickCharacterScreenState();
@@ -26,7 +50,8 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    return Background.room2(
+    return Background(
+      illustration: widget.background,
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -54,6 +79,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
             Expanded(
               child: CharacterPicker(
                 initial: widget.character,
+                characters: widget.characters,
                 onChanged: (value) {
                   character = character;
                 },

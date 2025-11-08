@@ -2,11 +2,8 @@ import 'package:go_router/go_router.dart';
 import 'features/onboarding/screen.dart';
 import 'features/home/screen.dart';
 import 'features/settings/screen.dart';
-import 'features/users/screen.dart';
-import 'features/pick_mode/screen.dart';
 import 'features/player/screen.dart';
 import 'features/opponent/screen.dart';
-import 'features/ready_to_start/screen.dart';
 import 'features/game/screen.dart';
 import 'features/game_result/screen.dart';
 import 'features/replay/screen.dart';
@@ -23,11 +20,6 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
-    ),
-    GoRoute(path: '/users', builder: (context, state) => const UsersScreen()),
-    GoRoute(
-      path: '/pick-mode',
-      builder: (context, state) => const PickModeScreen(),
     ),
     GoRoute(
       path: '/player',
@@ -47,13 +39,6 @@ final GoRouter appRouter = GoRouter(
           mode: mode,
           unavailableCharacter: unavailableCharacter,
         );
-      },
-    ),
-    GoRoute(
-      path: '/ready-to-start',
-      builder: (context, state) {
-        final mode = state.uri.queryParameters['mode'] ?? 'basic';
-        return ReadyToStartScreen(mode: mode);
       },
     ),
     GoRoute(

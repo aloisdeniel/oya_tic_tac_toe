@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oya_ttt/features/home/new_game.dart';
+import 'package:oya_ttt/features/pick_user/screen.dart';
+import 'package:oya_ttt/features/pick_user/user_tile.dart';
+import 'package:oya_ttt/features/ready_to_start/screen.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/button.dart';
-import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -101,7 +104,20 @@ class NewGameButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppButton(
-      onPressed: () => context.push('/pick-mode'),
+      onPressed: () async {
+        final user = User(
+          id: 0,
+          name: 'John',
+          favoriteCharacter: GameCharacter.cross,
+        );
+        final game = await showNewGame(context, user);
+        if (game != null && context.mounted) {
+          final resultGame = await ReadyToStartModal.show(context, game: game);
+          if (resultGame != null && context.mounted) {
+            context.push('/game?id=${resultGame.id}');
+          }
+        }
+      },
       style: FrameStyle.primary,
       child: Text('NEW GAME', style: TextStyle(fontSize: 18)),
     );
@@ -137,23 +153,21 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
-    return AppButton(
-      onPressed: () => context.push('/users'),
-      style: FrameStyle.regular,
-      child: Row(
-        children: [
-          Text('John', style: theme.text.button),
-          const SizedBox(width: 10),
-          SizedBox.square(
-            dimension: 92,
-            child: AppCharacterAvatar(
-              direction: AppCharacterDirection.left,
-              character: GameCharacter.cross,
-            ),
-          ),
-        ],
-      ),
+    final user = User(
+      id: 0,
+      name: 'John',
+      favoriteCharacter: GameCharacter.cross,
+    );
+    return UserTile(
+      direction: TextDirection.rtl,
+      user: user,
+
+      onTap: () async {
+        final newUser = await PickUserModal.show(
+          context,
+          filter: (other) => other.id != user.id,
+        );
+      },
     );
   }
 }

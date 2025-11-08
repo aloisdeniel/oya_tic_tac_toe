@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/base/frame.dart';
@@ -18,9 +17,11 @@ class CharacterPicker extends StatefulWidget {
     super.key,
     required this.initial,
     required this.onChanged,
+    this.characters = GameCharacter.values,
   });
 
   final GameCharacter initial;
+  final List<GameCharacter> characters;
   final ValueChanged<GameCharacter> onChanged;
 
   @override
@@ -32,7 +33,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
   late final GameCharacter initial = widget.initial;
   GameCharacter characterAtPage(int i) {
     final index = initial.index - _initialPage + i;
-    return GameCharacter.values[index % GameCharacter.values.length];
+    return widget.characters[index % widget.characters.length];
   }
 
   double get pageOpacity {
@@ -230,9 +231,13 @@ class _CharacterPickerState extends State<CharacterPicker> {
                                   Curves.easeInOutCubic.transform(1 - opacity) *
                                       10,
                                 ),
-                                child: AppCharacterSymbol(
-                                  character: character,
-                                  size: 64,
+                                child: AnimatedGlitch(
+                                  horizontalShake: 0.2,
+                                  colorDrift: 0.4,
+                                  child: AppCharacterSymbol(
+                                    character: character,
+                                    size: 64,
+                                  ),
                                 ),
                               ),
                             ),

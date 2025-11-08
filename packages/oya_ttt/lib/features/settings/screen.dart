@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oya_ttt/features/edit_user/screen.dart';
 import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/theme/theme.dart';
@@ -22,8 +21,7 @@ class SettingsScreen extends StatelessWidget {
             end: Alignment.topCenter,
             colors: [
               theme.color.main.background.withValues(alpha: 1),
-              theme.color.main.background.withValues(alpha: 0.3),
-              theme.color.main.background.withValues(alpha: 0.1),
+              theme.color.main.background.withValues(alpha: 0.6),
             ],
           ),
         ),
