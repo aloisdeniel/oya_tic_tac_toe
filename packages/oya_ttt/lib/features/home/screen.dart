@@ -41,6 +41,8 @@ class HomeScreen extends StatelessWidget {
                       const NewGameButton(),
                       const SizedBox(height: 20),
                       const StatsButton(),
+                      const SizedBox(height: 20),
+                      const SettingsButton(),
                     ],
                   ),
                 ),
@@ -71,11 +73,14 @@ class HomeScreen extends StatelessWidget {
                     left: 0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 60),
                         const NewGameButton(),
                         const SizedBox(height: 20),
                         const StatsButton(),
+                        const SizedBox(height: 20),
+                        const SettingsButton(),
                       ],
                     ),
                   ),
@@ -97,7 +102,7 @@ class NewGameButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppButton(
       onPressed: () => context.push('/pick-mode'),
-      style: FrameStyle.highlight,
+      style: FrameStyle.primary,
       child: Text('NEW GAME', style: TextStyle(fontSize: 18)),
     );
   }
@@ -115,6 +120,18 @@ class StatsButton extends StatelessWidget {
   }
 }
 
+class SettingsButton extends StatelessWidget {
+  const SettingsButton({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return AppButton(
+      onPressed: () => context.push('/settings'),
+      style: FrameStyle.regular,
+      child: Text('SETTINGS', style: TextStyle(fontSize: 18)),
+    );
+  }
+}
+
 class ProfileButton extends StatelessWidget {
   const ProfileButton({super.key});
 
@@ -122,7 +139,7 @@ class ProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     return AppButton(
-      onPressed: () => context.push('/settings'),
+      onPressed: () => context.push('/users'),
       style: FrameStyle.regular,
       child: Row(
         children: [

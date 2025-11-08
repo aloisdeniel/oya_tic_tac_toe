@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 
 enum BackgroundIllustration { city, city2, room, room2, park1, park2 }
@@ -49,7 +50,11 @@ class Background extends StatelessWidget {
               scanLineJitter: 0.15,
               horizontalShake: 0.001,
               colorDrift: 0.01,
-              child: Image.asset(asset, fit: BoxFit.cover),
+              child: FadeInImage(
+                image: AssetImage(asset),
+                fit: BoxFit.cover,
+                placeholder: transparentImage,
+              ),
             ),
           ),
           Positioned.fill(child: child),

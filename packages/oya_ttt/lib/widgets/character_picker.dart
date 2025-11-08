@@ -4,10 +4,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/base/frame.dart';
+import 'package:oya_ttt/widgets/big_background_text.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class CharacterPicker extends StatefulWidget {
@@ -63,11 +66,10 @@ class _CharacterPickerState extends State<CharacterPicker> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Positioned(
-          top: 0,
-          right: -1000,
-          left: -1000,
-          child: Center(
+        Positioned.fill(
+          key: Key('background_glow'),
+          child: FadeIn(
+            delay: const Duration(milliseconds: 600),
             child: AnimatedBuilder(
               animation: pageController,
               builder: (context, _) {
@@ -83,13 +85,48 @@ class _CharacterPickerState extends State<CharacterPicker> {
                         sigmaX: 20 * pageOpacity,
                         sigmaY: 10,
                       ),
-                      child: Text(
-                        '-' * 20,
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
-                        style: theme.text.header1.copyWith(
+                      child: BigBackgroundText(
+                        text: '•' * 40,
+                        color: accent.foreground,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        Positioned.fill(
+          key: Key('background_text'),
+          child: FadeIn(
+            delay: const Duration(milliseconds: 500),
+            child: AnimatedBuilder(
+              animation: pageController,
+              builder: (context, _) {
+                final character = characterAtPage(page.round());
+                final accent = theme.color.accents(character);
+                final translate = 2 * (0.5 - page + page.round());
+                return ShaderMask(
+                  shaderCallback: (size) {
+                    return LinearGradient(
+                      colors: [
+                        Color(0x00FFFFFF),
+                        Color(0xFFFFFFFF),
+                        Color(0x00FFFFFF),
+                      ],
+                      stops: [0.1, 0.5, 0.9],
+                    ).createShader(size);
+                  },
+                  child: Opacity(
+                    opacity: pageOpacity,
+                    child: Transform.translate(
+                      offset: Offset(-math.sqrt(translate) * 100, 0),
+                      child: AnimatedGlitch(
+                        horizontalShake: 0.01,
+                        scanLineJitter: 0.3,
+                        child: BigBackgroundText(
+                          text: character.name,
                           color: accent.foreground,
-                          fontSize: 800,
                         ),
                       ),
                     ),
@@ -99,94 +136,50 @@ class _CharacterPickerState extends State<CharacterPicker> {
             ),
           ),
         ),
-        Positioned(
-          top: 0,
-          right: -200,
-          left: -200,
-          child: AnimatedBuilder(
-            animation: pageController,
-            builder: (context, _) {
-              final character = characterAtPage(page.round());
-              final accent = theme.color.accents(character);
-              final translate = 2 * (0.5 - page + page.round());
-              return ShaderMask(
-                shaderCallback: (size) {
-                  return LinearGradient(
-                    colors: [
-                      Color(0x00FFFFFF),
-                      Color(0xFFFFFFFF),
-                      Color(0x00FFFFFF),
-                    ],
-                    stops: [
-                      200 / size.width,
-                      0.5,
-                      size.width - (200 / size.width),
-                    ],
-                  ).createShader(size);
-                },
-                child: Opacity(
-                  opacity: pageOpacity,
-                  child: Transform.translate(
-                    offset: Offset(-math.sqrt(translate) * 100, 0),
-                    child: Text(
-                      character.name,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.clip,
-                      style: theme.text.header1.copyWith(
-                        color: accent.foreground,
-                        fontSize: 500,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
         Padding(
           key: _pageKey,
           padding: const EdgeInsets.only(bottom: 42),
-          child: PageView.builder(
-            controller: pageController,
-            itemBuilder: (context, i) {
-              return Align(
-                alignment: Alignment.bottomCenter,
-                child: AnimatedBuilder(
-                  animation: pageController,
-                  child: AppCharacter(
-                    gradientFromBottom: [
-                      theme.color.main.background,
-                      theme.color.main.background.withValues(alpha: 0),
-                    ],
-                    character: characterAtPage(i),
-                  ),
-                  builder: (context, child) {
-                    final distanceFromPage = (i.toDouble() - page).abs().clamp(
-                      0.0,
-                      1.0,
-                    );
-                    return ImageFiltered(
-                      imageFilter: ImageFilter.blur(
-                        sigmaX: distanceFromPage * 8,
-                      ),
-                      child: ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                          theme.color.main.background.withValues(
-                            alpha: distanceFromPage * 0.9,
+          child: FadeIn(
+            child: PageView.builder(
+              controller: pageController,
+              itemBuilder: (context, i) {
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimatedBuilder(
+                    animation: pageController,
+                    child: AppCharacter(
+                      gradientFromBottom: [
+                        theme.color.main.background,
+                        theme.color.main.background.withValues(alpha: 0),
+                      ],
+                      character: characterAtPage(i),
+                    ),
+                    builder: (context, child) {
+                      final distanceFromPage = (i.toDouble() - page)
+                          .abs()
+                          .clamp(0.0, 1.0);
+                      return ImageFiltered(
+                        imageFilter: ImageFilter.blur(
+                          sigmaX: distanceFromPage * 8,
+                        ),
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            theme.color.main.background.withValues(
+                              alpha: distanceFromPage * 0.9,
+                            ),
+                            BlendMode.srcATop,
                           ),
-                          BlendMode.srcATop,
+                          child: Transform.scale(
+                            scale: 0.8 + 0.2 * (1 - distanceFromPage),
+                            child: child,
+                          ),
                         ),
-                        child: Transform.scale(
-                          scale: 0.8 + 0.2 * (1 - distanceFromPage),
-                          child: child,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
         ),
         Positioned(

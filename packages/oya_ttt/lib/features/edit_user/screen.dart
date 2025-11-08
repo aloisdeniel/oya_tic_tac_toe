@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
-import 'package:oya_ttt/widgets/character_picker.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
-import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/widgets/text_input.dart';
 
-class CreateUserScreen extends StatelessWidget {
-  const CreateUserScreen({super.key});
+class EditUserModal extends StatefulWidget {
+  const EditUserModal({super.key, this.title, this.name});
+
+  final String? title;
+  final String? name;
+
+  @override
+  State<EditUserModal> createState() => _EditUserScreenState();
+}
+
+class _EditUserScreenState extends State<EditUserModal> {
+  late final controller = TextEditingController(text: widget.name);
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,34 +45,23 @@ class CreateUserScreen extends StatelessWidget {
           spacing: 24,
           children: [
             const SizedBox(height: 48),
-            Material(
-              color: Colors.transparent,
-              child: const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
             Text(
-              'Choose your favorite character',
+              widget.title ?? "What's your name?",
               style: theme.text.header2.copyWith(
                 color: theme.color.main.foreground,
               ),
             ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: CharacterPicker(
-                initial: GameCharacter.circle,
-                onChanged: (value) {},
-              ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: TextInput(hint: 'Name', controller: controller),
             ),
+            Spacer(),
             Padding(
               padding: const EdgeInsets.all(48.0),
               child: AppButton(
-                onPressed: () => context.go('/home'),
-                style: FrameStyle.regular,
+                onPressed: () => Navigator.pop(context, controller.text),
+                style: FrameStyle.primary,
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                   child: Text('Validate'),

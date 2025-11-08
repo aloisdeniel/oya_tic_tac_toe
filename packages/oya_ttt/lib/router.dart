@@ -3,7 +3,6 @@ import 'features/onboarding/screen.dart';
 import 'features/home/screen.dart';
 import 'features/settings/screen.dart';
 import 'features/users/screen.dart';
-import 'features/create_user/screen.dart';
 import 'features/pick_mode/screen.dart';
 import 'features/player/screen.dart';
 import 'features/opponent/screen.dart';
@@ -26,10 +25,6 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const SettingsScreen(),
     ),
     GoRoute(path: '/users', builder: (context, state) => const UsersScreen()),
-    GoRoute(
-      path: '/create-user',
-      builder: (context, state) => const CreateUserScreen(),
-    ),
     GoRoute(
       path: '/pick-mode',
       builder: (context, state) => const PickModeScreen(),

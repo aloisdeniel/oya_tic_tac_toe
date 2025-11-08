@@ -6,7 +6,7 @@ import 'package:oya_ttt/widgets/base/default_decoration.dart';
 import 'package:oya_ttt/widgets/base/default_foreground.dart';
 import 'package:oya_ttt/widgets/base/default_padding.dart';
 
-enum FrameStyle { regular, highlight }
+enum FrameStyle { regular, primary } //TODO window
 
 enum FrameStyleVariant { normal, disabled, hover }
 
@@ -33,7 +33,7 @@ class DefaultFrameStyle extends StatelessWidget {
       decoration: switch (style) {
         FrameStyle.regular => switch (variant) {
           FrameStyleVariant.normal => BoxDecoration(
-            color: theme.color.main.background.withValues(alpha: 0.66),
+            color: theme.color.main.background,
           ),
           FrameStyleVariant.disabled => BoxDecoration(
             color: theme.color.main.background.withValues(alpha: 0.30),
@@ -42,7 +42,7 @@ class DefaultFrameStyle extends StatelessWidget {
             color: theme.color.highlight.background,
           ),
         },
-        FrameStyle.highlight => switch (variant) {
+        FrameStyle.primary => switch (variant) {
           FrameStyleVariant.normal => BoxDecoration(
             color: theme.color.highlight.background,
           ),
@@ -55,8 +55,8 @@ class DefaultFrameStyle extends StatelessWidget {
         },
       },
       backdropFilter: switch (style) {
-        FrameStyle.regular => ui.ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-        FrameStyle.highlight => null,
+        FrameStyle.regular => null,
+        FrameStyle.primary => null,
       },
       child: DefaultForeground(
         foreground: switch (style) {
@@ -67,7 +67,7 @@ class DefaultFrameStyle extends StatelessWidget {
 
             FrameStyleVariant.hover => theme.color.highlight.foreground,
           },
-          FrameStyle.highlight => switch (variant) {
+          FrameStyle.primary => switch (variant) {
             FrameStyleVariant.normal => theme.color.highlight.foreground,
             FrameStyleVariant.disabled =>
               theme.color.highlight.foreground.withValues(alpha: 0.80),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oya_ttt/features/edit_user/screen.dart';
+import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
+import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -33,24 +37,56 @@ class OnboardingScreen extends StatelessWidget {
               const Spacer(),
               const GlitchingAppLogo(),
               const SizedBox(height: 80),
-              Text(
-                'Welcome',
-                style: theme.text.header2.copyWith(
-                  color: theme.color.main.foreground,
+              FadeIn(
+                delay: const Duration(milliseconds: 200),
+                child: Text(
+                  'Welcome',
+                  style: theme.text.header2.copyWith(
+                    color: theme.color.main.foreground,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
-              Text(
-                'Tic Tac Toe Game',
-                style: theme.text.body.copyWith(
-                  color: theme.color.main.foregroundSecondary,
+              FadeIn(
+                delay: const Duration(milliseconds: 400),
+                child: Text(
+                  'Tic Tac Toe Game',
+                  style: theme.text.body.copyWith(
+                    color: theme.color.main.foregroundSecondary,
+                  ),
                 ),
               ),
               const Spacer(),
-              AppButton(
-                style: FrameStyle.highlight,
-                onPressed: () => context.push('/create-user'),
-                child: const Text('START'),
+              FadeIn(
+                delay: const Duration(milliseconds: 800),
+                child: AppButton(
+                  style: FrameStyle.primary,
+                  onPressed: () async {
+                    final name = await Navigator.push<String>(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return EditUserModal();
+                        },
+                      ),
+                    );
+                    if (name != null && context.mounted) {
+                      final character = await Navigator.push<GameCharacter>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return PickCharacterModal();
+                          },
+                        ),
+                      );
+                      if (character != null && context.mounted) {
+                        // TODO save user
+                        context.push('/home');
+                      }
+                    }
+                  },
+                  child: const Text('START'),
+                ),
               ),
             ],
           ),
