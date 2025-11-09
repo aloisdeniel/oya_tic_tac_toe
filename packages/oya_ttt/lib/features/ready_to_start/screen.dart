@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:oya_ttt/features/ready_to_start/player.dart';
+import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/button.dart';
+import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
+import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class ReadyToStartModal extends StatelessWidget {
@@ -14,88 +22,96 @@ class ReadyToStartModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Ready to Start')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Ready to Start',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 32),
-            Text(
-              game.mode == GameMode.basic ? 'Basic Mode' : 'Meta Mode',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
+    final theme = AppTheme.of(context);
+    return Background.elevator(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              theme.color.main.background.withValues(alpha: 1),
+              theme.color.main.background.withValues(alpha: 0.6),
+            ],
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              Header(
+                title: Text('Ready to Start?'),
+                subtitle: Text('${game.mode.name} Mode'),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Rules',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 24,
+                    children: [
+                      Expanded(
+                        child: PlayerPreview(
+                          player: game.player1,
+                          isPlayer2: false,
+                        ),
+                      ),
+                      Center(
+                        child: AnimatedGlitch(
+                          colorDrift: 0.3,
+                          scanLineJitter: 0.4,
+                          horizontalShake: 0.04,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0,
+                            ),
+                            child: Text(
+                              'VS',
+                              style: theme.text.button.copyWith(
+                                color: theme.color.main.foregroundSecondary,
+                                fontSize: 100,
+                                letterSpacing: -10,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: PlayerPreview(
+                          player: game.player2,
+                          isPlayer2: true,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    game.mode == GameMode.basic
-                        ? 'Basic tic-tac-toe rules: Get three in a row to win!'
-                        : 'Meta mode: Play tic-tac-toe within tic-tac-toe!',
-                  ),
-                ],
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Row(
+                  spacing: 24,
                   children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.deepPurple.shade200,
-                      child: const Text('P1'),
+                    AppButton(
+                      style: FrameStyle.regular,
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      child: Text('CANCEL'),
                     ),
-                    const SizedBox(height: 8),
-                    const Text('Player 1', style: TextStyle(fontSize: 16)),
+                    Expanded(
+                      child: AppButton(
+                        style: FrameStyle.primary,
+                        onPressed: () async {
+                          context.go('/game?id=${game.id}');
+                        },
+                        child: Text('START GAME', textAlign: TextAlign.center),
+                      ),
+                    ),
                   ],
                 ),
-                const Text(
-                  'VS',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.deepPurple.shade200,
-                      child: const Text('P2'),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text('Player 2', style: TextStyle(fontSize: 16)),
-                  ],
-                ),
-              ],
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, game),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text('Start Game', style: TextStyle(fontSize: 18)),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

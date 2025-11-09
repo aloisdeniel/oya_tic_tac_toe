@@ -4,6 +4,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class PickModeModal extends StatelessWidget {
@@ -35,6 +36,7 @@ class PickModeModal extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
+              Header(title: Text('Game mode')),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),

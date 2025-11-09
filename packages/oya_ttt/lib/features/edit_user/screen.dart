@@ -35,8 +35,7 @@ class _EditUserScreenState extends State<EditUserModal> {
             end: Alignment.topCenter,
             colors: [
               theme.color.main.background.withValues(alpha: 1),
-              theme.color.main.background.withValues(alpha: 0.3),
-              theme.color.main.background.withValues(alpha: 0.1),
+              theme.color.main.background.withValues(alpha: 0.8),
             ],
           ),
         ),

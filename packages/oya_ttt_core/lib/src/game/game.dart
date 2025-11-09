@@ -47,6 +47,10 @@ class Game with GameMappable {
       GamePlayerId.player2 => player2,
     };
   }
+
+  Game withState(GameState newState) {
+    return Game(id: id, player1: player1, player2: player2, state: newState);
+  }
 }
 
 @MappableClass(

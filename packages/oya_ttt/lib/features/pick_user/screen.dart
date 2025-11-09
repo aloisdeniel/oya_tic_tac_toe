@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:oya_ttt/features/pick_user/new_user_tile.dart';
 import 'package:oya_ttt/features/pick_user/user_tile.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 typedef UserFilter = bool Function(User user);
@@ -22,8 +24,16 @@ class PickUserComputerResult extends PickUserResult {
 }
 
 class PickUserModal extends StatelessWidget {
-  const PickUserModal({super.key, this.filter, required this.background});
+  const PickUserModal({
+    super.key,
+    required this.background,
+    this.title,
+    this.subtitle,
+    this.filter,
+  });
 
+  final String? title;
+  final Widget? subtitle;
   final UserFilter? filter;
   final BackgroundIllustration background;
 
@@ -31,12 +41,18 @@ class PickUserModal extends StatelessWidget {
     BuildContext context, {
     UserFilter? filter,
     BackgroundIllustration background = BackgroundIllustration.room2,
+    String? title,
+    Widget? subtitle,
   }) {
     return Navigator.push<PickUserResult>(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            PickUserModal(filter: filter, background: background),
+        builder: (context) => PickUserModal(
+          title: title,
+          subtitle: subtitle,
+          filter: filter,
+          background: background,
+        ),
       ),
     );
   }
@@ -68,17 +84,21 @@ class PickUserModal extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
+              Header(title: Text(title ?? 'Change user')),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    for (final user in users)
+                    for (final user in users) ...[
                       UserTile(
                         user: user,
                         onTap: () {
                           Navigator.pop(context, PickUserHumanResult(user));
                         },
                       ),
+                      const SizedBox(height: 12),
+                    ],
+                    NewUserTile(onUserCreated: (newUser) {}),
                   ],
                 ),
               ),

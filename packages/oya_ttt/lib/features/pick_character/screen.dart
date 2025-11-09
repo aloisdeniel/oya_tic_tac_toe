@@ -4,12 +4,14 @@ import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character_picker.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class PickCharacterModal extends StatefulWidget {
   const PickCharacterModal({
     super.key,
     this.title,
+    this.subtitle,
     this.character = GameCharacter.circle,
     this.characters = GameCharacter.values,
     this.background = BackgroundIllustration.room2,
@@ -20,6 +22,7 @@ class PickCharacterModal extends StatefulWidget {
     required GameCharacter character,
     List<GameCharacter> characters = GameCharacter.values,
     String? title,
+    Widget? subtitle,
     BackgroundIllustration background = BackgroundIllustration.room2,
   }) {
     return Navigator.push<GameCharacter>(
@@ -27,6 +30,7 @@ class PickCharacterModal extends StatefulWidget {
       MaterialPageRoute(
         builder: (context) => PickCharacterModal(
           title: title,
+          subtitle: subtitle,
           background: background,
           character: character,
           characters: characters,
@@ -36,6 +40,7 @@ class PickCharacterModal extends StatefulWidget {
   }
 
   final String? title;
+  final Widget? subtitle;
   final GameCharacter character;
   final List<GameCharacter> characters;
   final BackgroundIllustration background;
@@ -59,8 +64,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
             end: Alignment.topCenter,
             colors: [
               theme.color.main.background.withValues(alpha: 1),
-              theme.color.main.background.withValues(alpha: 0.3),
-              theme.color.main.background.withValues(alpha: 0.1),
+              theme.color.main.background.withValues(alpha: 0.42),
             ],
           ),
         ),
@@ -68,14 +72,10 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 24,
           children: [
-            const SizedBox(height: 48),
-            Text(
-              widget.title ?? 'Choose your favorite character',
-              style: theme.text.header2.copyWith(
-                color: theme.color.main.foreground,
-              ),
+            Header(
+              title: Text(widget.title ?? 'Choose your favorite character'),
+              subtitle: widget.subtitle,
             ),
-            const SizedBox(height: 16),
             Expanded(
               child: CharacterPicker(
                 initial: widget.character,

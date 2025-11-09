@@ -10,7 +10,8 @@ Future<Game?> showNewGame(BuildContext context, User user) async {
   if (mode != null && context.mounted) {
     final userCharacter = await PickCharacterModal.show(
       context,
-      title: user.name,
+      title: 'Character',
+      subtitle: Text('Player 1 | ${user.name}'),
       background: BackgroundIllustration.elevator,
       character: user.favoriteCharacter,
       // TODO selected favorite
@@ -19,6 +20,7 @@ Future<Game?> showNewGame(BuildContext context, User user) async {
     if (userCharacter != null && context.mounted) {
       final opponentUser = await PickUserModal.show(
         context,
+        title: 'Player 2',
         background: BackgroundIllustration.elevator,
         filter: (other) => other.id != 0, // Current user id
       );
@@ -27,10 +29,13 @@ Future<Game?> showNewGame(BuildContext context, User user) async {
         final opponentCharacter = await PickCharacterModal.show(
           context,
           background: BackgroundIllustration.elevator,
-          title: switch (opponentUser) {
-            PickUserHumanResult(:final user) => user.name,
-            PickUserComputerResult() => 'Computer',
-          },
+          title: 'Character',
+          subtitle: Text(
+            'Player 2 | ${switch (opponentUser) {
+              PickUserHumanResult(:final user) => user.name,
+              PickUserComputerResult() => 'Computer',
+            }}',
+          ),
           character: switch (opponentUser) {
             PickUserHumanResult(:final user) => user.favoriteCharacter,
             PickUserComputerResult() => GameCharacter.circle,
@@ -44,7 +49,7 @@ Future<Game?> showNewGame(BuildContext context, User user) async {
           final player2 = switch (opponentUser) {
             PickUserHumanResult(:final user) => GamePlayer.user(
               user,
-              userCharacter,
+              opponentCharacter,
             ),
             PickUserComputerResult() => GamePlayer.ai(userCharacter),
           };

@@ -78,26 +78,6 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Appearance',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text('Theme'),
-                    const SizedBox(height: 8),
-                    SegmentedButton<String>(
-                      segments: const [
-                        ButtonSegment(value: 'system', label: Text('System')),
-                        ButtonSegment(value: 'light', label: Text('Light')),
-                        ButtonSegment(value: 'dark', label: Text('Dark')),
-                      ],
-                      selected: const {'system'},
-                      onSelectionChanged: (value) {},
-                    ),
-                    const SizedBox(height: 24),
-                    const Text(
                       'Preferences',
                       style: TextStyle(
                         fontSize: 20,
@@ -124,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
                 onPressed: () async {
                   Navigator.pop(context);
                 },
-                child: Text('EXIT'),
+                child: Text('BACK'),
               ),
             ],
           ),

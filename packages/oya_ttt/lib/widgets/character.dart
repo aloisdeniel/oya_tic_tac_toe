@@ -67,8 +67,10 @@ class AppCharacter extends StatelessWidget {
     super.key,
     required this.character,
     this.gradientFromBottom,
+    this.direction = AppCharacterDirection.left,
   });
 
+  final AppCharacterDirection direction;
   final GameCharacter character;
   final List<Color>? gradientFromBottom;
 
@@ -79,10 +81,18 @@ class AppCharacter extends StatelessWidget {
       result = ShaderMask(
         shaderCallback: (bounds) => LinearGradient(
           colors: colors,
+          stops: [0, 0.5],
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
         ).createShader(bounds),
         blendMode: BlendMode.srcATop,
+        child: result,
+      );
+    }
+    if (direction == AppCharacterDirection.right) {
+      return Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.rotationY(math.pi),
         child: result,
       );
     }
