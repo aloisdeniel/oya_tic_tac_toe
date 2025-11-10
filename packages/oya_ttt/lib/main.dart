@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'router.dart';
@@ -12,17 +13,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppTheme.dark(
-      child: MaterialApp.router(
-        title: 'Oyattt',
-        builder: (context, child) {
-          return Breakpoints(minRegularWidth: 700, child: child!);
-        },
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+    return ProviderScope(
+      child: AppTheme.dark(
+        child: MaterialApp.router(
+          title: 'Oyattt',
+          builder: (context, child) {
+            return Breakpoints(minRegularWidth: 700, child: child!);
+          },
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          routerConfig: appRouter,
         ),
-        routerConfig: appRouter,
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/game/basic_board.dart';
+import 'package:oya_ttt/features/game/widgets/board.dart';
 import 'package:oya_ttt/theme/theme.dart';
-import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
