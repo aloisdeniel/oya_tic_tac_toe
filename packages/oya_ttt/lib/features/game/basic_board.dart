@@ -18,6 +18,7 @@ class BoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+
     return AspectRatio(
       aspectRatio: 1,
       child: GridView.builder(

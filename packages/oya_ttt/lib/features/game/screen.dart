@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:oya_ttt/features/game/basic_board.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/base/transparent_image.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class GameScreen extends StatefulWidget {
@@ -18,41 +20,47 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final game = this.game;
-    if (game == null) return SizedBox();
     final theme = AppTheme.of(context);
-    return Background.park1(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              theme.color.main.background.withValues(alpha: 1),
-              theme.color.main.background.withValues(alpha: 0.42),
-            ],
+    final asset = 'assets/background/screens.png';
+
+    return DecoratedBox(
+      decoration: BoxDecoration(color: theme.color.main.background),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            key: Key('bg'),
+            child: AnimatedGlitch(
+              colorDrift: 0.01,
+              child: FadeInImage(
+                image: AssetImage(asset),
+                fit: BoxFit.contain,
+                placeholder: transparentImage,
+              ),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: switch (game.state) {
-                BasicGameState state => BoardView(
-                  game: game,
-                  board: state.board,
-                  onPlay: (Position value) {
-                    setState(() {
-                      this.game = game.copyWith(state: state.play(value));
-                    });
+          Positioned.fill(
+            child: Column(
+              children: [
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: switch (game?.state) {
+                    BasicGameState state => BoardView(
+                      game: game!,
+                      board: state.board,
+                      onPlay: (Position value) {
+                        setState(() {
+                          game = game!.copyWith(state: state.play(value));
+                        });
+                      },
+                    ),
+                    _ => const SizedBox(),
                   },
                 ),
-                _ => const SizedBox(),
-              },
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
