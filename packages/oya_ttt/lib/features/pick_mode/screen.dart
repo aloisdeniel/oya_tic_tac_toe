@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/pick_mode/mode_tile.dart';
+import 'package:oya_ttt/features/pick_mode/widgets/mode_tile.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';

@@ -143,6 +143,9 @@ class _CharacterPickerState extends State<CharacterPicker> {
           child: FadeIn(
             child: PageView.builder(
               controller: pageController,
+              onPageChanged: (i) {
+                widget.onChanged(characterAtPage(i));
+              },
               itemBuilder: (context, i) {
                 return Align(
                   alignment: Alignment.bottomCenter,

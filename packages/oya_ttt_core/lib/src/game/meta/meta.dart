@@ -51,6 +51,9 @@ class MetaGameState extends GameState with MetaGameStateMappable {
   /// Complete chronological history of moves.
   final List<MetaMove> history;
 
+  @override
+  int get turn => history.length;
+
   /// Who goes next.
   @override
   final GamePlayerId nextPlayer;

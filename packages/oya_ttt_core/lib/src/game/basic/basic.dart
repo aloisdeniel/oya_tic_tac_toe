@@ -45,6 +45,9 @@ class BasicGameState extends GameState with BasicGameStateMappable {
   final List<Move> history; // complete chronological history
 
   @override
+  int get turn => history.length;
+
+  @override
   final GamePlayerId nextPlayer; // who goes next
 
   /// Winner, or null if none yet.

@@ -15,12 +15,14 @@ class Game with GameMappable {
     required this.player1,
     required this.player2,
     required this.state,
+    required this.startedAt,
   });
 
   final int id;
   final GamePlayer player1;
   final GamePlayer player2;
   final GameState state;
+  final DateTime startedAt;
 
   GameMode get mode {
     return switch (state) {
@@ -49,7 +51,13 @@ class Game with GameMappable {
   }
 
   Game withState(GameState newState) {
-    return Game(id: id, player1: player1, player2: player2, state: newState);
+    return Game(
+      id: id,
+      player1: player1,
+      player2: player2,
+      startedAt: startedAt,
+      state: newState,
+    );
   }
 }
 
@@ -70,6 +78,8 @@ abstract class GameState with GameStateMappable {
   bool get isOver;
 
   GamePlayerId get nextPlayer;
+
+  int get turn;
 }
 
 extension GameStateExtensions on GameState {

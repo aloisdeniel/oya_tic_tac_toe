@@ -5,7 +5,15 @@ import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-enum AppCharacterDirection { right, left }
+enum AppCharacterDirection {
+  right,
+  left;
+
+  TextDirection toTextDirection() => switch (this) {
+    left => TextDirection.rtl,
+    right => TextDirection.ltr,
+  };
+}
 
 class AppCharacterAvatar extends StatelessWidget {
   const AppCharacterAvatar({
@@ -47,18 +55,14 @@ class AppCharacterSymbol extends StatelessWidget {
   Widget build(BuildContext context) {
     late final theme = AppTheme.of(context);
     final color = this.color ?? theme.color.accents(character).foreground;
-    return Icon(
-      switch (character) {
-        GameCharacter.cross => Icons.close,
-        GameCharacter.circle => Icons.circle_outlined,
-        GameCharacter.spade => Icons.diamond,
-        GameCharacter.heart => Icons.heart_broken,
-        GameCharacter.diamond => Icons.diamond,
-        GameCharacter.clover => Icons.nature,
-      },
-      color: color,
-      size: size,
-    );
+    return Text(switch (character) {
+      GameCharacter.cross => '⨯',
+      GameCharacter.circle => '〇',
+      GameCharacter.spade => '♠',
+      GameCharacter.heart => '♥',
+      GameCharacter.diamond => '♦',
+      GameCharacter.clover => '♣',
+    }, style: theme.text.header1.copyWith(fontSize: size, color: color));
   }
 }
 

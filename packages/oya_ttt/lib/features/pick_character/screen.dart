@@ -81,7 +81,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
                 initial: widget.character,
                 characters: widget.characters,
                 onChanged: (value) {
-                  character = character;
+                  character = value;
                 },
               ),
             ),

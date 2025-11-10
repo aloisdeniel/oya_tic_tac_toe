@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/pick_user/new_user_tile.dart';
-import 'package:oya_ttt/features/pick_user/user_tile.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/features/pick_user/widgets/new_user_tile.dart';
+import 'package:oya_ttt/features/pick_user/widgets/user_tile.dart';
+import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
@@ -23,7 +25,7 @@ class PickUserComputerResult extends PickUserResult {
   const PickUserComputerResult();
 }
 
-class PickUserModal extends StatelessWidget {
+class PickUserModal extends ConsumerWidget {
   const PickUserModal({
     super.key,
     required this.background,
@@ -58,12 +60,9 @@ class PickUserModal extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
-    var users = [
-      User(id: 0, name: 'John', favoriteCharacter: GameCharacter.cross),
-      User(id: 1, name: 'Rob', favoriteCharacter: GameCharacter.spade),
-    ];
+    var users = ref.watch($users).value ?? [];
     if (filter case final filter?) {
       users = users.where(filter).toList();
     }

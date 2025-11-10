@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:oya_ttt/features/home/new_game.dart';
+import 'package:oya_ttt/features/home/widgets/new_game.dart';
 import 'package:oya_ttt/features/pick_user/screen.dart';
-import 'package:oya_ttt/features/pick_user/user_tile.dart';
+import 'package:oya_ttt/features/pick_user/widgets/user_tile.dart';
 import 'package:oya_ttt/features/ready_to_start/screen.dart';
+import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
-import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -98,19 +99,14 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class NewGameButton extends StatelessWidget {
+class NewGameButton extends ConsumerWidget {
   const NewGameButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       onPressed: () async {
-        final user = User(
-          id: 0,
-          name: 'John',
-          favoriteCharacter: GameCharacter.cross,
-        );
-        final game = await showNewGame(context, user);
+        final game = await showNewGame(context, ref);
         if (game != null && context.mounted) {
           final resultGame = await ReadyToStartModal.show(context, game: game);
           if (resultGame != null && context.mounted) {
@@ -148,16 +144,13 @@ class SettingsButton extends StatelessWidget {
   }
 }
 
-class ProfileButton extends StatelessWidget {
+class ProfileButton extends ConsumerWidget {
   const ProfileButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final user = User(
-      id: 0,
-      name: 'John',
-      favoriteCharacter: GameCharacter.cross,
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch($user).value;
+    if (user == null) return const SizedBox();
     return UserTile(
       direction: TextDirection.rtl,
       user: user,
@@ -167,6 +160,9 @@ class ProfileButton extends StatelessWidget {
           context,
           filter: (other) => other.id != user.id,
         );
+        if (newUser case PickUserHumanResult(:final user)) {
+          ref.read($users.notifier).setCurrentUser(user.id);
+        }
       },
     );
   }
