@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:oya_ttt/features/pick_mode/mode_tile.dart';
+import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/button.dart';
+import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt_core/oya_ttt_core.dart';
+
+class PickModeModal extends StatelessWidget {
+  const PickModeModal({super.key});
+
+  static Future<GameMode?> show(BuildContext context) {
+    return Navigator.push<GameMode>(
+      context,
+      MaterialPageRoute(builder: (context) => PickModeModal()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
+    return Background.elevator(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              theme.color.main.background.withValues(alpha: 1),
+              theme.color.main.background.withValues(alpha: 0.6),
+            ],
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              Header(title: Text('Game mode')),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    for (final mode in GameMode.values)
+                      ModeTile(
+                        mode,
+                        onTap: () {
+                          Navigator.pop(context, mode);
+                        },
+                      ),
+                  ],
+                ),
+              ),
+
+              AppButton(
+                style: FrameStyle.regular,
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+                child: Text('CANCEL'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -22,6 +22,14 @@ class Game with GameMappable {
   final GamePlayer player2;
   final GameState state;
 
+  GameMode get mode {
+    return switch (state) {
+      BasicGameState() => GameMode.basic,
+      MetaGameState() => GameMode.meta,
+      _ => throw Exception('Unsupported $state'),
+    };
+  }
+
   bool get isOver => state.isOver;
 
   bool get isDraw => state.isDraw;
@@ -38,6 +46,10 @@ class Game with GameMappable {
       GamePlayerId.player1 => player1,
       GamePlayerId.player2 => player2,
     };
+  }
+
+  Game withState(GameState newState) {
+    return Game(id: id, player1: player1, player2: player2, state: newState);
   }
 }
 
