@@ -30,13 +30,10 @@ class NewUserTile extends ConsumerWidget {
         );
         logger.info('Provided name: $name');
         if (name != null && context.mounted) {
-          final character = await Navigator.push<GameCharacter>(
+          final character = await PickCharacterModal.show(
             context,
-            MaterialPageRoute(
-              builder: (context) {
-                return PickCharacterModal();
-              },
-            ),
+            status: Text('New user'),
+            character: GameCharacter.circle,
           );
           logger.info('Picked character: $character');
           if (character != null && context.mounted) {

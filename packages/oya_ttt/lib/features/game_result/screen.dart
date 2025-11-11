@@ -4,8 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:oya_ttt/features/game_result/widgets/replay.dart';
 import 'package:oya_ttt/state/games.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/button.dart';
+import 'package:oya_ttt/widgets/character.dart';
+import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
+import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class GameResultScreen extends ConsumerWidget {
   const GameResultScreen({super.key});
@@ -19,8 +24,75 @@ class GameResultScreen extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (game.value?.winner?.character case final character?) ...[
+            Expanded(
+              flex: 3,
+              child: DiagonalDecorated(
+                smallerEdge: DiagonalEdge.bottom,
+                color: theme.color.accents(character).backgroundSubtle,
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Transform.scale(
+                          scale: 1.5,
+                          child: AnimatedGlitch(
+                            colorDrift: 0.2,
+                            horizontalShake: 0.1,
+                            scanLineJitter: 0.25,
+                            child: Opacity(
+                              opacity: 0.5,
+                              child: FittedBox(
+                                child: FadeIn(
+                                  delay: const Duration(milliseconds: 300),
+                                  child: AppCharacterSymbol(
+                                    character: character,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      FadeIn(
+                        child: AppCharacter(
+                          character: character,
+                          gradientFromBottom: [
+                            theme.color.accents(character).foreground,
+                            theme.color
+                                .accents(character)
+                                .foreground
+                                .withValues(alpha: 0),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+          ] else
+            const Spacer(),
+          FadeIn(
+            child: Text(
+              switch (game.value?.winner) {
+                GamePlayer(:final user) => '${user?.name ?? 'Computer'} won',
+                null => 'Draw',
+              },
+              style: theme.text.header1.copyWith(
+                color: switch (game.value?.winner?.character) {
+                  GameCharacter c => theme.color.accents(c).foreground,
+                  _ => theme.color.main.foreground,
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          if (game.value case final game?) ...[GameReplay(game: game)],
+          const Spacer(),
           if (game.value case final game?) ...[
-            GameReplay(game: game),
             AppButton(
               onPressed: () {
                 ref
@@ -42,6 +114,7 @@ class GameResultScreen extends ConsumerWidget {
             style: FrameStyle.regular,
             child: Text('EXIT'),
           ),
+          const SizedBox(height: 48),
         ],
       ),
     );

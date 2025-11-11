@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/edit_user/screen.dart';
-import 'package:oya_ttt/features/pick_character/screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/features/settings/widgets/update_character.dart';
+import 'package:oya_ttt/features/settings/widgets/update_name.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
-import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/widgets/header.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
     return Background.room2(
       child: DecoratedBox(
@@ -29,32 +30,15 @@ class SettingsScreen extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
+              Header(title: Text('User settings')),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    const Text(
-                      'User Settings',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
                     AppButton(
                       style: FrameStyle.regular,
                       onPressed: () async {
-                        final name = await Navigator.push<String>(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return EditUserModal();
-                            },
-                          ),
-                        );
-                        if (name != null && context.mounted) {
-                          // TODO save user
-                        }
+                        updateUserName(context, ref);
                       },
                       child: Text('Edit name'),
                     ),
@@ -62,38 +46,9 @@ class SettingsScreen extends StatelessWidget {
                     AppButton(
                       style: FrameStyle.regular,
                       onPressed: () async {
-                        final character = await Navigator.push<GameCharacter>(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return PickCharacterModal();
-                            },
-                          ),
-                        );
-                        if (character != null && context.mounted) {
-                          // TODO save user
-                        }
+                        updateUserCharacter(context, ref);
                       },
                       child: Text('Change favorite character'),
-                    ),
-                    const SizedBox(height: 24),
-                    const Text(
-                      'Preferences',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    SwitchListTile(
-                      title: const Text('Sound'),
-                      value: true,
-                      onChanged: (value) {},
-                    ),
-                    SwitchListTile(
-                      title: const Text('Haptic Feedback'),
-                      value: true,
-                      onChanged: (value) {},
                     ),
                   ],
                 ),

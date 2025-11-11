@@ -3,14 +3,17 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character_picker.dart';
+import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class PickCharacterModal extends StatefulWidget {
   const PickCharacterModal({
     super.key,
     this.title,
+    required this.status,
     this.subtitle,
     this.character = GameCharacter.circle,
     this.characters = GameCharacter.values,
@@ -19,6 +22,7 @@ class PickCharacterModal extends StatefulWidget {
 
   static Future<GameCharacter?> show(
     BuildContext context, {
+    required Widget status,
     required GameCharacter character,
     List<GameCharacter> characters = GameCharacter.values,
     String? title,
@@ -29,6 +33,7 @@ class PickCharacterModal extends StatefulWidget {
       context,
       MaterialPageRoute(
         builder: (context) => PickCharacterModal(
+          status: status,
           title: title,
           subtitle: subtitle,
           background: background,
@@ -39,6 +44,7 @@ class PickCharacterModal extends StatefulWidget {
     );
   }
 
+  final Widget status;
   final String? title;
   final Widget? subtitle;
   final GameCharacter character;
@@ -72,6 +78,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 24,
           children: [
+            HeaderStatus(child: widget.status),
             Header(
               title: Text(widget.title ?? 'Choose your favorite character'),
               subtitle: widget.subtitle,

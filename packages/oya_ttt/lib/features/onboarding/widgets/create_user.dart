@@ -20,6 +20,7 @@ Future<User?> createInitialUser(BuildContext context, WidgetRef ref) async {
   if (name != null && context.mounted) {
     final character = await PickCharacterModal.show(
       context,
+      status: Text('New user'),
       character: GameCharacter.circle,
     );
     logger.info('Picked character: $character');

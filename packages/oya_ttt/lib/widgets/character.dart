@@ -20,14 +20,20 @@ class AppCharacterAvatar extends StatelessWidget {
     super.key,
     required this.character,
     this.direction = AppCharacterDirection.right,
+    this.size = 80,
   });
 
+  final double size;
   final AppCharacterDirection direction;
   final GameCharacter character;
 
   @override
   Widget build(BuildContext context) {
-    Widget result = Image.asset('assets/avatar/${character.name}.png');
+    Widget result = Image.asset(
+      'assets/avatar/${character.name}.png',
+      width: size,
+      height: size,
+    );
     if (direction == AppCharacterDirection.left) {
       return Transform(
         alignment: Alignment.center,

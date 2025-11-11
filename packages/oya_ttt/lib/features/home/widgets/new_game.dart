@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/features/home/widgets/new_game_progress.dart';
 import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/features/pick_mode/screen.dart';
 import 'package:oya_ttt/features/pick_user/screen.dart';
@@ -12,10 +13,11 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
   final user = await ref.read($user.future);
   if (user == null) return null;
   if (!context.mounted) return null;
-  final mode = await PickModeModal.show(context);
+  final mode = await PickModeModal.show(context, status: NewGameProgress());
   if (mode != null && context.mounted) {
     final userCharacter = await PickCharacterModal.show(
       context,
+      status: NewGameProgress(mode: mode, player1Name: user.name),
       title: 'Character',
       subtitle: Text('Player 1 | ${user.name}'),
       background: BackgroundIllustration.elevator,
@@ -25,6 +27,11 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
     if (userCharacter != null && context.mounted) {
       final opponentUser = await PickUserModal.show(
         context,
+        status: NewGameProgress(
+          mode: mode,
+          player1Name: user.name,
+          player1Character: userCharacter,
+        ),
         title: 'Player 2',
         background: BackgroundIllustration.elevator,
         filter: (other) => other.id != user.id,
@@ -33,6 +40,15 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
       if (opponentUser != null && context.mounted) {
         final opponentCharacter = await PickCharacterModal.show(
           context,
+          status: NewGameProgress(
+            mode: mode,
+            player1Name: user.name,
+            player1Character: userCharacter,
+            player2Name: switch (opponentUser) {
+              PickUserHumanResult(:final user) => user.name,
+              _ => 'Computer',
+            },
+          ),
           background: BackgroundIllustration.elevator,
           title: 'Character',
           subtitle: Text(

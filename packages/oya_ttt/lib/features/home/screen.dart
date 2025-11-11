@@ -149,6 +149,7 @@ class ProfileButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = AppTheme.of(context);
     final user = ref.watch($user).value;
     if (user == null) return const SizedBox();
     return UserTile(
@@ -158,6 +159,7 @@ class ProfileButton extends ConsumerWidget {
       onTap: () async {
         final newUser = await PickUserModal.show(
           context,
+          status: Text('Change user'),
           filter: (other) => other.id != user.id,
         );
         if (newUser case PickUserHumanResult(:final user)) {

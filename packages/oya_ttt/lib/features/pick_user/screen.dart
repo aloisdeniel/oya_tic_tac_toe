@@ -8,6 +8,7 @@ import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 typedef UserFilter = bool Function(User user);
@@ -29,11 +30,13 @@ class PickUserModal extends ConsumerWidget {
   const PickUserModal({
     super.key,
     required this.background,
+    required this.status,
     this.title,
     this.subtitle,
     this.filter,
   });
 
+  final Widget status;
   final String? title;
   final Widget? subtitle;
   final UserFilter? filter;
@@ -41,6 +44,7 @@ class PickUserModal extends ConsumerWidget {
 
   static Future<PickUserResult?> show(
     BuildContext context, {
+    required Widget status,
     UserFilter? filter,
     BackgroundIllustration background = BackgroundIllustration.room2,
     String? title,
@@ -50,6 +54,7 @@ class PickUserModal extends ConsumerWidget {
       context,
       MaterialPageRoute(
         builder: (context) => PickUserModal(
+          status: status,
           title: title,
           subtitle: subtitle,
           filter: filter,
@@ -83,7 +88,8 @@ class PickUserModal extends ConsumerWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              Header(title: Text(title ?? 'Change user')),
+              HeaderStatus(child: status),
+              Header(title: Text(title ?? 'Users')),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
