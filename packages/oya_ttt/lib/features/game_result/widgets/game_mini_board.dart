@@ -25,27 +25,34 @@ class GameMiniBoard extends StatelessWidget {
         itemBuilder: (context, index) {
           final position = Position.fromIndex(index);
           final playerId = state.board.at(position);
-          if (playerId == null) {
-            return Container(
-              decoration: BoxDecoration(
-                color: theme.color.main.foreground.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(4),
-              ),
-            );
-          }
-          final player = game.player(playerId);
-          final accent = theme.color.accents(player.character);
-          return Container(
-            decoration: BoxDecoration(
-              color: accent.backgroundSubtle,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Center(
-              child: AppCharacterSymbol(
-                character: player.character,
-                color: accent.foreground,
-              ),
-            ),
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: () {
+              if (playerId == null) {
+                return Container(
+                  key: Key('not_played'),
+                  decoration: BoxDecoration(
+                    color: theme.color.main.foreground.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                );
+              }
+              final player = game.player(playerId);
+              final accent = theme.color.accents(player.character);
+              return Container(
+                key: Key('played'),
+                decoration: BoxDecoration(
+                  color: accent.backgroundSubtle,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Center(
+                  child: AppCharacterSymbol(
+                    character: player.character,
+                    color: accent.foreground,
+                  ),
+                ),
+              );
+            }(),
           );
         },
       ),

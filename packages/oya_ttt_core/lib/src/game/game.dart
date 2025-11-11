@@ -1,12 +1,12 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:oya_ttt_core/src/game/basic/basic.dart';
+import 'package:oya_ttt_core/src/game/classic/classic.dart';
 import 'package:oya_ttt_core/src/game/meta/meta.dart';
 import 'package:oya_ttt_core/src/game/player.dart';
 
 part 'game.mapper.dart';
 
 @MappableEnum()
-enum GameMode { basic, meta }
+enum GameMode { classic, meta }
 
 @MappableClass()
 class Game with GameMappable {
@@ -26,7 +26,7 @@ class Game with GameMappable {
 
   GameMode get mode {
     return switch (state) {
-      BasicGameState() => GameMode.basic,
+      BasicGameState() => GameMode.classic,
       MetaGameState() => GameMode.meta,
       _ => throw Exception('Unsupported $state'),
     };
@@ -84,7 +84,7 @@ abstract class GameState with GameStateMappable {
 
 extension GameStateExtensions on GameState {
   GameMode get mode => switch (this) {
-    BasicGameState() => GameMode.basic,
+    BasicGameState() => GameMode.classic,
     MetaGameState() => GameMode.meta,
     _ => throw Exception(),
   };

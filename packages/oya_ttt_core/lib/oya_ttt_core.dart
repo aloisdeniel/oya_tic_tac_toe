@@ -1,7 +1,7 @@
 library;
 
-export 'src/game/basic/basic.dart';
-export 'src/game/basic/ai.dart';
+export 'src/game/classic/classic.dart';
+export 'src/game/classic/ai.dart';
 
 export 'src/game/meta/meta.dart';
 export 'src/game/meta/ai.dart';

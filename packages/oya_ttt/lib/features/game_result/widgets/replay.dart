@@ -1,5 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:oya_ttt/features/game_result/widgets/game_mini_board.dart';
+import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -18,6 +19,7 @@ class _GameReplayState extends State<GameReplay> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
     final maxTurns = widget.game.state.turn;
     final state = switch (widget.game.state) {
       BasicGameState v => v.rewind(_currentTurn),
@@ -25,18 +27,21 @@ class _GameReplayState extends State<GameReplay> {
     };
     return Column(
       children: [
-        if (state is BasicGameState)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 200),
-              child: GameMiniBoard(game: widget.game, state: state),
+        SizedBox(
+          width: 80,
+          child: Center(
+            child: Text(
+              '$_currentTurn / $maxTurns',
+              style: theme.text.body.copyWith(
+                color: theme.color.main.foreground,
+              ),
             ),
           ),
+        ),
         Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AppButton(
                 style: FrameStyle.regular,
@@ -47,13 +52,17 @@ class _GameReplayState extends State<GameReplay> {
                         });
                       }
                     : null,
-                child: const Text('Previous'),
+                child: Icon(Icons.chevron_left),
               ),
 
-              Text(
-                'Turn $_currentTurn of $maxTurns',
-                style: const TextStyle(fontSize: 18),
-              ),
+              if (state is BasicGameState)
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 140),
+                    child: GameMiniBoard(game: widget.game, state: state),
+                  ),
+                ),
               AppButton(
                 style: FrameStyle.regular,
                 onPressed: _currentTurn < maxTurns
@@ -63,7 +72,8 @@ class _GameReplayState extends State<GameReplay> {
                         });
                       }
                     : null,
-                child: const Text('Next'),
+
+                child: Icon(Icons.chevron_right),
               ),
             ],
           ),

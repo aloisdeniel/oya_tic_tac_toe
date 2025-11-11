@@ -22,7 +22,7 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
     required GamePlayer player2,
     required GameMode mode,
   }) async {
-    final initialState = mode == GameMode.basic
+    final initialState = mode == GameMode.classic
         ? BasicGameState.initial() as GameState
         : MetaGameState.initial() as GameState;
 

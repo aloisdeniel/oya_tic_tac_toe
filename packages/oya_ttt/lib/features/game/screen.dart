@@ -5,6 +5,7 @@ import 'package:oya_ttt/features/game/widgets/player_indicator.dart';
 import 'package:oya_ttt/features/game/widgets/status_indicator.dart';
 import 'package:oya_ttt/features/game_result/screen.dart';
 import 'package:oya_ttt/state/games.dart';
+import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
@@ -35,7 +36,10 @@ class GameScreen extends ConsumerWidget {
             _ => const SizedBox(),
           },
           if (game.isOver)
-            Positioned.fill(key: Key('result'), child: const GameResultScreen())
+            Positioned.fill(
+              key: Key('result'),
+              child: FadeIn(child: const GameResultScreen()),
+            )
           else ...[
             Positioned(
               top: 0,

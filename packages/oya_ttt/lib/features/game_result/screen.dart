@@ -15,8 +15,9 @@ class GameResultScreen extends ConsumerWidget {
     final game = ref.watch($currentGame);
     final theme = AppTheme.of(context);
     return Container(
-      color: theme.color.main.background.withValues(alpha: 0.8),
+      color: theme.color.main.background.withValues(alpha: 0.95),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (game.value case final game?) ...[
             GameReplay(game: game),

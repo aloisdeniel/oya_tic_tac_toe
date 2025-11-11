@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oya_ttt/features/game/widgets/cell.dart';
 import 'package:oya_ttt/features/game/widgets/glow.dart';
 import 'package:oya_ttt/features/game/widgets/screens.dart';
+import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
@@ -41,7 +42,10 @@ class BoardView extends StatelessWidget {
               Positioned.fromRect(
                 key: Key('cell_$i'),
                 rect: screenCoordinates[i],
-                child: cell(i),
+                child: FadeIn(
+                  delay: const Duration(seconds: 1),
+                  child: cell(i),
+                ),
               ),
             Positioned.fill(
               key: Key('shadow'),

@@ -88,7 +88,7 @@ class AppDatabase extends _$AppDatabase {
     );
 
     // Create initial game state
-    final initialState = mode == core.GameMode.basic
+    final initialState = mode == core.GameMode.classic
         ? core.BasicGameState.initial() as core.GameState
         : core.MetaGameState.initial() as core.GameState;
 

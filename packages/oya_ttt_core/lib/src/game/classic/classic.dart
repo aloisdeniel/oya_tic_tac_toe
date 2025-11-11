@@ -2,7 +2,7 @@ import 'package:dart_mappable/dart_mappable.dart';
 import 'package:oya_ttt_core/src/game/game.dart';
 import 'package:oya_ttt_core/src/game/player.dart';
 
-part 'basic.mapper.dart';
+part 'classic.mapper.dart';
 
 /// Full immutable game state with history.
 @MappableClass()
