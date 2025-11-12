@@ -33,7 +33,7 @@ class SettingsScreen extends ConsumerWidget {
               Header(title: Text('User settings')),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(theme.spacing.regular),
                   children: [
                     AppButton(
                       style: FrameStyle.regular,
@@ -42,7 +42,7 @@ class SettingsScreen extends ConsumerWidget {
                       },
                       child: Text('Edit name'),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: theme.spacing.regular),
                     AppButton(
                       style: FrameStyle.regular,
                       onPressed: () async {
@@ -54,12 +54,16 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
 
-              AppButton(
-                style: FrameStyle.regular,
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text('BACK'),
+              SafeArea(
+                top: false,
+                minimum: EdgeInsets.all(theme.spacing.large),
+                child: AppButton(
+                  style: FrameStyle.regular,
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text('BACK'),
+                ),
               ),
             ],
           ),

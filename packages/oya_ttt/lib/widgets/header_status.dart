@@ -21,12 +21,13 @@ class HeaderStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safeAreas = MediaQuery.paddingOf(context);
     final theme = AppTheme.of(context);
-    return DiagonalDecorated(
+    final result = DiagonalDecorated(
       smallerEdge: DiagonalEdge.bottom,
       color: theme.color.highlight.background,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: theme.spacing.small, vertical: theme.spacing.tiny + 4),
         child: DefaultTextStyle(
           style: theme.text.body.copyWith(
             color: theme.color.highlight.foreground,
@@ -35,5 +36,20 @@ class HeaderStatus extends StatelessWidget {
         ),
       ),
     );
+    if (safeAreas.top > 0) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            height: safeAreas.top,
+            width: double.infinity,
+            color: theme.color.highlight.background,
+          ),
+          Center(child: result),
+        ],
+      );
+    }
+    return result;
   }
 }

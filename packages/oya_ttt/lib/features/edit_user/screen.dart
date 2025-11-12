@@ -41,9 +41,9 @@ class _EditUserScreenState extends State<EditUserModal> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 24,
+          spacing: theme.spacing.medium,
           children: [
-            const SizedBox(height: 48),
+            SizedBox(height: theme.spacing.large),
             Text(
               widget.title ?? "What's your name?",
               style: theme.text.header2.copyWith(
@@ -52,18 +52,18 @@ class _EditUserScreenState extends State<EditUserModal> {
             ),
             Spacer(),
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: EdgeInsets.all(theme.spacing.medium),
               child: TextInput(hint: 'Name', controller: controller),
             ),
             Spacer(),
             Padding(
-              padding: const EdgeInsets.all(48.0),
+              padding: EdgeInsets.all(theme.spacing.large),
               child: AppButton(
                 onPressed: () => Navigator.pop(context, controller.text),
                 style: FrameStyle.primary,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                  child: Text('Validate'),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: theme.spacing.regular),
+                  child: const Text('Validate'),
                 ),
               ),
             ),

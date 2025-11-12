@@ -4,7 +4,16 @@ import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 
 /// Enum representing available background illustrations for the game.
-enum BackgroundIllustration { city, city2, room, room2, park1, park2, elevator }
+enum BackgroundIllustration {
+  city,
+  city2,
+  room,
+  room2,
+  park1,
+  park2,
+  elevator,
+  screens,
+}
 
 /// A widget that displays a themed background with an illustration and glitch effect.
 ///
@@ -40,6 +49,9 @@ class Background extends StatelessWidget {
 
   const Background.elevator({super.key, required this.child, this.decoration})
     : illustration = BackgroundIllustration.elevator;
+
+  const Background.screens({super.key, required this.child, this.decoration})
+    : illustration = BackgroundIllustration.screens;
 
   const Background({
     super.key,

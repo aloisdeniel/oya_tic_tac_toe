@@ -7,6 +7,7 @@ import 'package:oya_ttt/state/games.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/button.dart';
+import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -29,36 +30,49 @@ class GameResultScreen extends ConsumerWidget {
               child: DiagonalDecorated(
                 smallerEdge: DiagonalEdge.bottom,
                 color: theme.color.accents(character).backgroundSubtle,
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: CharacterPresentation(
-                    symbolOpacity: 0.5,
-                    character: character,
-                  ),
+                child: LayoutBuilder(
+                  builder: (context, layout) {
+                    if (layout.maxHeight < 200) {
+                      return SafeArea(
+                        bottom: false,
+                        minimum: EdgeInsets.all(theme.spacing.small),
+                        child: FittedBox(
+                          child: AppCharacterAvatar(character: character),
+                        ),
+                      );
+                    }
+
+                    return SafeArea(
+                      bottom: false,
+                      minimum: EdgeInsets.all(theme.spacing.medium),
+                      child: CharacterPresentation(
+                        symbolOpacity: 0.5,
+                        character: character,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-          ] else
-            const Spacer(),
-          FadeIn(
-            child: Text(
-              switch (game.value?.winner) {
-                GamePlayer(:final user) => '${user?.name ?? 'Computer'} won',
-                null => 'Draw',
-              },
-              style: theme.text.header1.copyWith(
-                color: switch (game.value?.winner?.character) {
-                  GameCharacter c => theme.color.accents(c).foreground,
-                  _ => theme.color.main.foreground,
+            SizedBox(height: theme.spacing.medium),
+          ],
+          SizedBox(height: theme.spacing.medium),
+          if (game.value case final game?) ...[
+            FadeIn(
+              child: Text(
+                switch (game.winner) {
+                  GamePlayer(:final user) => '${user?.name ?? 'Computer'} won',
+                  null => 'Draw',
                 },
+                style: theme.text.header1.copyWith(
+                  color: switch (game.winner?.character) {
+                    GameCharacter c => theme.color.accents(c).foreground,
+                    _ => theme.color.main.foreground,
+                  },
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 24),
-          if (game.value case final game?) ...[GameReplay(game: game)],
-          const Spacer(),
-          if (game.value case final game?) ...[
+            GameReplay(game: game),
             AppButton(
               onPressed: () {
                 ref
@@ -72,6 +86,19 @@ class GameResultScreen extends ConsumerWidget {
               style: FrameStyle.regular,
               child: Text('NEW GAME'),
             ),
+            SizedBox(height: theme.spacing.regular),
+          ] else ...[
+            FadeIn(
+              child: Text(
+                'Draw',
+                style: theme.text.header1.copyWith(
+                  color: switch (game.value?.winner?.character) {
+                    GameCharacter c => theme.color.accents(c).foreground,
+                    _ => theme.color.main.foreground,
+                  },
+                ),
+              ),
+            ),
           ],
           AppButton(
             onPressed: () {
@@ -80,7 +107,7 @@ class GameResultScreen extends ConsumerWidget {
             style: FrameStyle.primary,
             child: Text('EXIT'),
           ),
-          const SizedBox(height: 48),
+          SizedBox(height: theme.spacing.large),
         ],
       ),
     );

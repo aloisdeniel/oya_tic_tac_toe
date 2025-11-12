@@ -41,7 +41,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     return DefaultPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: theme.spacing.medium, vertical: theme.spacing.small),
       child: PointerArea(
         onTap: onPressed,
         builder: (context, state, _) {

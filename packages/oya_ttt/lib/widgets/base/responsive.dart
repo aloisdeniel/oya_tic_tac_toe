@@ -99,6 +99,10 @@ class Responsive extends StatelessWidget {
   /// Builder for the regular layout.
   final WidgetBuilder regular;
 
+  static LayoutMode of(BuildContext context) {
+    return LayoutModeProvider.of(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final mode = this.mode ?? LayoutModeProvider.of(context);

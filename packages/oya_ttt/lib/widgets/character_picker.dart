@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -34,8 +33,11 @@ class CharacterPicker extends StatefulWidget {
     super.key,
     required this.initial,
     required this.onChanged,
+    required this.viewportFraction,
     this.characters = GameCharacter.values,
   });
+
+  final double viewportFraction;
 
   /// The initially selected character.
   final GameCharacter initial;
@@ -64,7 +66,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
 
   static const _initialPage = 10000;
   late final pageController = PageController(
-    viewportFraction: 0.45,
+    viewportFraction: widget.viewportFraction,
     initialPage: _initialPage,
   );
 
@@ -97,20 +99,25 @@ class _CharacterPickerState extends State<CharacterPicker> {
               animation: pageController,
               builder: (context, _) {
                 final character = characterAtPage(page.round());
-                final accent = theme.color.accents(character);
-                final translate = 2 * (0.5 - page + page.round());
+                final translate = 3 * (page - page.round());
                 return Opacity(
                   opacity: pageOpacity * 0.2,
                   child: Transform.translate(
-                    offset: Offset(-math.sqrt(translate) * 300, 0),
+                    offset: Offset(translate * 300, 0),
                     child: ImageFiltered(
                       imageFilter: ImageFilter.blur(
                         sigmaX: 20 * pageOpacity,
                         sigmaY: 10,
                       ),
-                      child: BigBackgroundText(
-                        text: '•' * 40,
-                        color: accent.foreground,
+                      child: FittedBox(
+                        fit: BoxFit.fitHeight,
+                        child: Row(
+                          spacing: 40,
+                          children: [
+                            for (var i = 0; i < 3; i++)
+                              AppCharacterSymbol(character: character),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -128,7 +135,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
               builder: (context, _) {
                 final character = characterAtPage(page.round());
                 final accent = theme.color.accents(character);
-                final translate = 2 * (0.5 - page + page.round());
+                final translate = 2 * (page - page.round());
                 return ShaderMask(
                   shaderCallback: (size) {
                     return LinearGradient(
@@ -143,7 +150,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
                   child: Opacity(
                     opacity: pageOpacity,
                     child: Transform.translate(
-                      offset: Offset(-math.sqrt(translate) * 100, 0),
+                      offset: Offset(translate * 100, 0),
                       child: AnimatedGlitch(
                         horizontalShake: 0.01,
                         scanLineJitter: 0.3,
@@ -161,7 +168,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
         ),
         Padding(
           key: _pageKey,
-          padding: const EdgeInsets.only(bottom: 42),
+          padding: EdgeInsets.only(bottom: theme.spacing.xlarge),
           child: FadeIn(
             child: PageView.builder(
               controller: pageController,
@@ -212,67 +219,72 @@ class _CharacterPickerState extends State<CharacterPicker> {
           bottom: 0,
           right: 0,
           left: 0,
-          child: Center(
-            child: AnimatedBuilder(
-              animation: pageController,
-              builder: (context, _) {
-                final character = characterAtPage(page.round());
-                final accent = theme.color.accents(character);
-                final opacity = pageOpacity;
-                return Opacity(
-                  opacity: opacity,
-                  child: DefaultFrameStyle(
-                    style: FrameStyle.regular,
-                    padding: const EdgeInsets.all(24),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 220),
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Transform.translate(
-                            offset: Offset(
-                              0,
-                              Curves.easeInOutCubic.transform(1 - opacity) * 20,
+          child: IgnorePointer(
+            child: Center(
+              child: AnimatedBuilder(
+                animation: pageController,
+                builder: (context, _) {
+                  final character = characterAtPage(page.round());
+                  final accent = theme.color.accents(character);
+                  final opacity = pageOpacity;
+                  return Opacity(
+                    opacity: opacity,
+                    child: DefaultFrameStyle(
+                      style: FrameStyle.regular,
+                      padding: EdgeInsets.all(theme.spacing.medium),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 220),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Transform.translate(
+                              offset: Offset(
+                                0,
+                                Curves.easeInOutCubic.transform(1 - opacity) *
+                                    20,
+                              ),
+                              child: Frame(
+                                child: Center(
+                                  child: Text(
+                                    character.name.toUpperCase(),
+                                    style: theme.text.button.copyWith(
+                                      color: accent.foreground,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                            child: Frame(
+                            Positioned(
+                              bottom: -50,
+                              left: 0,
+                              right: 0,
                               child: Center(
-                                child: Text(
-                                  character.name.toUpperCase(),
-                                  style: theme.text.button.copyWith(
-                                    color: accent.foreground,
+                                child: Transform.translate(
+                                  offset: Offset(
+                                    0,
+                                    Curves.easeInOutCubic.transform(
+                                          1 - opacity,
+                                        ) *
+                                        10,
+                                  ),
+                                  child: AnimatedGlitch(
+                                    horizontalShake: 0.2,
+                                    colorDrift: 0.4,
+                                    child: AppCharacterSymbol(
+                                      character: character,
+                                      size: 64,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: -50,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: Transform.translate(
-                                offset: Offset(
-                                  0,
-                                  Curves.easeInOutCubic.transform(1 - opacity) *
-                                      10,
-                                ),
-                                child: AnimatedGlitch(
-                                  horizontalShake: 0.2,
-                                  colorDrift: 0.4,
-                                  child: AppCharacterSymbol(
-                                    character: character,
-                                    size: 64,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -281,7 +293,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
           bottom: 12,
           left: 24,
           child: AppButton(
-            onPressed: () => pageController.nextPage(
+            onPressed: () => pageController.previousPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
             ),

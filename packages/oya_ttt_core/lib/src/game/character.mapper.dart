@@ -38,6 +38,8 @@ class GameCharacterMapper extends EnumMapper<GameCharacter> {
         return GameCharacter.clover;
       case r'heart':
         return GameCharacter.heart;
+      case r'robot':
+        return GameCharacter.robot;
       default:
         throw MapperException.unknownEnumValue(value);
     }
@@ -58,6 +60,8 @@ class GameCharacterMapper extends EnumMapper<GameCharacter> {
         return r'clover';
       case GameCharacter.heart:
         return r'heart';
+      case GameCharacter.robot:
+        return r'robot';
     }
   }
 }

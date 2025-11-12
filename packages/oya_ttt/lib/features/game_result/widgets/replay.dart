@@ -39,7 +39,7 @@ class _GameReplayState extends State<GameReplay> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(theme.spacing.regular),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -57,7 +57,7 @@ class _GameReplayState extends State<GameReplay> {
 
               if (state is BasicGameState)
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(theme.spacing.regular),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 140),
                     child: GameMiniBoard(game: widget.game, state: state),

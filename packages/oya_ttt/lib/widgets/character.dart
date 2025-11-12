@@ -2,8 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+
+export 'symbol.dart';
 
 /// Direction that a character should face.
 enum AppCharacterDirection {
@@ -62,51 +63,6 @@ class AppCharacterAvatar extends StatelessWidget {
       );
     }
     return result;
-  }
-}
-
-/// Displays a character's unicode symbol (e.g., ⨯, ○, ♠).
-///
-/// The symbol is rendered as text with the specified color and size.
-/// If no color is provided, the character's accent color from the theme is used.
-///
-/// Example:
-/// ```dart
-/// AppCharacterSymbol(
-///   character: GameCharacter.heart,
-///   size: 48,
-///   color: Colors.red,
-/// )
-/// ```
-class AppCharacterSymbol extends StatelessWidget {
-  const AppCharacterSymbol({
-    super.key,
-    required this.character,
-    this.size = 32,
-    this.color,
-  });
-
-  /// The game character whose symbol to display.
-  final GameCharacter character;
-
-  /// The color of the symbol. Defaults to the character's accent foreground color.
-  final Color? color;
-
-  /// The font size of the symbol in logical pixels.
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    late final theme = AppTheme.of(context);
-    final color = this.color ?? theme.color.accents(character).foreground;
-    return Text(switch (character) {
-      GameCharacter.cross => '⨯',
-      GameCharacter.circle => '○',
-      GameCharacter.spade => '♠',
-      GameCharacter.heart => '♥',
-      GameCharacter.diamond => '♦',
-      GameCharacter.clover => '♣',
-    }, style: theme.text.header1.copyWith(fontSize: size, color: color));
   }
 }
 

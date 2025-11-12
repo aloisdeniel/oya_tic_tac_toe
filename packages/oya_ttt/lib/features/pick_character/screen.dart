@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character_picker.dart';
-import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
@@ -61,6 +61,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final layout = Responsive.of(context);
     return Background(
       illustration: widget.background,
       child: DecoratedBox(
@@ -76,32 +77,47 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 24,
+          spacing: theme.spacing.medium,
           children: [
             HeaderStatus(child: widget.status),
             Header(
-              title: Text(widget.title ?? 'Choose your favorite character'),
+              title: Text(
+                widget.title ?? 'Choose your favorite character',
+                textAlign: TextAlign.center,
+              ),
               subtitle: widget.subtitle,
             ),
             Expanded(
               child: CharacterPicker(
+                key: ValueKey(layout),
+                viewportFraction: switch (layout) {
+                  LayoutMode.regular => 0.45,
+                  LayoutMode.small => 0.9,
+                },
                 initial: widget.character,
-                characters: widget.characters,
+                characters: widget.characters
+                    .where((x) => x != GameCharacter.robot)
+                    .toList(),
                 onChanged: (value) {
                   character = value;
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(48.0),
+            SizedBox(height: theme.spacing.medium),
+            SafeArea(
+              top: false,
+              minimum: EdgeInsets.all(theme.spacing.large),
               child: AppButton(
                 onPressed: () {
                   Navigator.pop(context, character);
                 },
-                style: FrameStyle.regular,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                  child: Text('Validate'),
+                style: FrameStyle.primary,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: theme.spacing.regular,
+                  ),
+                  child: const Text('Validate'),
                 ),
               ),
             ),

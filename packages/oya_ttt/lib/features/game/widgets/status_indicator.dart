@@ -17,10 +17,13 @@ class GameStatusIndicator extends ConsumerWidget {
       color: theme.color.highlight.background,
       child: ConstrainedBox(
         constraints: BoxConstraints(minWidth: 200),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: SafeArea(
+          left: false,
+          right: false,
+          bottom: false,
+          minimum: EdgeInsets.symmetric(vertical: theme.spacing.small),
           child: Column(
-            spacing: 4,
+            spacing: theme.spacing.tiny,
             children: [
               Text(
                 '${game?.mode.name.toUpperCase()}',
