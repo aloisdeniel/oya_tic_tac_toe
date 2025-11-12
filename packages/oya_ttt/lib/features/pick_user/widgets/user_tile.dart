@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
@@ -19,7 +18,6 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
     return AppButton(
       onPressed: onTap,
       style: FrameStyle.regular,
@@ -34,7 +32,7 @@ class UserTile extends StatelessWidget {
               character: user.favoriteCharacter,
             ),
           ),
-          Text(user.name, style: theme.text.button),
+          Text(user.name),
         ],
       ),
     );

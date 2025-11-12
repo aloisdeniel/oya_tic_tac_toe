@@ -1,5 +1,5 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 
@@ -15,7 +15,6 @@ class ComputerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
     return AppButton(
       onPressed: onTap,
       style: FrameStyle.regular,
@@ -23,8 +22,11 @@ class ComputerTile extends StatelessWidget {
         textDirection: direction,
         spacing: 24,
         children: [
-          SizedBox.square(dimension: 82, child: Container()),
-          Text('Computer', style: theme.text.button),
+          SizedBox.square(
+            dimension: 82,
+            child: Center(child: Icon(Icons.bolt)),
+          ),
+          Text('Computer'),
         ],
       ),
     );

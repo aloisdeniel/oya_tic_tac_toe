@@ -99,12 +99,14 @@ class PickUserModal extends ConsumerWidget {
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    if (canPickComputer)
+                    if (canPickComputer) ...[
                       ComputerTile(
                         onTap: () {
                           Navigator.pop(context, PickUserComputerResult());
                         },
                       ),
+                      const SizedBox(height: 24),
+                    ],
                     for (final user in users) ...[
                       UserTile(
                         user: user,
