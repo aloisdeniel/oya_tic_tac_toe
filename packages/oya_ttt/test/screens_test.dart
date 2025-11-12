@@ -130,7 +130,7 @@ void main() {
 void testScreen(
   String description,
   Widget Function(BuildContext context) builder, {
-  Duration pumpAfter = const Duration(milliseconds: 3000),
+  Duration pumpAfter = const Duration(milliseconds: 8000),
   List<Override> overrides = const [],
   List<GameCharacter> preloadCharacters = const [
     GameCharacter.circle,

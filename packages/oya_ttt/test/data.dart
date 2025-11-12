@@ -22,6 +22,7 @@ final inGameBasicGame = Game(
       .play(Position(1, 1)),
   startedAt: DateTime.now().subtract(const Duration(minutes: 1, seconds: 4)),
 );
+
 final p1WonBasicGame = Game(
   id: 0,
   player1: GamePlayer.user(user, GameCharacter.circle),

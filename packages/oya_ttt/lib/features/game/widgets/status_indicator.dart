@@ -17,8 +17,11 @@ class GameStatusIndicator extends ConsumerWidget {
       color: theme.color.highlight.background,
       child: ConstrainedBox(
         constraints: BoxConstraints(minWidth: 200),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: theme.spacing.small),
+        child: SafeArea(
+          left: false,
+          right: false,
+          bottom: false,
+          minimum: EdgeInsets.symmetric(vertical: theme.spacing.small),
           child: Column(
             spacing: theme.spacing.tiny,
             children: [
