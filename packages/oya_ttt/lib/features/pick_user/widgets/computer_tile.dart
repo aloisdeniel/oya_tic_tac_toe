@@ -4,6 +4,7 @@ import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class ComputerTile extends StatelessWidget {
   const ComputerTile({
@@ -32,7 +33,7 @@ class ComputerTile extends StatelessWidget {
               character: GameCharacter.robot,
             ),
           ),
-          Text('Computer'),
+          Text(AppLocalizations.of(context)!.computer),
         ],
       ),
     );

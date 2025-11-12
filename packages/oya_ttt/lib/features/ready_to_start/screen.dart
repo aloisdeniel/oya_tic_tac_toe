@@ -11,6 +11,7 @@ import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class ReadyToStartModal extends StatelessWidget {
   const ReadyToStartModal({super.key, required this.game});
@@ -26,6 +27,7 @@ class ReadyToStartModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Background.elevator(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -42,8 +44,8 @@ class ReadyToStartModal extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              HeaderStatus(child: Text('${game.mode.name} Mode'.toUpperCase())),
-              Header(title: Text('Ready to Start?')),
+              HeaderStatus(child: Text(l10n.modeWithName(game.mode.name).toUpperCase())),
+              Header(title: Text(l10n.readyToStart)),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(theme.spacing.medium),
@@ -66,7 +68,7 @@ class ReadyToStartModal extends StatelessWidget {
                               horizontal: theme.spacing.medium,
                             ),
                             child: Text(
-                              'VS',
+                              l10n.vs,
                               style: theme.text.button.copyWith(
                                 color: theme.color.main.foregroundSecondary,
                                 fontSize: 100,
@@ -94,7 +96,7 @@ class ReadyToStartModal extends StatelessWidget {
                       onPressed: () async {
                         Navigator.pop(context);
                       },
-                      child: Text('CANCEL'),
+                      child: Text(l10n.cancel),
                     ),
                   ),
                   const Spacer(),
@@ -103,7 +105,7 @@ class ReadyToStartModal extends StatelessWidget {
                     onPressed: () async {
                       context.go('/game?id=${game.id}');
                     },
-                    child: Text('START GAME', textAlign: TextAlign.center),
+                    child: Text(l10n.startGame, textAlign: TextAlign.center),
                   ),
                 ],
               ),

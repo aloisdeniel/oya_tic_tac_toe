@@ -13,6 +13,7 @@ import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -116,7 +117,7 @@ class NewGameButton extends ConsumerWidget {
         }
       },
       style: FrameStyle.primary,
-      child: Text('NEW GAME', style: TextStyle(fontSize: 18)),
+      child: Text(AppLocalizations.of(context)!.newGame, style: TextStyle(fontSize: 18)),
     );
   }
 }
@@ -128,7 +129,7 @@ class StatsButton extends StatelessWidget {
     return AppButton(
       onPressed: () => context.push('/statistics'),
       style: FrameStyle.regular,
-      child: Text('STATISTICS', style: TextStyle(fontSize: 18)),
+      child: Text(AppLocalizations.of(context)!.statistics, style: TextStyle(fontSize: 18)),
     );
   }
 }
@@ -140,7 +141,7 @@ class SettingsButton extends StatelessWidget {
     return AppButton(
       onPressed: () => context.push('/settings'),
       style: FrameStyle.regular,
-      child: Text('SETTINGS', style: TextStyle(fontSize: 18)),
+      child: Text(AppLocalizations.of(context)!.settings, style: TextStyle(fontSize: 18)),
     );
   }
 }
@@ -159,7 +160,7 @@ class ProfileButton extends ConsumerWidget {
       onTap: () async {
         final newUser = await PickUserModal.show(
           context,
-          status: Text('Change user'),
+          status: Text(AppLocalizations.of(context)!.changeUser),
           filter: (other) => other.id != user.id,
         );
         if (newUser case PickUserHumanResult(:final user)) {

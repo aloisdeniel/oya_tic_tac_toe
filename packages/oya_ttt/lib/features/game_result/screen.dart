@@ -11,6 +11,7 @@ import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class GameResultScreen extends ConsumerWidget {
   const GameResultScreen({super.key});
@@ -19,6 +20,7 @@ class GameResultScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final game = ref.watch($currentGame);
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       color: theme.color.main.background.withValues(alpha: 0.95),
       child: Column(
@@ -61,8 +63,8 @@ class GameResultScreen extends ConsumerWidget {
             FadeIn(
               child: Text(
                 switch (game.winner) {
-                  GamePlayer(:final user) => '${user?.name ?? 'Computer'} won',
-                  null => 'Draw',
+                  GamePlayer(:final user) => l10n.playerWon(user?.name ?? l10n.computer),
+                  null => l10n.draw,
                 },
                 style: theme.text.header1.copyWith(
                   color: switch (game.winner?.character) {
@@ -84,13 +86,13 @@ class GameResultScreen extends ConsumerWidget {
                     );
               },
               style: FrameStyle.regular,
-              child: Text('NEW GAME'),
+              child: Text(l10n.newGame),
             ),
             SizedBox(height: theme.spacing.regular),
           ] else ...[
             FadeIn(
               child: Text(
-                'Draw',
+                l10n.draw,
                 style: theme.text.header1.copyWith(
                   color: switch (game.value?.winner?.character) {
                     GameCharacter c => theme.color.accents(c).foreground,
@@ -105,7 +107,7 @@ class GameResultScreen extends ConsumerWidget {
               context.replace('/home');
             },
             style: FrameStyle.primary,
-            child: Text('EXIT'),
+            child: Text(l10n.exit),
           ),
           SizedBox(height: theme.spacing.large),
         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
@@ -8,15 +9,16 @@ class StatisticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Statistics')),
+      appBar: AppBar(title: Text(l10n.statisticsTitle)),
       body: Padding(
         padding: EdgeInsets.all(theme.spacing.regular),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Your Statistics',
+            Text(
+              l10n.yourStatistics,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -39,7 +41,7 @@ class StatisticsScreen extends StatelessWidget {
                                 color: Colors.green.shade700,
                               ),
                             ),
-                            const Text('Wins', style: TextStyle(fontSize: 18)),
+                            Text(l10n.wins, style: TextStyle(fontSize: 18)),
                           ],
                         ),
                         Column(
@@ -52,8 +54,8 @@ class StatisticsScreen extends StatelessWidget {
                                 color: Colors.red.shade700,
                               ),
                             ),
-                            const Text(
-                              'Losses',
+                            Text(
+                              l10n.losses,
                               style: TextStyle(fontSize: 18),
                             ),
                           ],
@@ -77,7 +79,7 @@ class StatisticsScreen extends StatelessWidget {
                                 color: Colors.blue.shade700,
                               ),
                             ),
-                            const Text('Total Games'),
+                            Text(l10n.totalGames),
                           ],
                         ),
                         Column(
@@ -89,7 +91,7 @@ class StatisticsScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text('Win Rate'),
+                            Text(l10n.winRate),
                           ],
                         ),
                       ],
@@ -103,8 +105,8 @@ class StatisticsScreen extends StatelessWidget {
               onPressed: () => context.pop(),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: theme.spacing.regular),
-                child: const Text(
-                  'Back to Home',
+                child: Text(
+                  l10n.backToHome,
                   style: TextStyle(fontSize: 18),
                 ),
               ),

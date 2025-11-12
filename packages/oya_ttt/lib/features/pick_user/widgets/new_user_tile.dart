@@ -8,6 +8,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class NewUserTile extends ConsumerWidget {
   const NewUserTile({super.key, required this.onUserCreated});
@@ -32,7 +33,7 @@ class NewUserTile extends ConsumerWidget {
         if (name != null && context.mounted) {
           final character = await PickCharacterModal.show(
             context,
-            status: Text('New user'),
+            status: Text(AppLocalizations.of(context)!.newUser),
             character: GameCharacter.circle,
           );
           logger.info('Picked character: $character');
@@ -51,7 +52,7 @@ class NewUserTile extends ConsumerWidget {
         spacing: theme.spacing.small,
         children: [
           SizedBox.square(dimension: 80, child: Icon(Icons.add)),
-          Text('Create a new user'),
+          Text(AppLocalizations.of(context)!.createNewUser),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class PickCharacterModal extends StatefulWidget {
   const PickCharacterModal({
@@ -62,6 +63,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final layout = Responsive.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Background(
       illustration: widget.background,
       child: DecoratedBox(
@@ -82,7 +84,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
             HeaderStatus(child: widget.status),
             Header(
               title: Text(
-                widget.title ?? 'Choose your favorite character',
+                widget.title ?? l10n.chooseYourFavoriteCharacter,
                 textAlign: TextAlign.center,
               ),
               subtitle: widget.subtitle,
@@ -117,7 +119,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
                     horizontal: 40,
                     vertical: theme.spacing.regular,
                   ),
-                  child: const Text('Validate'),
+                  child: Text(l10n.validate),
                 ),
               ),
             ),

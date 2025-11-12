@@ -3,6 +3,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class NewGameProgress extends StatelessWidget {
   const NewGameProgress({
@@ -22,34 +23,35 @@ class NewGameProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         NewGameProgressStep(
           isCompleted: mode != null,
-          child: Text(mode?.name ?? 'Mode'),
+          child: Text(mode?.name ?? l10n.mode),
         ),
         NewGameProgressStep(
           isCompleted: player1Name != null,
-          child: Text(player1Name ?? 'Player 1'),
+          child: Text(player1Name ?? l10n.player1),
         ),
         NewGameProgressStep(
           isCompleted: player1Character != null,
           child: player1Character != null
               ? AppCharacterAvatar(character: player1Character!, size: 50)
-              : Text('Character 1'),
+              : Text(l10n.character1),
         ),
 
         NewGameProgressStep(
           isCompleted: player2Name != null,
-          child: Text(player2Name ?? 'Player 2'),
+          child: Text(player2Name ?? l10n.player2),
         ),
         NewGameProgressStep(
           isCompleted: player2Character != null,
           child: player2Character != null
               ? AppCharacterAvatar(character: player2Character!, size: 50)
-              : Text('Character 2'),
+              : Text(l10n.character2),
         ),
       ],
     );
