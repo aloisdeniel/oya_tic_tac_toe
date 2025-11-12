@@ -92,6 +92,11 @@ class AppTheme extends InheritedWidget {
               foregroundOnHighlight: Color(0xFFFDB475),
               backgroundSubtle: Color(0xFFFFEBD9),
             ),
+            robot: AppThemeAccentColorData(
+              foreground: Color(0xFFFFDE73),
+              foregroundOnHighlight: Color(0xFFFFDE73),
+              backgroundSubtle: Color(0xFFFFF9E7),
+            ),
           ),
         ),
       ),

@@ -20,6 +20,7 @@ class BigBackgroundText extends StatelessWidget {
     final theme = AppTheme.of(context);
     return FittedBox(
       fit: BoxFit.fitHeight,
+      alignment: Alignment.center,
       child: Text(
         text,
         maxLines: 1,

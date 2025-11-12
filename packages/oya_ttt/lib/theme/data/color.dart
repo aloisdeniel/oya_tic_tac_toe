@@ -31,6 +31,7 @@ class AppThemeAccentsColorData {
     required this.clover,
     required this.heart,
     required this.diamond,
+    required this.robot,
   });
 
   final AppThemeAccentColorData circle;
@@ -39,6 +40,7 @@ class AppThemeAccentsColorData {
   final AppThemeAccentColorData clover;
   final AppThemeAccentColorData heart;
   final AppThemeAccentColorData diamond;
+  final AppThemeAccentColorData robot;
 
   AppThemeAccentColorData call(GameCharacter character) {
     return switch (character) {
@@ -48,6 +50,7 @@ class AppThemeAccentsColorData {
       GameCharacter.clover => clover,
       GameCharacter.heart => heart,
       GameCharacter.diamond => diamond,
+      GameCharacter.robot => robot,
     };
   }
 }

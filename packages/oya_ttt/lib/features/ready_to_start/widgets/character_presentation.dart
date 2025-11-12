@@ -21,6 +21,7 @@ class CharacterPresentation extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     return Stack(
+      alignment: Alignment.center,
       children: [
         Positioned.fill(
           child: Transform.scale(
