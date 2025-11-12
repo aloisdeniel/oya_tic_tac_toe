@@ -6,8 +6,6 @@ import 'package:oya_ttt/state/users.dart';
 import 'features/onboarding/screen.dart';
 import 'features/home/screen.dart';
 import 'features/settings/screen.dart';
-import 'features/player/screen.dart';
-import 'features/opponent/screen.dart';
 import 'features/game/screen.dart';
 import 'features/game_result/screen.dart';
 import 'features/statistics/screen.dart';
@@ -43,30 +41,9 @@ final $appRouter = FutureProvider((ref) async {
         builder: (context, state) => const SettingsScreen(),
       ),
       GoRoute(
-        path: '/player',
-        builder: (context, state) {
-          final mode = state.uri.queryParameters['mode'] ?? 'basic';
-          return PlayerScreen(mode: mode);
-        },
-      ),
-      GoRoute(
-        path: '/opponent',
-        builder: (context, state) {
-          final mode = state.uri.queryParameters['mode'] ?? 'basic';
-          final unavailableCharacter = int.parse(
-            state.uri.queryParameters['unavailableCharacter'] ?? '0',
-          );
-          return OpponentScreen(
-            mode: mode,
-            unavailableCharacter: unavailableCharacter,
-          );
-        },
-      ),
-      GoRoute(
         path: '/game',
         builder: (context, state) {
-          final mode = state.uri.queryParameters['mode'] ?? 'basic';
-          return GameScreen(mode: mode);
+          return GameScreen();
         },
       ),
       GoRoute(

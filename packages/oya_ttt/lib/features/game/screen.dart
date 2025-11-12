@@ -11,9 +11,7 @@ import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
-  final String mode;
-
-  const GameScreen({super.key, required this.mode});
+  const GameScreen({super.key});
 
   @override
   ConsumerState<GameScreen> createState() => _GameScreenState();
