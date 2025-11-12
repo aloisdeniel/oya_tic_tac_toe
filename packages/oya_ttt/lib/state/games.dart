@@ -89,9 +89,12 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
       final aiPlay = !newState.isOver && againstAi;
       updateState(newState, aiPlay);
       if (aiPlay) {
-        await Future.delayed(const Duration(seconds: 1));
-        final legalMoves = state.legalMoves.toList();
-        const errorRate = 0.25;
+        const errorRate = 0.20;
+        // Simulate thinking. The later in the game, the longer it is.
+        await Future.delayed(
+          Duration(milliseconds: 500 + 200 * (newState.turn + _rng.nextInt(4))),
+        );
+        final legalMoves = newState.legalMoves.toList();
         final aiMove = switch (_rng.nextDouble()) {
           <= errorRate => legalMoves[_rng.nextInt(legalMoves.length)],
           _ => newState.calculateNextMove().pos,

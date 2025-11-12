@@ -3,7 +3,6 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character_picker.dart';
-import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
@@ -86,7 +85,9 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
             Expanded(
               child: CharacterPicker(
                 initial: widget.character,
-                characters: widget.characters,
+                characters: widget.characters
+                    .where((x) => x != GameCharacter.robot)
+                    .toList(),
                 onChanged: (value) {
                   character = value;
                 },

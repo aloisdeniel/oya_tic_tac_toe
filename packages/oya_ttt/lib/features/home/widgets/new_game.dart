@@ -39,33 +39,25 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
       );
 
       if (opponentUser != null && context.mounted) {
-        final opponentCharacter = await PickCharacterModal.show(
-          context,
-          status: NewGameProgress(
-            mode: mode,
-            player1Name: user.name,
-            player1Character: userCharacter,
-            player2Name: switch (opponentUser) {
-              PickUserHumanResult(:final user) => user.name,
-              _ => 'Computer',
-            },
+        final opponentCharacter = switch (opponentUser) {
+          PickUserComputerResult() => GameCharacter.robot,
+          PickUserHumanResult(:final user) => await PickCharacterModal.show(
+            context,
+            status: NewGameProgress(
+              mode: mode,
+              player1Name: user.name,
+              player1Character: userCharacter,
+              player2Name: user.name,
+            ),
+            background: BackgroundIllustration.elevator,
+            title: 'Character',
+            subtitle: Text('Player 2 | ${user.name}'),
+            character: user.favoriteCharacter,
+            characters: GameCharacter.values
+                .where((x) => x != userCharacter)
+                .toList(),
           ),
-          background: BackgroundIllustration.elevator,
-          title: 'Character',
-          subtitle: Text(
-            'Player 2 | ${switch (opponentUser) {
-              PickUserHumanResult(:final user) => user.name,
-              PickUserComputerResult() => 'Computer',
-            }}',
-          ),
-          character: switch (opponentUser) {
-            PickUserHumanResult(:final user) => user.favoriteCharacter,
-            PickUserComputerResult() => GameCharacter.cross,
-          },
-          characters: GameCharacter.values
-              .where((x) => x != userCharacter)
-              .toList(),
-        );
+        };
         if (opponentCharacter != null && context.mounted) {
           final player1 = GamePlayer.user(user, userCharacter);
           final player2 = switch (opponentUser) {

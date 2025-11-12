@@ -23,22 +23,27 @@ class OyatttApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-      child: AppTheme.dark(
-        child: Init(
-          builder: (context, init, _) {
-            return MaterialApp.router(
-              title: 'Oyattt',
-              routerConfig: init.router,
-              theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-                useMaterial3: true,
-              ),
-              builder: (context, child) {
-                return Breakpoints(minRegularWidth: 700, child: child!);
-              },
-            );
-          },
-        ),
+      child: Init(
+        builder: (context, init, _) {
+          return MaterialApp.router(
+            title: 'Oyattt',
+            routerConfig: init.router,
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+            builder: (context, child) {
+              return Breakpoints(
+                minRegularWidth: 700,
+                child: Builder(
+                  builder: (context) {
+                    return AppTheme.dark(context: context, child: child!);
+                  },
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

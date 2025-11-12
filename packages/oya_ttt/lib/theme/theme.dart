@@ -3,6 +3,7 @@ import 'package:oya_ttt/theme/data/color.dart';
 import 'package:oya_ttt/theme/data/data.dart';
 import 'package:oya_ttt/theme/data/text.dart';
 import 'package:oya_ttt/widgets/base/default_foreground.dart';
+import 'package:oya_ttt/widgets/base/responsive.dart';
 
 class AppTheme extends InheritedWidget {
   AppTheme({super.key, required Widget child, required this.data})
@@ -14,7 +15,11 @@ class AppTheme extends InheritedWidget {
         ),
       );
 
-  factory AppTheme.dark({required Widget child}) {
+  factory AppTheme.dark({
+    required BuildContext context,
+    required Widget child,
+  }) {
+    final layout = Responsive.of(context);
     const main = AppThemeMainColorData(
       background: Color(0xFF0F1A29),
       foreground: Color(0xFFFFFFFF),
@@ -22,38 +27,10 @@ class AppTheme extends InheritedWidget {
     );
     return AppTheme(
       data: AppThemeData(
-        text: AppThemeTextData(
-          header1: TextStyle(
-            fontFamily: 'Tilt Warp',
-            fontSize: 72,
-            decoration: TextDecoration.none,
-            color: main.foreground,
-          ),
-          header2: TextStyle(
-            fontFamily: 'Lexend',
-            fontSize: 44,
-            decoration: TextDecoration.none,
-            color: main.foreground,
-          ),
-          body: TextStyle(
-            fontFamily: 'Lexend',
-            fontSize: 16,
-            decoration: TextDecoration.none,
-            color: main.foreground,
-          ),
-          footnote: TextStyle(
-            fontFamily: 'Lexend',
-            fontSize: 13,
-            decoration: TextDecoration.none,
-            color: main.foreground,
-          ),
-          button: TextStyle(
-            fontFamily: 'Tilt Warp',
-            fontSize: 32,
-            decoration: TextDecoration.none,
-            color: main.foreground,
-          ),
-        ),
+        text: switch (layout) {
+          LayoutMode.regular => AppThemeTextData.regular(main.foreground),
+          LayoutMode.small => AppThemeTextData.small(main.foreground),
+        },
         color: const AppThemeColorData(
           main: main,
           highlight: AppThemeMainColorData(

@@ -49,7 +49,12 @@ class BoardView extends StatelessWidget {
               ),
             Positioned.fill(
               key: Key('shadow'),
-              child: IgnorePointer(child: ScreensShadow()),
+              child: IgnorePointer(
+                child: FadeIn(
+                  delay: const Duration(seconds: 1),
+                  child: ScreensShadow(),
+                ),
+              ),
             ),
             Positioned.fill(
               key: Key('bg'),

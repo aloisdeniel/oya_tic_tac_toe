@@ -8,6 +8,71 @@ class AppThemeTextData {
     required this.footnote,
     required this.button,
   });
+
+  AppThemeTextData.regular(Color color)
+    : header1 = TextStyle(
+        fontFamily: 'Tilt Warp',
+        fontSize: 72,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      header2 = TextStyle(
+        fontFamily: 'Lexend',
+        fontSize: 44,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      body = TextStyle(
+        fontFamily: 'Lexend',
+        fontSize: 16,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      footnote = TextStyle(
+        fontFamily: 'Lexend',
+        fontSize: 13,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      button = TextStyle(
+        fontFamily: 'Tilt Warp',
+        fontSize: 32,
+        decoration: TextDecoration.none,
+        color: color,
+      );
+
+  AppThemeTextData.small(Color color)
+    : header1 = TextStyle(
+        fontFamily: 'Tilt Warp',
+        fontSize: 42,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      header2 = TextStyle(
+        fontFamily: 'Lexend',
+        fontSize: 34,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      body = TextStyle(
+        fontFamily: 'Lexend',
+        fontSize: 14,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      footnote = TextStyle(
+        fontFamily: 'Lexend',
+        fontSize: 11,
+        decoration: TextDecoration.none,
+        color: color,
+      ),
+      button = TextStyle(
+        fontFamily: 'Tilt Warp',
+        fontSize: 20,
+        decoration: TextDecoration.none,
+        color: color,
+      );
+
   final TextStyle header1;
   final TextStyle header2;
   final TextStyle body;

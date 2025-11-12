@@ -164,14 +164,19 @@ void testScreen(
     await tester.pumpWidget(
       ProviderScope(
         overrides: overrides,
-        child: AppTheme.dark(
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            builder: (context, child) {
-              return Breakpoints(minRegularWidth: 700, child: child!);
-            },
-            home: Builder(builder: builder),
-          ),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          builder: (context, child) {
+            return Breakpoints(
+              minRegularWidth: 700,
+              child: Builder(
+                builder: (context) {
+                  return AppTheme.dark(context: context, child: child!);
+                },
+              ),
+            );
+          },
+          home: Builder(builder: builder),
         ),
       ),
     );
