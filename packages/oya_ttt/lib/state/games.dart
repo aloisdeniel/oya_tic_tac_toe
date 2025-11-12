@@ -1,3 +1,5 @@
+import 'dart:math' show Random;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oya_ttt/state/services.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -17,6 +19,8 @@ final $currentGame = AsyncNotifierProvider(CurrentGameNotifier.new);
 /// - Managing AI opponent moves
 /// - Updating game state and persisting changes to the database
 class CurrentGameNotifier extends AsyncNotifier<Game?> {
+  static final _rng = Random();
+
   /// Builds the initial state by loading the current game from storage.
   ///
   /// Returns the current game if one exists, otherwise returns null.
@@ -86,8 +90,13 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
       updateState(newState, aiPlay);
       if (aiPlay) {
         await Future.delayed(const Duration(seconds: 1));
-        final aiMove = newState.calculateNextMove();
-        updateState(newState.play(aiMove.pos), againstAi);
+        final legalMoves = state.legalMoves.toList();
+        const errorRate = 0.25;
+        final aiMove = switch (_rng.nextDouble()) {
+          <= errorRate => legalMoves[_rng.nextInt(legalMoves.length)],
+          _ => newState.calculateNextMove().pos,
+        };
+        updateState(newState.play(aiMove), againstAi);
       }
     }
   }
