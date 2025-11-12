@@ -4,6 +4,7 @@ import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class GamePlayerIndicator extends StatelessWidget {
   const GamePlayerIndicator({
@@ -64,7 +65,7 @@ class GamePlayerIndicator extends StatelessWidget {
                           child: Text(
                             switch (player.user) {
                               User user => user.name,
-                              null => 'Computer',
+                              null => AppLocalizations.of(context)!.computer,
                             },
                             style: theme.text.button.copyWith(
                               color: accent.foreground,

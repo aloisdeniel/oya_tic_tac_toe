@@ -1,0 +1,245 @@
+{
+  "@@locale": "en",
+  
+  "appTitle": "Oyattt",
+  "@appTitle": {
+    "description": "The application title"
+  },
+
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message on onboarding screen"
+  },
+
+  "ticTacToeGame": "Tic Tac Toe Game",
+  "@ticTacToeGame": {
+    "description": "Game description on onboarding screen"
+  },
+
+  "start": "START",
+  "@start": {
+    "description": "Start button label"
+  },
+
+  "newUser": "New user",
+  "@newUser": {
+    "description": "New user status text"
+  },
+
+  "whatsYourName": "What's your name?",
+  "@whatsYourName": {
+    "description": "Name input modal title"
+  },
+
+  "name": "Name",
+  "@name": {
+    "description": "Name input field label"
+  },
+
+  "validate": "Validate",
+  "@validate": {
+    "description": "Validate button label"
+  },
+
+  "newGame": "NEW GAME",
+  "@newGame": {
+    "description": "New game button label"
+  },
+
+  "statistics": "STATISTICS",
+  "@statistics": {
+    "description": "Statistics button label"
+  },
+
+  "settings": "SETTINGS",
+  "@settings": {
+    "description": "Settings button label"
+  },
+
+  "changeUser": "Change user",
+  "@changeUser": {
+    "description": "Change user status text"
+  },
+
+  "character": "Character",
+  "@character": {
+    "description": "Character selection label"
+  },
+
+  "player1": "Player 1",
+  "@player1": {
+    "description": "Player 1 label"
+  },
+
+  "player2": "Player 2",
+  "@player2": {
+    "description": "Player 2 label"
+  },
+
+  "playerWithName": "{player} | {name}",
+  "@playerWithName": {
+    "description": "Player with name format",
+    "placeholders": {
+      "player": {
+        "type": "String",
+        "example": "Player 1"
+      },
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+
+  "character1": "Character 1",
+  "@character1": {
+    "description": "Character 1 selection label"
+  },
+
+  "character2": "Character 2",
+  "@character2": {
+    "description": "Character 2 selection label"
+  },
+
+  "mode": "Mode",
+  "@mode": {
+    "description": "Mode selection label"
+  },
+
+  "computer": "Computer",
+  "@computer": {
+    "description": "Computer player label"
+  },
+
+  "playerWon": "{name} won",
+  "@playerWon": {
+    "description": "Winner announcement",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  },
+
+  "draw": "Draw",
+  "@draw": {
+    "description": "Draw result"
+  },
+
+  "exit": "EXIT",
+  "@exit": {
+    "description": "Exit button label"
+  },
+
+  "chooseYourFavoriteCharacter": "Choose your favorite character",
+  "@chooseYourFavoriteCharacter": {
+    "description": "Character selection screen title"
+  },
+
+  "gameMode": "Game mode",
+  "@gameMode": {
+    "description": "Game mode selection title"
+  },
+
+  "cancel": "CANCEL",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+
+  "users": "Users",
+  "@users": {
+    "description": "Users selection screen title"
+  },
+
+  "createNewUser": "Create a new user",
+  "@createNewUser": {
+    "description": "Create new user button label"
+  },
+
+  "modeWithName": "{mode} Mode",
+  "@modeWithName": {
+    "description": "Mode with name format",
+    "placeholders": {
+      "mode": {
+        "type": "String",
+        "example": "Classic"
+      }
+    }
+  },
+
+  "readyToStart": "Ready to Start?",
+  "@readyToStart": {
+    "description": "Ready to start game title"
+  },
+
+  "vs": "VS",
+  "@vs": {
+    "description": "Versus text"
+  },
+
+  "startGame": "START GAME",
+  "@startGame": {
+    "description": "Start game button label"
+  },
+
+  "userSettings": "User settings",
+  "@userSettings": {
+    "description": "User settings screen title"
+  },
+
+  "editName": "Edit name",
+  "@editName": {
+    "description": "Edit name button label"
+  },
+
+  "changeFavoriteCharacter": "Change favorite character",
+  "@changeFavoriteCharacter": {
+    "description": "Change favorite character button label"
+  },
+
+  "back": "BACK",
+  "@back": {
+    "description": "Back button label"
+  },
+
+  "editUser": "Edit user",
+  "@editUser": {
+    "description": "Edit user status text"
+  },
+
+  "statisticsTitle": "Statistics",
+  "@statisticsTitle": {
+    "description": "Statistics screen title"
+  },
+
+  "yourStatistics": "Your Statistics",
+  "@yourStatistics": {
+    "description": "Your statistics header"
+  },
+
+  "wins": "Wins",
+  "@wins": {
+    "description": "Wins label"
+  },
+
+  "losses": "Losses",
+  "@losses": {
+    "description": "Losses label"
+  },
+
+  "totalGames": "Total Games",
+  "@totalGames": {
+    "description": "Total games label"
+  },
+
+  "winRate": "Win Rate",
+  "@winRate": {
+    "description": "Win rate label"
+  },
+
+  "backToHome": "Back to Home",
+  "@backToHome": {
+    "description": "Back to home button label"
+  }
+}

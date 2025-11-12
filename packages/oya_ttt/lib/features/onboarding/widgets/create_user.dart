@@ -5,6 +5,7 @@ import 'package:oya_ttt/features/edit_user/screen.dart';
 import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 Future<User?> createInitialUser(BuildContext context, WidgetRef ref) async {
   final logger = Logger('CreateInitialUser');
@@ -20,7 +21,7 @@ Future<User?> createInitialUser(BuildContext context, WidgetRef ref) async {
   if (name != null && context.mounted) {
     final character = await PickCharacterModal.show(
       context,
-      status: Text('New user'),
+      status: Text(AppLocalizations.of(context)!.newUser),
       character: GameCharacter.circle,
     );
     logger.info('Picked character: $character');

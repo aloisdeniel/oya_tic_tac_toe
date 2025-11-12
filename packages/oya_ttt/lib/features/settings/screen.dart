@@ -7,6 +7,7 @@ import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -14,6 +15,7 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Background.room2(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -30,7 +32,7 @@ class SettingsScreen extends ConsumerWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              Header(title: Text('User settings')),
+              Header(title: Text(l10n.userSettings)),
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.all(theme.spacing.regular),
@@ -40,7 +42,7 @@ class SettingsScreen extends ConsumerWidget {
                       onPressed: () async {
                         updateUserName(context, ref);
                       },
-                      child: Text('Edit name'),
+                      child: Text(l10n.editName),
                     ),
                     SizedBox(height: theme.spacing.regular),
                     AppButton(
@@ -48,7 +50,7 @@ class SettingsScreen extends ConsumerWidget {
                       onPressed: () async {
                         updateUserCharacter(context, ref);
                       },
-                      child: Text('Change favorite character'),
+                      child: Text(l10n.changeFavoriteCharacter),
                     ),
                   ],
                 ),
@@ -62,7 +64,7 @@ class SettingsScreen extends ConsumerWidget {
                   onPressed: () async {
                     Navigator.pop(context);
                   },
-                  child: Text('BACK'),
+                  child: Text(l10n.back),
                 ),
               ),
             ],

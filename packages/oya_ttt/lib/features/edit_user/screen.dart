@@ -4,6 +4,7 @@ import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/text_input.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class EditUserModal extends StatefulWidget {
   const EditUserModal({super.key, this.title, this.name});
@@ -27,6 +28,7 @@ class _EditUserScreenState extends State<EditUserModal> {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Background.room2(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -45,7 +47,7 @@ class _EditUserScreenState extends State<EditUserModal> {
           children: [
             SizedBox(height: theme.spacing.large),
             Text(
-              widget.title ?? "What's your name?",
+              widget.title ?? l10n.whatsYourName,
               style: theme.text.header2.copyWith(
                 color: theme.color.main.foreground,
               ),
@@ -53,7 +55,7 @@ class _EditUserScreenState extends State<EditUserModal> {
             Spacer(),
             Padding(
               padding: EdgeInsets.all(theme.spacing.medium),
-              child: TextInput(hint: 'Name', controller: controller),
+              child: TextInput(hint: l10n.name, controller: controller),
             ),
             Spacer(),
             Padding(
@@ -62,8 +64,11 @@ class _EditUserScreenState extends State<EditUserModal> {
                 onPressed: () => Navigator.pop(context, controller.text),
                 style: FrameStyle.primary,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: theme.spacing.regular),
-                  child: const Text('Validate'),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: theme.spacing.regular,
+                  ),
+                  child: Text(l10n.validate),
                 ),
               ),
             ),

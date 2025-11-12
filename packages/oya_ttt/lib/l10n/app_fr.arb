@@ -1,0 +1,91 @@
+{
+  "@@locale": "fr",
+  
+  "appTitle": "Oyattt",
+  
+  "welcome": "Bienvenue",
+  
+  "ticTacToeGame": "Jeu de Morpion",
+  
+  "start": "COMMENCER",
+  
+  "newUser": "Nouvel utilisateur",
+  
+  "whatsYourName": "Quel est votre nom ?",
+  
+  "name": "Nom",
+  
+  "validate": "Valider",
+  
+  "newGame": "NOUVELLE PARTIE",
+  
+  "statistics": "STATISTIQUES",
+  
+  "settings": "PARAMÈTRES",
+  
+  "changeUser": "Changer d'utilisateur",
+  
+  "character": "Personnage",
+  
+  "player1": "Joueur 1",
+  
+  "player2": "Joueur 2",
+  
+  "playerWithName": "{player} | {name}",
+  
+  "character1": "Personnage 1",
+  
+  "character2": "Personnage 2",
+  
+  "mode": "Mode",
+  
+  "computer": "Ordinateur",
+  
+  "playerWon": "{name} a gagné",
+  
+  "draw": "Match nul",
+  
+  "exit": "QUITTER",
+  
+  "chooseYourFavoriteCharacter": "Choisissez votre personnage préféré",
+  
+  "gameMode": "Mode de jeu",
+  
+  "cancel": "ANNULER",
+  
+  "users": "Utilisateurs",
+  
+  "createNewUser": "Créer un nouvel utilisateur",
+  
+  "modeWithName": "Mode {mode}",
+  
+  "readyToStart": "Prêt à commencer ?",
+  
+  "vs": "VS",
+  
+  "startGame": "COMMENCER LA PARTIE",
+  
+  "userSettings": "Paramètres utilisateur",
+  
+  "editName": "Modifier le nom",
+  
+  "changeFavoriteCharacter": "Changer le personnage préféré",
+  
+  "back": "RETOUR",
+  
+  "editUser": "Modifier l'utilisateur",
+  
+  "statisticsTitle": "Statistiques",
+  
+  "yourStatistics": "Vos statistiques",
+  
+  "wins": "Victoires",
+  
+  "losses": "Défaites",
+  
+  "totalGames": "Parties totales",
+  
+  "winRate": "Taux de victoire",
+  
+  "backToHome": "Retour à l'accueil"
+}

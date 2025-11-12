@@ -8,6 +8,7 @@ import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
@@ -65,7 +66,7 @@ class OnboardingScreen extends ConsumerWidget {
 
                     if (user != null && context.mounted) context.push('/home');
                   },
-                  child: const Text('START'),
+                  child: Text(AppLocalizations.of(context)!.start),
                 ),
               ),
             ],

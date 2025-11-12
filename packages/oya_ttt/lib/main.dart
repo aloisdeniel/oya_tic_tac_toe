@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:oya_ttt/features/init/screen.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/responsive.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 void main() {
   if (kDebugMode) {
@@ -28,6 +30,16 @@ class OyatttApp extends StatelessWidget {
           return MaterialApp.router(
             title: 'Oyattt',
             routerConfig: init.router,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('fr'),
+            ],
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

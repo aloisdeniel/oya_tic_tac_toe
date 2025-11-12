@@ -7,6 +7,7 @@ import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 class PickModeModal extends StatelessWidget {
   const PickModeModal({super.key, required this.status});
@@ -26,6 +27,7 @@ class PickModeModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Background.elevator(
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -45,7 +47,7 @@ class PickModeModal extends StatelessWidget {
             child: Column(
               children: [
                 HeaderStatus(child: status),
-                Header(title: Text('Game mode')),
+                Header(title: Text(l10n.gameMode)),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.all(theme.spacing.regular),
@@ -65,7 +67,7 @@ class PickModeModal extends StatelessWidget {
                   onPressed: () async {
                     Navigator.pop(context);
                   },
-                  child: Text('CANCEL'),
+                  child: Text(l10n.cancel),
                 ),
               ],
             ),

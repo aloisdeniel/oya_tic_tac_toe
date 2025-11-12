@@ -11,6 +11,7 @@ import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 
 typedef UserFilter = bool Function(User user);
 
@@ -72,6 +73,7 @@ class PickUserModal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     var users = ref.watch($users).value ?? [];
     if (filter case final filter?) {
       users = users.where(filter).toList();
@@ -94,7 +96,7 @@ class PickUserModal extends ConsumerWidget {
           child: Column(
             children: [
               HeaderStatus(child: status),
-              Header(title: Text(title ?? 'Users')),
+              Header(title: Text(title ?? l10n.users)),
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.all(theme.spacing.regular),
@@ -128,7 +130,7 @@ class PickUserModal extends ConsumerWidget {
                   onPressed: () async {
                     Navigator.pop(context);
                   },
-                  child: Text('CANCEL'),
+                  child: Text(l10n.cancel),
                 ),
               ),
             ],
