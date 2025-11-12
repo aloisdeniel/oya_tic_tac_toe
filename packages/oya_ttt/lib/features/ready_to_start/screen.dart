@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:oya_ttt/features/ready_to_start/player.dart';
+import 'package:oya_ttt/features/game/widgets/player_indicator.dart';
+import 'package:oya_ttt/features/ready_to_start/widgets/character_presentation.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
+import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class ReadyToStartModal extends StatelessWidget {
@@ -39,10 +42,8 @@ class ReadyToStartModal extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              Header(
-                title: Text('Ready to Start?'),
-                subtitle: Text('${game.mode.name} Mode'),
-              ),
+              HeaderStatus(child: Text('${game.mode.name} Mode'.toUpperCase())),
+              Header(title: Text('Ready to Start?')),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
@@ -51,9 +52,8 @@ class ReadyToStartModal extends StatelessWidget {
                     spacing: 24,
                     children: [
                       Expanded(
-                        child: PlayerPreview(
-                          player: game.player1,
-                          isPlayer2: false,
+                        child: CharacterPresentation(
+                          character: game.player1.character,
                         ),
                       ),
                       Center(
@@ -77,38 +77,51 @@ class ReadyToStartModal extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: PlayerPreview(
-                          player: game.player2,
-                          isPlayer2: true,
+                        child: CharacterPresentation(
+                          character: game.player2.character,
+                          direction: AppCharacterDirection.left,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Row(
-                  spacing: 24,
-                  children: [
-                    AppButton(
-                      style: FrameStyle.regular,
-                      onPressed: () async {
-                        Navigator.pop(context);
-                      },
-                      child: Text('CANCEL'),
-                    ),
-                    Expanded(
-                      child: AppButton(
-                        style: FrameStyle.primary,
-                        onPressed: () async {
-                          context.go('/game?id=${game.id}');
-                        },
-                        child: Text('START GAME', textAlign: TextAlign.center),
-                      ),
-                    ),
-                  ],
+              Center(
+                child: AppButton(
+                  style: FrameStyle.regular,
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text('CANCEL'),
                 ),
+              ),
+              Row(
+                spacing: 24,
+                children: [
+                  GamePlayerIndicator(
+                    isActive: true,
+                    player: game.player1,
+                    direction: AppCharacterDirection.right,
+                  ),
+                  const Spacer(),
+                  SafeArea(
+                    left: false,
+                    right: false,
+                    child: AppButton(
+                      style: FrameStyle.primary,
+                      onPressed: () async {
+                        context.go('/game?id=${game.id}');
+                      },
+                      child: Text('START GAME', textAlign: TextAlign.center),
+                    ),
+                  ),
+                  const Spacer(),
+                  GamePlayerIndicator(
+                    isActive: true,
+                    player: game.player2,
+                    direction: AppCharacterDirection.left,
+                  ),
+                ],
               ),
             ],
           ),

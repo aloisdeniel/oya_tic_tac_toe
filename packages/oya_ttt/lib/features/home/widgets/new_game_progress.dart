@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/character.dart';
+import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class NewGameProgress extends StatelessWidget {
@@ -72,14 +73,14 @@ class NewGameProgressStep extends StatelessWidget {
       alpha: isCompleted ? 1 : 0.3,
     );
     return SizedBox(
-      width: 64,
+      width: 74,
       child: Column(
         spacing: 4,
         children: [
-          Container(
-            width: 24,
-            height: 12,
-            decoration: BoxDecoration(color: foreground),
+          DiagonalDecorated(
+            color: foreground,
+            smallerEdge: DiagonalEdge.bottom,
+            child: SizedBox(width: 24, height: 12),
           ),
           DefaultTextStyle(
             style: theme.text.footnote.copyWith(color: foreground),

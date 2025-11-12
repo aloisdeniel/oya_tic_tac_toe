@@ -26,7 +26,7 @@ class GameModeMapper extends EnumMapper<GameMode> {
   @override
   GameMode decode(dynamic value) {
     switch (value) {
-      case r'basic':
+      case r'classic':
         return GameMode.classic;
       case r'meta':
         return GameMode.meta;
@@ -39,7 +39,7 @@ class GameModeMapper extends EnumMapper<GameMode> {
   dynamic encode(GameMode self) {
     switch (self) {
       case GameMode.classic:
-        return r'basic';
+        return r'classic';
       case GameMode.meta:
         return r'meta';
     }

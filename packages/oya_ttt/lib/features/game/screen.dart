@@ -30,7 +30,7 @@ class GameScreen extends ConsumerWidget {
               board: state.board,
               onCellTapped: (Position value) {
                 final notifier = ref.read($currentGame.notifier);
-                notifier.updateState(state.play(value));
+                notifier.play(value);
               },
             ),
             _ => const SizedBox(),

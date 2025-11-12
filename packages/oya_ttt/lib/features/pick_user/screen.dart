@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/features/pick_user/widgets/computer_tile.dart';
 import 'package:oya_ttt/features/pick_user/widgets/new_user_tile.dart';
 import 'package:oya_ttt/features/pick_user/widgets/user_tile.dart';
 import 'package:oya_ttt/state/users.dart';
@@ -34,12 +35,14 @@ class PickUserModal extends ConsumerWidget {
     this.title,
     this.subtitle,
     this.filter,
+    this.canPickComputer = false,
   });
 
   final Widget status;
   final String? title;
   final Widget? subtitle;
   final UserFilter? filter;
+  final bool canPickComputer;
   final BackgroundIllustration background;
 
   static Future<PickUserResult?> show(
@@ -49,6 +52,7 @@ class PickUserModal extends ConsumerWidget {
     BackgroundIllustration background = BackgroundIllustration.room2,
     String? title,
     Widget? subtitle,
+    bool canPickComputer = false,
   }) {
     return Navigator.push<PickUserResult>(
       context,
@@ -59,6 +63,7 @@ class PickUserModal extends ConsumerWidget {
           subtitle: subtitle,
           filter: filter,
           background: background,
+          canPickComputer: canPickComputer,
         ),
       ),
     );
@@ -94,6 +99,12 @@ class PickUserModal extends ConsumerWidget {
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
+                    if (canPickComputer)
+                      ComputerTile(
+                        onTap: () {
+                          Navigator.pop(context, PickUserComputerResult());
+                        },
+                      ),
                     for (final user in users) ...[
                       UserTile(
                         user: user,

@@ -10,10 +10,10 @@ class UserTile extends StatelessWidget {
     super.key,
     required this.user,
     required this.onTap,
-    this.direction = TextDirection.ltr,
+    this.direction = AppCharacterDirection.right,
   });
 
-  final TextDirection direction;
+  final AppCharacterDirection direction;
   final User user;
   final VoidCallback onTap;
 
@@ -24,13 +24,13 @@ class UserTile extends StatelessWidget {
       onPressed: onTap,
       style: FrameStyle.regular,
       child: Row(
-        textDirection: direction,
-        spacing: 12,
+        textDirection: direction.toTextDirection(),
+        spacing: 24,
         children: [
           SizedBox.square(
             dimension: 82,
             child: AppCharacterAvatar(
-              direction: AppCharacterDirection.left,
+              direction: direction,
               character: user.favoriteCharacter,
             ),
           ),

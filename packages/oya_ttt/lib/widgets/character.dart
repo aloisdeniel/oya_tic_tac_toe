@@ -63,7 +63,7 @@ class AppCharacterSymbol extends StatelessWidget {
     final color = this.color ?? theme.color.accents(character).foreground;
     return Text(switch (character) {
       GameCharacter.cross => '⨯',
-      GameCharacter.circle => '〇',
+      GameCharacter.circle => '○',
       GameCharacter.spade => '♠',
       GameCharacter.heart => '♥',
       GameCharacter.diamond => '♦',
@@ -99,7 +99,7 @@ class AppCharacter extends StatelessWidget {
         child: result,
       );
     }
-    if (direction == AppCharacterDirection.right) {
+    if (direction == AppCharacterDirection.left) {
       return Transform(
         alignment: Alignment.center,
         transform: Matrix4.rotationY(math.pi),

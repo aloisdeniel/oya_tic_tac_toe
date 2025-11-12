@@ -32,6 +32,7 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
           player1Name: user.name,
           player1Character: userCharacter,
         ),
+        canPickComputer: true,
         title: 'Player 2',
         background: BackgroundIllustration.elevator,
         filter: (other) => other.id != user.id,
@@ -59,7 +60,7 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
           ),
           character: switch (opponentUser) {
             PickUserHumanResult(:final user) => user.favoriteCharacter,
-            PickUserComputerResult() => GameCharacter.circle,
+            PickUserComputerResult() => GameCharacter.cross,
           },
           characters: GameCharacter.values
               .where((x) => x != userCharacter)
@@ -72,7 +73,7 @@ Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
               user,
               opponentCharacter,
             ),
-            PickUserComputerResult() => GamePlayer.ai(userCharacter),
+            PickUserComputerResult() => GamePlayer.ai(opponentCharacter),
           };
           final newGame = ref
               .read($currentGame.notifier)

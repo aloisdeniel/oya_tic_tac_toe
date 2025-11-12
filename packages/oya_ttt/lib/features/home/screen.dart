@@ -10,6 +10,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/button.dart';
+import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
 
@@ -149,11 +150,10 @@ class ProfileButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = AppTheme.of(context);
     final user = ref.watch($user).value;
     if (user == null) return const SizedBox();
     return UserTile(
-      direction: TextDirection.rtl,
+      direction: AppCharacterDirection.left,
       user: user,
 
       onTap: () async {

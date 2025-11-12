@@ -44,9 +44,28 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
     return newGame;
   }
 
-  Future<void> updateState(GameState newState) async {
+  Future<void> play(Position position) async {
+    if (state case AsyncData(
+      value: Game(
+        player2: GamePlayer(isAI: final againstAi),
+        state: BasicGameState state,
+      ),
+    )) {
+      final newState = state.play(position);
+      final aiPlay = !newState.isOver && againstAi;
+      updateState(newState, aiPlay);
+      if (aiPlay) {
+        await Future.delayed(const Duration(seconds: 1));
+        final aiMove = newState.calculateNextMove();
+        updateState(newState.play(aiMove.pos), againstAi);
+      }
+    }
+  }
+
+  Future<void> updateState(GameState newState, bool isLoading) async {
     if (state case AsyncData(:Game value)) {
-      state = AsyncData(value.copyWith(state: newState));
+      final newAsyncState = AsyncData(value.copyWith(state: newState));
+      state = newAsyncState;
       final db = ref.watch($database);
       await db.saveGameState(value.id, newState);
     }
