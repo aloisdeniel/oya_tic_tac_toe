@@ -1,12 +1,12 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:oya_ttt_core/src/game/basic/basic.dart';
+import 'package:oya_ttt_core/src/game/classic/classic.dart';
 import 'package:oya_ttt_core/src/game/meta/meta.dart';
 import 'package:oya_ttt_core/src/game/player.dart';
 
 part 'game.mapper.dart';
 
 @MappableEnum()
-enum GameMode { basic, meta }
+enum GameMode { classic, meta }
 
 @MappableClass()
 class Game with GameMappable {
@@ -15,16 +15,18 @@ class Game with GameMappable {
     required this.player1,
     required this.player2,
     required this.state,
+    required this.startedAt,
   });
 
   final int id;
   final GamePlayer player1;
   final GamePlayer player2;
   final GameState state;
+  final DateTime startedAt;
 
   GameMode get mode {
     return switch (state) {
-      BasicGameState() => GameMode.basic,
+      BasicGameState() => GameMode.classic,
       MetaGameState() => GameMode.meta,
       _ => throw Exception('Unsupported $state'),
     };
@@ -49,7 +51,13 @@ class Game with GameMappable {
   }
 
   Game withState(GameState newState) {
-    return Game(id: id, player1: player1, player2: player2, state: newState);
+    return Game(
+      id: id,
+      player1: player1,
+      player2: player2,
+      startedAt: startedAt,
+      state: newState,
+    );
   }
 }
 
@@ -70,11 +78,13 @@ abstract class GameState with GameStateMappable {
   bool get isOver;
 
   GamePlayerId get nextPlayer;
+
+  int get turn;
 }
 
 extension GameStateExtensions on GameState {
   GameMode get mode => switch (this) {
-    BasicGameState() => GameMode.basic,
+    BasicGameState() => GameMode.classic,
     MetaGameState() => GameMode.meta,
     _ => throw Exception(),
   };

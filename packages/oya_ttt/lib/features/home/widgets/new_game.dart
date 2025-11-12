@@ -1,33 +1,55 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/features/home/widgets/new_game_progress.dart';
 import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/features/pick_mode/screen.dart';
 import 'package:oya_ttt/features/pick_user/screen.dart';
+import 'package:oya_ttt/state/games.dart';
+import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-Future<Game?> showNewGame(BuildContext context, User user) async {
-  final mode = await PickModeModal.show(context);
+Future<Game?> showNewGame(BuildContext context, WidgetRef ref) async {
+  final user = await ref.read($user.future);
+  if (user == null) return null;
+  if (!context.mounted) return null;
+  final mode = await PickModeModal.show(context, status: NewGameProgress());
   if (mode != null && context.mounted) {
     final userCharacter = await PickCharacterModal.show(
       context,
+      status: NewGameProgress(mode: mode, player1Name: user.name),
       title: 'Character',
       subtitle: Text('Player 1 | ${user.name}'),
       background: BackgroundIllustration.elevator,
       character: user.favoriteCharacter,
-      // TODO selected favorite
     );
 
     if (userCharacter != null && context.mounted) {
       final opponentUser = await PickUserModal.show(
         context,
+        status: NewGameProgress(
+          mode: mode,
+          player1Name: user.name,
+          player1Character: userCharacter,
+        ),
+        canPickComputer: true,
         title: 'Player 2',
         background: BackgroundIllustration.elevator,
-        filter: (other) => other.id != 0, // Current user id
+        filter: (other) => other.id != user.id,
       );
 
       if (opponentUser != null && context.mounted) {
         final opponentCharacter = await PickCharacterModal.show(
           context,
+          status: NewGameProgress(
+            mode: mode,
+            player1Name: user.name,
+            player1Character: userCharacter,
+            player2Name: switch (opponentUser) {
+              PickUserHumanResult(:final user) => user.name,
+              _ => 'Computer',
+            },
+          ),
           background: BackgroundIllustration.elevator,
           title: 'Character',
           subtitle: Text(
@@ -38,7 +60,7 @@ Future<Game?> showNewGame(BuildContext context, User user) async {
           ),
           character: switch (opponentUser) {
             PickUserHumanResult(:final user) => user.favoriteCharacter,
-            PickUserComputerResult() => GameCharacter.circle,
+            PickUserComputerResult() => GameCharacter.cross,
           },
           characters: GameCharacter.values
               .where((x) => x != userCharacter)
@@ -51,17 +73,12 @@ Future<Game?> showNewGame(BuildContext context, User user) async {
               user,
               opponentCharacter,
             ),
-            PickUserComputerResult() => GamePlayer.ai(userCharacter),
+            PickUserComputerResult() => GamePlayer.ai(opponentCharacter),
           };
-          return Game(
-            id: 1,
-            player1: player1,
-            player2: player2,
-            state: switch (mode) {
-              GameMode.basic => BasicGameState.initial(),
-              GameMode.meta => MetaGameState.initial(),
-            },
-          );
+          final newGame = ref
+              .read($currentGame.notifier)
+              .start(player1: player1, player2: player2, mode: mode);
+          return newGame;
         }
       }
     }

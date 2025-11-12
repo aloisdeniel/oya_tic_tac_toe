@@ -1,65 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/game/basic_board.dart';
-import 'package:oya_ttt/theme/theme.dart';
-import 'package:oya_ttt/widgets/background.dart';
-import 'package:oya_ttt/widgets/base/transparent_image.dart';
-import 'package:oya_ttt/widgets/glitch.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
+import 'package:oya_ttt/features/game/widgets/board.dart';
+import 'package:oya_ttt/features/game/widgets/player_indicator.dart';
+import 'package:oya_ttt/features/game/widgets/status_indicator.dart';
+import 'package:oya_ttt/features/game_result/screen.dart';
+import 'package:oya_ttt/state/games.dart';
+import 'package:oya_ttt/widgets/base/fade_in.dart';
+import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-class GameScreen extends StatefulWidget {
+class GameScreen extends ConsumerStatefulWidget {
   final String mode;
 
   const GameScreen({super.key, required this.mode});
 
   @override
-  State<GameScreen> createState() => _GameScreenState();
+  ConsumerState<GameScreen> createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
-  Game? game;
-
+class _GameScreenState extends ConsumerState<GameScreen> {
+  bool _isPlaying = false;
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
-    final asset = 'assets/background/screens.png';
+    final asyncGame = ref.watch($currentGame);
+    final game = asyncGame.value;
+    if (game == null) return const SizedBox();
 
     return DecoratedBox(
-      decoration: BoxDecoration(color: theme.color.main.background),
+      decoration: BoxDecoration(color: Color(0xFF000000)),
       child: Stack(
+        alignment: Alignment.center,
         children: [
-          Positioned.fill(
-            key: Key('bg'),
-            child: AnimatedGlitch(
-              colorDrift: 0.01,
-              child: FadeInImage(
-                image: AssetImage(asset),
-                fit: BoxFit.contain,
-                placeholder: transparentImage,
+          switch (game.state) {
+            BasicGameState state => BoardView(
+              game: game,
+              board: state.board,
+              onCellTapped: (Position value) async {
+                if (_isPlaying) return;
+
+                setState(() {
+                  _isPlaying = true;
+                });
+
+                final notifier = ref.read($currentGame.notifier);
+                try {
+                  await notifier.play(value);
+                } catch (e, st) {
+                  Logger.root.severe('Failed to play', e, st);
+                }
+
+                setState(() {
+                  _isPlaying = false;
+                });
+              },
+            ),
+            _ => const SizedBox(),
+          },
+          if (game.isOver)
+            Positioned.fill(
+              key: Key('result'),
+              child: FadeIn(child: const GameResultScreen()),
+            )
+          else ...[
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Center(child: GameStatusIndicator()),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              child: GamePlayerIndicator(
+                isActive: game.state.nextPlayer == GamePlayerId.player1,
+                player: game.player1,
+                direction: AppCharacterDirection.right,
               ),
             ),
-          ),
-          Positioned.fill(
-            child: Column(
-              children: [
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: switch (game?.state) {
-                    BasicGameState state => BoardView(
-                      game: game!,
-                      board: state.board,
-                      onPlay: (Position value) {
-                        setState(() {
-                          game = game!.copyWith(state: state.play(value));
-                        });
-                      },
-                    ),
-                    _ => const SizedBox(),
-                  },
-                ),
-              ],
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: GamePlayerIndicator(
+                isActive: game.state.nextPlayer == GamePlayerId.player2,
+                player: game.player2,
+                direction: AppCharacterDirection.left,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

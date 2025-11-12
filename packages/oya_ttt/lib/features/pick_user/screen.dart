@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/pick_user/new_user_tile.dart';
-import 'package:oya_ttt/features/pick_user/user_tile.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/features/pick_user/widgets/computer_tile.dart';
+import 'package:oya_ttt/features/pick_user/widgets/new_user_tile.dart';
+import 'package:oya_ttt/features/pick_user/widgets/user_tile.dart';
+import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 typedef UserFilter = bool Function(User user);
@@ -23,47 +27,52 @@ class PickUserComputerResult extends PickUserResult {
   const PickUserComputerResult();
 }
 
-class PickUserModal extends StatelessWidget {
+class PickUserModal extends ConsumerWidget {
   const PickUserModal({
     super.key,
     required this.background,
+    required this.status,
     this.title,
     this.subtitle,
     this.filter,
+    this.canPickComputer = false,
   });
 
+  final Widget status;
   final String? title;
   final Widget? subtitle;
   final UserFilter? filter;
+  final bool canPickComputer;
   final BackgroundIllustration background;
 
   static Future<PickUserResult?> show(
     BuildContext context, {
+    required Widget status,
     UserFilter? filter,
     BackgroundIllustration background = BackgroundIllustration.room2,
     String? title,
     Widget? subtitle,
+    bool canPickComputer = false,
   }) {
     return Navigator.push<PickUserResult>(
       context,
       MaterialPageRoute(
         builder: (context) => PickUserModal(
+          status: status,
           title: title,
           subtitle: subtitle,
           filter: filter,
           background: background,
+          canPickComputer: canPickComputer,
         ),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
-    var users = [
-      User(id: 0, name: 'John', favoriteCharacter: GameCharacter.cross),
-      User(id: 1, name: 'Rob', favoriteCharacter: GameCharacter.spade),
-    ];
+    var users = ref.watch($users).value ?? [];
     if (filter case final filter?) {
       users = users.where(filter).toList();
     }
@@ -84,11 +93,20 @@ class PickUserModal extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
-              Header(title: Text(title ?? 'Change user')),
+              HeaderStatus(child: status),
+              Header(title: Text(title ?? 'Users')),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
+                    if (canPickComputer) ...[
+                      ComputerTile(
+                        onTap: () {
+                          Navigator.pop(context, PickUserComputerResult());
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                    ],
                     for (final user in users) ...[
                       UserTile(
                         user: user,

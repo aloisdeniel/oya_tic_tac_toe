@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
+import 'package:oya_ttt/features/edit_user/screen.dart';
+import 'package:oya_ttt/features/pick_character/screen.dart';
+import 'package:oya_ttt/state/users.dart';
+import 'package:oya_ttt_core/oya_ttt_core.dart';
+
+Future<User?> createInitialUser(BuildContext context, WidgetRef ref) async {
+  final logger = Logger('CreateInitialUser');
+  final name = await Navigator.push<String>(
+    context,
+    MaterialPageRoute(
+      builder: (context) {
+        return EditUserModal();
+      },
+    ),
+  );
+  logger.info('Provided name: $name');
+  if (name != null && context.mounted) {
+    final character = await PickCharacterModal.show(
+      context,
+      status: Text('New user'),
+      character: GameCharacter.circle,
+    );
+    logger.info('Picked character: $character');
+    if (character != null && context.mounted) {
+      final notifier = ref.read($users.notifier);
+      final user = await notifier.createUser(
+        name: name,
+        favoriteCharacter: character,
+      );
+      logger.info('User ${user.id} created.');
+      notifier.setCurrentUser(user.id);
+      logger.info('User ${user.id} set as current user.');
+      return user;
+    }
+  }
+  return null;
+}

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
 
@@ -7,11 +5,11 @@ import 'package:oya_ttt/theme/theme.dart';
 /// its parent.
 class BigBackgroundText extends StatelessWidget {
   const BigBackgroundText({
-    Key? key,
+    super.key,
     required this.text,
     required this.color,
     this.xOffset = 0,
-  }) : super(key: key);
+  });
 
   final String text;
   final Color color;

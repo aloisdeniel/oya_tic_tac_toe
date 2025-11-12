@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:oya_ttt/features/pick_mode/mode_tile.dart';
+import 'package:oya_ttt/features/pick_mode/widgets/mode_tile.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/header.dart';
+import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 class PickModeModal extends StatelessWidget {
-  const PickModeModal({super.key});
+  const PickModeModal({super.key, required this.status});
 
-  static Future<GameMode?> show(BuildContext context) {
+  final Widget status;
+
+  static Future<GameMode?> show(
+    BuildContext context, {
+    required Widget status,
+  }) {
     return Navigator.push<GameMode>(
       context,
-      MaterialPageRoute(builder: (context) => PickModeModal()),
+      MaterialPageRoute(builder: (context) => PickModeModal(status: status)),
     );
   }
 
@@ -36,6 +42,7 @@ class PickModeModal extends StatelessWidget {
           color: Colors.transparent,
           child: Column(
             children: [
+              HeaderStatus(child: status),
               Header(title: Text('Game mode')),
               Expanded(
                 child: ListView(

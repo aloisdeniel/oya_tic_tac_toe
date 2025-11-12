@@ -26,8 +26,8 @@ class GameModeMapper extends EnumMapper<GameMode> {
   @override
   GameMode decode(dynamic value) {
     switch (value) {
-      case r'basic':
-        return GameMode.basic;
+      case r'classic':
+        return GameMode.classic;
       case r'meta':
         return GameMode.meta;
       default:
@@ -38,8 +38,8 @@ class GameModeMapper extends EnumMapper<GameMode> {
   @override
   dynamic encode(GameMode self) {
     switch (self) {
-      case GameMode.basic:
-        return r'basic';
+      case GameMode.classic:
+        return r'classic';
       case GameMode.meta:
         return r'meta';
     }
@@ -77,6 +77,11 @@ class GameMapper extends ClassMapperBase<Game> {
   static const Field<Game, GamePlayer> _f$player2 = Field('player2', _$player2);
   static GameState _$state(Game v) => v.state;
   static const Field<Game, GameState> _f$state = Field('state', _$state);
+  static DateTime _$startedAt(Game v) => v.startedAt;
+  static const Field<Game, DateTime> _f$startedAt = Field(
+    'startedAt',
+    _$startedAt,
+  );
 
   @override
   final MappableFields<Game> fields = const {
@@ -84,6 +89,7 @@ class GameMapper extends ClassMapperBase<Game> {
     #player1: _f$player1,
     #player2: _f$player2,
     #state: _f$state,
+    #startedAt: _f$startedAt,
   };
 
   static Game _instantiate(DecodingData data) {
@@ -92,6 +98,7 @@ class GameMapper extends ClassMapperBase<Game> {
       player1: data.dec(_f$player1),
       player2: data.dec(_f$player2),
       state: data.dec(_f$state),
+      startedAt: data.dec(_f$startedAt),
     );
   }
 
@@ -149,6 +156,7 @@ abstract class GameCopyWith<$R, $In extends Game, $Out>
     GamePlayer? player1,
     GamePlayer? player2,
     GameState? state,
+    DateTime? startedAt,
   });
   GameCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -174,12 +182,14 @@ class _GameCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Game, $Out>
     GamePlayer? player1,
     GamePlayer? player2,
     GameState? state,
+    DateTime? startedAt,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
       if (player1 != null) #player1: player1,
       if (player2 != null) #player2: player2,
       if (state != null) #state: state,
+      if (startedAt != null) #startedAt: startedAt,
     }),
   );
   @override
@@ -188,6 +198,7 @@ class _GameCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Game, $Out>
     player1: data.get(#player1, or: $value.player1),
     player2: data.get(#player2, or: $value.player2),
     state: data.get(#state, or: $value.state),
+    startedAt: data.get(#startedAt, or: $value.startedAt),
   );
 
   @override

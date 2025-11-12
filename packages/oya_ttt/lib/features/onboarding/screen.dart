@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:oya_ttt/features/edit_user/screen.dart';
-import 'package:oya_ttt/features/pick_character/screen.dart';
+import 'package:oya_ttt/features/onboarding/widgets/create_user.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/logo.dart';
-import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
     return Background.city2(
       child: DecoratedBox(
@@ -62,28 +61,9 @@ class OnboardingScreen extends StatelessWidget {
                 child: AppButton(
                   style: FrameStyle.primary,
                   onPressed: () async {
-                    final name = await Navigator.push<String>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return EditUserModal();
-                        },
-                      ),
-                    );
-                    if (name != null && context.mounted) {
-                      final character = await Navigator.push<GameCharacter>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return PickCharacterModal();
-                          },
-                        ),
-                      );
-                      if (character != null && context.mounted) {
-                        // TODO save user
-                        context.push('/home');
-                      }
-                    }
+                    final user = await createInitialUser(context, ref);
+
+                    if (user != null && context.mounted) context.push('/home');
                   },
                   child: const Text('START'),
                 ),

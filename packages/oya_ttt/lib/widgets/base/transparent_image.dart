@@ -2,8 +2,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 
+/// A memory image provider for a 1x1 transparent PNG image.
+///
+/// Useful as a placeholder image for FadeInImage or other image widgets
+/// that require a placeholder.
 final transparentImage = MemoryImage(kTransparentImage);
 
+/// Raw bytes of a 1x1 transparent PNG image.
 final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
   0x89,
   0x50,

@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:oya_ttt_core/src/game/basic/basic.dart';
+import 'package:oya_ttt_core/src/game/classic/classic.dart';
 import 'package:oya_ttt_core/src/game/game.dart';
 import 'package:oya_ttt_core/src/game/player.dart';
 
@@ -50,6 +50,9 @@ class MetaGameState extends GameState with MetaGameStateMappable {
 
   /// Complete chronological history of moves.
   final List<MetaMove> history;
+
+  @override
+  int get turn => history.length;
 
   /// Who goes next.
   @override

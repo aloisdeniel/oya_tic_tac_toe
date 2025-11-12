@@ -1,5 +1,19 @@
 import 'package:flutter/widgets.dart';
 
+/// A widget that fades in its child with optional delay.
+///
+/// The fade-in animation starts either immediately after the first frame
+/// or after the specified [delay]. This is useful for staggered entrance
+/// animations.
+///
+/// Example:
+/// ```dart
+/// FadeIn(
+///   duration: Duration(milliseconds: 500),
+///   delay: Duration(milliseconds: 200),
+///   child: Text('I will fade in'),
+/// )
+/// ```
 class FadeIn extends StatefulWidget {
   const FadeIn({
     super.key,
@@ -8,8 +22,13 @@ class FadeIn extends StatefulWidget {
     this.delay,
   });
 
+  /// The child widget to fade in.
   final Widget child;
+
+  /// Optional delay before starting the fade-in animation.
   final Duration? delay;
+
+  /// The duration of the fade-in animation.
   final Duration duration;
 
   @override

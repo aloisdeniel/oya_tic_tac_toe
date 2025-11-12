@@ -12,6 +12,23 @@ import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
+/// A carousel widget for selecting a game character.
+///
+/// This widget displays a horizontally scrollable list of characters with visual
+/// effects including:
+/// - Blur and fade effects on non-selected characters
+/// - Background text animations showing character names
+/// - Glitch effects on the selected character
+/// - Navigation buttons to move between characters
+///
+/// Example:
+/// ```dart
+/// CharacterPicker(
+///   initial: GameCharacter.cross,
+///   characters: GameCharacter.values,
+///   onChanged: (character) => print('Selected: $character'),
+/// )
+/// ```
 class CharacterPicker extends StatefulWidget {
   const CharacterPicker({
     super.key,
@@ -20,8 +37,13 @@ class CharacterPicker extends StatefulWidget {
     this.characters = GameCharacter.values,
   });
 
+  /// The initially selected character.
   final GameCharacter initial;
+
+  /// The list of characters available for selection.
   final List<GameCharacter> characters;
+
+  /// Callback invoked when the selected character changes.
   final ValueChanged<GameCharacter> onChanged;
 
   @override
@@ -143,6 +165,9 @@ class _CharacterPickerState extends State<CharacterPicker> {
           child: FadeIn(
             child: PageView.builder(
               controller: pageController,
+              onPageChanged: (i) {
+                widget.onChanged(characterAtPage(i));
+              },
               itemBuilder: (context, i) {
                 return Align(
                   alignment: Alignment.bottomCenter,

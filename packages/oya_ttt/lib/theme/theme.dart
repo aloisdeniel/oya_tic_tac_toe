@@ -15,6 +15,11 @@ class AppTheme extends InheritedWidget {
       );
 
   factory AppTheme.dark({required Widget child}) {
+    const main = AppThemeMainColorData(
+      background: Color(0xFF0F1A29),
+      foreground: Color(0xFFFFFFFF),
+      foregroundSecondary: Color(0xFFCEC7EA),
+    );
     return AppTheme(
       data: AppThemeData(
         text: AppThemeTextData(
@@ -22,29 +27,35 @@ class AppTheme extends InheritedWidget {
             fontFamily: 'Tilt Warp',
             fontSize: 72,
             decoration: TextDecoration.none,
+            color: main.foreground,
           ),
           header2: TextStyle(
             fontFamily: 'Lexend',
             fontSize: 44,
             decoration: TextDecoration.none,
+            color: main.foreground,
           ),
           body: TextStyle(
             fontFamily: 'Lexend',
             fontSize: 16,
             decoration: TextDecoration.none,
+            color: main.foreground,
+          ),
+          footnote: TextStyle(
+            fontFamily: 'Lexend',
+            fontSize: 13,
+            decoration: TextDecoration.none,
+            color: main.foreground,
           ),
           button: TextStyle(
             fontFamily: 'Tilt Warp',
             fontSize: 32,
             decoration: TextDecoration.none,
+            color: main.foreground,
           ),
         ),
         color: const AppThemeColorData(
-          main: AppThemeMainColorData(
-            background: Color(0xFF0F1A29),
-            foreground: Color(0xFFFFFFFF),
-            foregroundSecondary: Color(0xFFCEC7EA),
-          ),
+          main: main,
           highlight: AppThemeMainColorData(
             background: Color(0xFFFFFFFF),
             foreground: Color(0xFF0F1A29),

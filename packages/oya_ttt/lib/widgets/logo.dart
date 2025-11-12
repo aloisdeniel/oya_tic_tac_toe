@@ -3,6 +3,15 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 
+/// The application logo with an animated glitch effect.
+///
+/// This widget displays the "Oya!!!" logo with a fade-in animation and
+/// continuous glitch effects applied. The logo color is taken from the theme.
+///
+/// Example:
+/// ```dart
+/// GlitchingAppLogo()
+/// ```
 class GlitchingAppLogo extends StatelessWidget {
   const GlitchingAppLogo({super.key});
 
@@ -21,9 +30,19 @@ class GlitchingAppLogo extends StatelessWidget {
   }
 }
 
+/// The application logo without effects.
+///
+/// Displays the "Oya!!!" logo using a custom painter. The logo is rendered
+/// as vector paths for crisp display at any size.
+///
+/// Example:
+/// ```dart
+/// AppLogo(color: Colors.white)
+/// ```
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key, required this.color});
 
+  /// The color to render the logo in.
   final Color color;
 
   @override
