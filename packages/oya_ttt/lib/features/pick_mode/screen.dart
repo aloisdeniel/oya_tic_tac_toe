@@ -40,33 +40,35 @@ class PickModeModal extends StatelessWidget {
         ),
         child: Material(
           color: Colors.transparent,
-          child: Column(
-            children: [
-              HeaderStatus(child: status),
-              Header(title: Text('Game mode')),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.all(theme.spacing.regular),
-                  children: [
-                    for (final mode in GameMode.values)
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                HeaderStatus(child: status),
+                Header(title: Text('Game mode')),
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.all(theme.spacing.regular),
+                    children: [
+                      //for (final mode in GameMode.values)
                       ModeTile(
-                        mode,
+                        GameMode.classic,
                         onTap: () {
-                          Navigator.pop(context, mode);
+                          Navigator.pop(context, GameMode.classic);
                         },
                       ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-
-              AppButton(
-                style: FrameStyle.regular,
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text('CANCEL'),
-              ),
-            ],
+                AppButton(
+                  style: FrameStyle.regular,
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text('CANCEL'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

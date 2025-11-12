@@ -33,8 +33,11 @@ class CharacterPicker extends StatefulWidget {
     super.key,
     required this.initial,
     required this.onChanged,
+    required this.viewportFraction,
     this.characters = GameCharacter.values,
   });
+
+  final double viewportFraction;
 
   /// The initially selected character.
   final GameCharacter initial;
@@ -63,7 +66,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
 
   static const _initialPage = 10000;
   late final pageController = PageController(
-    viewportFraction: 0.45,
+    viewportFraction: widget.viewportFraction,
     initialPage: _initialPage,
   );
 
@@ -96,7 +99,6 @@ class _CharacterPickerState extends State<CharacterPicker> {
               animation: pageController,
               builder: (context, _) {
                 final character = characterAtPage(page.round());
-                final accent = theme.color.accents(character);
                 final translate = 3 * (page - page.round());
                 return Opacity(
                   opacity: pageOpacity * 0.2,
@@ -107,9 +109,15 @@ class _CharacterPickerState extends State<CharacterPicker> {
                         sigmaX: 20 * pageOpacity,
                         sigmaY: 10,
                       ),
-                      child: BigBackgroundText(
-                        text: '•' * 40,
-                        color: accent.foreground,
+                      child: FittedBox(
+                        fit: BoxFit.fitHeight,
+                        child: Row(
+                          spacing: 40,
+                          children: [
+                            for (var i = 0; i < 3; i++)
+                              AppCharacterSymbol(character: character),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -160,7 +168,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
         ),
         Padding(
           key: _pageKey,
-          padding: EdgeInsets.only(bottom: theme.spacing.xlarge - 18),
+          padding: EdgeInsets.only(bottom: theme.spacing.xlarge),
           child: FadeIn(
             child: PageView.builder(
               controller: pageController,

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -20,6 +21,7 @@ class GamePlayerIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final accent = theme.color.accents(player.character);
+    final layout = Responsive.of(context);
     final right = direction == AppCharacterDirection.right;
     return Directionality(
       textDirection: direction.toTextDirection(),
@@ -30,12 +32,15 @@ class GamePlayerIndicator extends StatelessWidget {
             ? theme.color.highlight.background
             : theme.color.main.background,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: theme.spacing.medium, vertical: theme.spacing.regular),
+          padding: EdgeInsets.all(theme.spacing.small),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox.square(
-                dimension: 62,
+                dimension: switch (layout) {
+                  LayoutMode.regular => 54,
+                  LayoutMode.small => 36,
+                },
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
                   opacity: isActive ? 1 : 0.5,
@@ -56,26 +61,14 @@ class GamePlayerIndicator extends StatelessWidget {
                           padding: const EdgeInsetsGeometry.directional(
                             start: 12,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                switch (player.user) {
-                                  User user => user.name,
-                                  null => 'Computer',
-                                },
-                                style: theme.text.button.copyWith(
-                                  color: accent.foreground,
-                                ),
-                              ),
-
-                              Text(
-                                'Player',
-                                style: theme.text.footnote.copyWith(
-                                  color: accent.foreground,
-                                ),
-                              ),
-                            ],
+                          child: Text(
+                            switch (player.user) {
+                              User user => user.name,
+                              null => 'Computer',
+                            },
+                            style: theme.text.button.copyWith(
+                              color: accent.foreground,
+                            ),
                           ),
                         )
                       : SizedBox(height: theme.text.button.fontSize),

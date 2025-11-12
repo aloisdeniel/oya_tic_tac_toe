@@ -135,6 +135,7 @@ void testScreen(
   List<GameCharacter> preloadCharacters = const [
     GameCharacter.circle,
     GameCharacter.cross,
+    GameCharacter.robot,
   ],
   List<BackgroundIllustration> preloadBackground = const [],
 }) {

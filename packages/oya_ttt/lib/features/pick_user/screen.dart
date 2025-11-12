@@ -120,13 +120,16 @@ class PickUserModal extends ConsumerWidget {
                   ],
                 ),
               ),
-
-              AppButton(
-                style: FrameStyle.regular,
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text('CANCEL'),
+              SafeArea(
+                top: false,
+                minimum: EdgeInsets.all(theme.spacing.large),
+                child: AppButton(
+                  style: FrameStyle.regular,
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text('CANCEL'),
+                ),
               ),
             ],
           ),

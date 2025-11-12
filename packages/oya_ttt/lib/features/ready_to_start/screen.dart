@@ -86,15 +86,28 @@ class ReadyToStartModal extends StatelessWidget {
                   ),
                 ),
               ),
-              Center(
-                child: AppButton(
-                  style: FrameStyle.regular,
-                  onPressed: () async {
-                    Navigator.pop(context);
-                  },
-                  child: Text('CANCEL'),
-                ),
+              Row(
+                children: [
+                  Center(
+                    child: AppButton(
+                      style: FrameStyle.regular,
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      child: Text('CANCEL'),
+                    ),
+                  ),
+                  const Spacer(),
+                  AppButton(
+                    style: FrameStyle.primary,
+                    onPressed: () async {
+                      context.go('/game?id=${game.id}');
+                    },
+                    child: Text('START GAME', textAlign: TextAlign.center),
+                  ),
+                ],
               ),
+              SizedBox(height: theme.spacing.large),
               Row(
                 spacing: theme.spacing.medium,
                 children: [
@@ -106,17 +119,6 @@ class ReadyToStartModal extends StatelessWidget {
                         player: game.player1,
                         direction: AppCharacterDirection.right,
                       ),
-                    ),
-                  ),
-                  SafeArea(
-                    left: false,
-                    right: false,
-                    child: AppButton(
-                      style: FrameStyle.primary,
-                      onPressed: () async {
-                        context.go('/game?id=${game.id}');
-                      },
-                      child: Text('START GAME', textAlign: TextAlign.center),
                     ),
                   ),
                   Expanded(

@@ -54,12 +54,16 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
 
-              AppButton(
-                style: FrameStyle.regular,
-                onPressed: () async {
-                  Navigator.pop(context);
-                },
-                child: Text('BACK'),
+              SafeArea(
+                top: false,
+                minimum: EdgeInsets.all(theme.spacing.large),
+                child: AppButton(
+                  style: FrameStyle.regular,
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text('BACK'),
+                ),
               ),
             ],
           ),
