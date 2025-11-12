@@ -32,6 +32,7 @@ class GamePlayerIndicator extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox.square(
                 dimension: 62,

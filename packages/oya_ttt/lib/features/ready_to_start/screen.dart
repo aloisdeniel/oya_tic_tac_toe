@@ -98,12 +98,16 @@ class ReadyToStartModal extends StatelessWidget {
               Row(
                 spacing: 24,
                 children: [
-                  GamePlayerIndicator(
-                    isActive: true,
-                    player: game.player1,
-                    direction: AppCharacterDirection.right,
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: GamePlayerIndicator(
+                        isActive: true,
+                        player: game.player1,
+                        direction: AppCharacterDirection.right,
+                      ),
+                    ),
                   ),
-                  const Spacer(),
                   SafeArea(
                     left: false,
                     right: false,
@@ -115,11 +119,15 @@ class ReadyToStartModal extends StatelessWidget {
                       child: Text('START GAME', textAlign: TextAlign.center),
                     ),
                   ),
-                  const Spacer(),
-                  GamePlayerIndicator(
-                    isActive: true,
-                    player: game.player2,
-                    direction: AppCharacterDirection.left,
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: GamePlayerIndicator(
+                        isActive: true,
+                        player: game.player2,
+                        direction: AppCharacterDirection.left,
+                      ),
+                    ),
                   ),
                 ],
               ),
