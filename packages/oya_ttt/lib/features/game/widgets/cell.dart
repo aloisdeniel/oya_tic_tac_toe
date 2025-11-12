@@ -23,7 +23,7 @@ class BoardCell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = AppTheme.of(context);
-    final nextCharacter = ref.watch($nextPlayerCharacter);
+    final nextPlayer = ref.watch($nextPlayer);
     return switch (player) {
       GamePlayer(:final character) => FadeIn(
         duration: const Duration(milliseconds: 700),
@@ -55,19 +55,20 @@ class BoardCell extends ConsumerWidget {
         builder: (context, state, _) => AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           child: switch (state) {
-            PointerState(isHovering: true) => Container(
-              color: theme.color.main.background,
-              child: Center(
-                child: AppCharacterSymbol(
-                  character: nextCharacter ?? GameCharacter.circle,
-                  color: theme.color
-                      .accents(nextCharacter ?? GameCharacter.circle)
-                      .foreground
-                      .withValues(alpha: 0.25),
-                  size: 70,
+            PointerState(isHovering: true) when nextPlayer?.isAI == false =>
+              Container(
+                color: theme.color.main.background,
+                child: Center(
+                  child: AppCharacterSymbol(
+                    character: nextPlayer?.character ?? GameCharacter.circle,
+                    color: theme.color
+                        .accents(nextPlayer?.character ?? GameCharacter.circle)
+                        .foreground
+                        .withValues(alpha: 0.25),
+                    size: 70,
+                  ),
                 ),
               ),
-            ),
             _ => Container(color: theme.color.main.background),
           },
         ),

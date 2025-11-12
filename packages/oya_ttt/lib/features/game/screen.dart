@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:oya_ttt/features/game/widgets/board.dart';
 import 'package:oya_ttt/features/game/widgets/player_indicator.dart';
 import 'package:oya_ttt/features/game/widgets/status_indicator.dart';
@@ -9,14 +10,21 @@ import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-class GameScreen extends ConsumerWidget {
+class GameScreen extends ConsumerStatefulWidget {
   final String mode;
 
   const GameScreen({super.key, required this.mode});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final game = ref.watch($currentGame).value;
+  ConsumerState<GameScreen> createState() => _GameScreenState();
+}
+
+class _GameScreenState extends ConsumerState<GameScreen> {
+  bool _isPlaying = false;
+  @override
+  Widget build(BuildContext context) {
+    final asyncGame = ref.watch($currentGame);
+    final game = asyncGame.value;
     if (game == null) return const SizedBox();
 
     return DecoratedBox(
@@ -28,9 +36,23 @@ class GameScreen extends ConsumerWidget {
             BasicGameState state => BoardView(
               game: game,
               board: state.board,
-              onCellTapped: (Position value) {
+              onCellTapped: (Position value) async {
+                if (_isPlaying) return;
+
+                setState(() {
+                  _isPlaying = true;
+                });
+
                 final notifier = ref.read($currentGame.notifier);
-                notifier.play(value);
+                try {
+                  await notifier.play(value);
+                } catch (e, st) {
+                  Logger.root.severe('Failed to play', e, st);
+                }
+
+                setState(() {
+                  _isPlaying = false;
+                });
               },
             ),
             _ => const SizedBox(),

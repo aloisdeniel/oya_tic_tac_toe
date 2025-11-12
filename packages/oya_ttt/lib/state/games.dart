@@ -79,6 +79,11 @@ final $nextPlayer = Provider<GamePlayer?>((ref) {
   return game.value?.player(id);
 });
 
+final $nextPlayerIsAi = Provider<bool?>((ref) {
+  final player = ref.watch($nextPlayer);
+  return player?.isAI;
+});
+
 final $nextPlayerCharacter = Provider<GameCharacter?>((ref) {
   final player = ref.watch($nextPlayer);
   return player?.character;
