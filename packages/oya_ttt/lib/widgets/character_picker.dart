@@ -160,7 +160,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
         ),
         Padding(
           key: _pageKey,
-          padding: const EdgeInsets.only(bottom: 42),
+          padding: EdgeInsets.only(bottom: theme.spacing.xlarge - 18),
           child: FadeIn(
             child: PageView.builder(
               controller: pageController,
@@ -223,7 +223,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
                     opacity: opacity,
                     child: DefaultFrameStyle(
                       style: FrameStyle.regular,
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(theme.spacing.medium),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: 220),
                         child: Stack(

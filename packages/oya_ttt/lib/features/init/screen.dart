@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oya_ttt/features/init/state.dart';
-import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/theme/data/color.dart';
 
 class Init extends ConsumerWidget {
   const Init({super.key, required this.builder});
@@ -20,7 +20,7 @@ class Init extends ConsumerWidget {
   }
 
   Widget loading(BuildContext context) {
-    final theme = AppTheme.of(context);
-    return Container(color: theme.color.main.background);
+    const color = AppThemeColorData.dark();
+    return Container(color: color.main.background);
   }
 }

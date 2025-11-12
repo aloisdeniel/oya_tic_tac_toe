@@ -16,10 +16,10 @@ class GameMiniBoard extends StatelessWidget {
       aspectRatio: 1,
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
+          mainAxisSpacing: theme.spacing.small - 4,
+          crossAxisSpacing: theme.spacing.small - 4,
         ),
         itemCount: 9,
         itemBuilder: (context, index) {

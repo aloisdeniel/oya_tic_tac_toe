@@ -46,7 +46,7 @@ class PickModeModal extends StatelessWidget {
               Header(title: Text('Game mode')),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(theme.spacing.regular),
                   children: [
                     for (final mode in GameMode.values)
                       ModeTile(

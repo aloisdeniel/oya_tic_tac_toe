@@ -18,9 +18,9 @@ class GameStatusIndicator extends ConsumerWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(minWidth: 200),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          padding: EdgeInsets.symmetric(vertical: theme.spacing.small),
           child: Column(
-            spacing: 4,
+            spacing: theme.spacing.tiny,
             children: [
               Text(
                 '${game?.mode.name.toUpperCase()}',

@@ -29,13 +29,13 @@ class OnboardingScreen extends ConsumerWidget {
           ),
         ),
         child: SafeArea(
-          minimum: const EdgeInsets.all(60.0),
+          minimum: EdgeInsets.all(theme.spacing.xlarge),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
               const GlitchingAppLogo(),
-              const SizedBox(height: 80),
+              SizedBox(height: theme.spacing.xlarge + 20),
               FadeIn(
                 delay: const Duration(milliseconds: 200),
                 child: Text(
@@ -45,7 +45,7 @@ class OnboardingScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: theme.spacing.medium),
               FadeIn(
                 delay: const Duration(milliseconds: 400),
                 child: Text(

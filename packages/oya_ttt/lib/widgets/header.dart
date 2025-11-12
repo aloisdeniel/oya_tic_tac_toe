@@ -44,10 +44,10 @@ class Header extends StatelessWidget {
       );
     }
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.all(theme.spacing.medium),
       child: switch (children.length) {
         1 => children.first,
-        _ => Column(spacing: 12, children: children),
+        _ => Column(spacing: theme.spacing.small, children: children),
       },
     );
   }

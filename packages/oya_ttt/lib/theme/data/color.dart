@@ -7,6 +7,55 @@ class AppThemeColorData {
     required this.highlight,
     required this.accents,
   });
+  const AppThemeColorData.dark()
+    : main = const AppThemeMainColorData(
+        background: Color(0xFF0F1A29),
+        foreground: Color(0xFFFFFFFF),
+        foregroundSecondary: Color(0xFFCEC7EA),
+      ),
+      highlight = const AppThemeMainColorData(
+        background: Color(0xFFFFFFFF),
+        foreground: Color(0xFF0F1A29),
+        foregroundSecondary: Color(0xFF0F1A29),
+      ),
+      accents = const AppThemeAccentsColorData(
+        circle: AppThemeAccentColorData(
+          foreground: Color(0xFF64DEF2),
+          foregroundOnHighlight: Color(0xFF64DEF2),
+          backgroundSubtle: Color(0xFFE5FBFF),
+        ),
+        cross: AppThemeAccentColorData(
+          foreground: Color(0xFFF0655A),
+          foregroundOnHighlight: Color(0xFFF0655A),
+          backgroundSubtle: Color(0xFFFFE7E5),
+        ),
+        spade: AppThemeAccentColorData(
+          foreground: Color(0xFFC179D0),
+          foregroundOnHighlight: Color(0xFFC179D0),
+          backgroundSubtle: Color(0xFFFBE6FF),
+        ),
+        clover: AppThemeAccentColorData(
+          foreground: Color(0xFF7DD89D),
+          foregroundOnHighlight: Color(0xFF7DD89D),
+          backgroundSubtle: Color(0xFFE7FFEF),
+        ),
+        heart: AppThemeAccentColorData(
+          foreground: Color(0xFFFEB0AF),
+          foregroundOnHighlight: Color(0xFFFEB0AF),
+          backgroundSubtle: Color(0xFFFFE5E5),
+        ),
+        diamond: AppThemeAccentColorData(
+          foreground: Color(0xFFFDB475),
+          foregroundOnHighlight: Color(0xFFFDB475),
+          backgroundSubtle: Color(0xFFFFEBD9),
+        ),
+        robot: AppThemeAccentColorData(
+          foreground: Color(0xFFFFDE73),
+          foregroundOnHighlight: Color(0xFFFFDE73),
+          backgroundSubtle: Color(0xFFFFF9E7),
+        ),
+      );
+
   final AppThemeMainColorData main;
   final AppThemeMainColorData highlight;
   final AppThemeAccentsColorData accents;

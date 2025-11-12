@@ -46,10 +46,10 @@ class ReadyToStartModal extends StatelessWidget {
               Header(title: Text('Ready to Start?')),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: EdgeInsets.all(theme.spacing.medium),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    spacing: 24,
+                    spacing: theme.spacing.medium,
                     children: [
                       Expanded(
                         child: CharacterPresentation(
@@ -62,8 +62,8 @@ class ReadyToStartModal extends StatelessWidget {
                           scanLineJitter: 0.4,
                           horizontalShake: 0.04,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24.0,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: theme.spacing.medium,
                             ),
                             child: Text(
                               'VS',
@@ -96,7 +96,7 @@ class ReadyToStartModal extends StatelessWidget {
                 ),
               ),
               Row(
-                spacing: 24,
+                spacing: theme.spacing.medium,
                 children: [
                   Expanded(
                     child: Align(

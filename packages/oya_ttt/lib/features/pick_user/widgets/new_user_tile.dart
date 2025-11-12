@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:oya_ttt/features/edit_user/screen.dart';
 import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/state/users.dart';
+import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -15,6 +16,7 @@ class NewUserTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = AppTheme.of(context);
     return AppButton(
       onPressed: () async {
         final logger = Logger('CreateInitialUser');
@@ -46,7 +48,7 @@ class NewUserTile extends ConsumerWidget {
       },
       style: FrameStyle.regular,
       child: Row(
-        spacing: 12,
+        spacing: theme.spacing.small,
         children: [
           SizedBox.square(dimension: 80, child: Icon(Icons.add)),
           Text('Create a new user'),

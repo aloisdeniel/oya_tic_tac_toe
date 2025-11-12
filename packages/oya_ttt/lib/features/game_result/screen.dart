@@ -30,7 +30,7 @@ class GameResultScreen extends ConsumerWidget {
                 smallerEdge: DiagonalEdge.bottom,
                 color: theme.color.accents(character).backgroundSubtle,
                 child: Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: EdgeInsets.all(theme.spacing.medium),
                   child: CharacterPresentation(
                     symbolOpacity: 0.5,
                     character: character,
@@ -38,7 +38,7 @@ class GameResultScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: theme.spacing.medium),
           ] else
             const Spacer(),
           FadeIn(
@@ -55,7 +55,7 @@ class GameResultScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: theme.spacing.medium),
           if (game.value case final game?) ...[GameReplay(game: game)],
           const Spacer(),
           if (game.value case final game?) ...[
@@ -80,7 +80,7 @@ class GameResultScreen extends ConsumerWidget {
             style: FrameStyle.primary,
             child: Text('EXIT'),
           ),
-          const SizedBox(height: 48),
+          SizedBox(height: theme.spacing.large),
         ],
       ),
     );

@@ -75,7 +75,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 24,
+          spacing: theme.spacing.medium,
           children: [
             HeaderStatus(child: widget.status),
             Header(
@@ -94,15 +94,15 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(48.0),
+              padding: EdgeInsets.all(theme.spacing.large),
               child: AppButton(
                 onPressed: () {
                   Navigator.pop(context, character);
                 },
                 style: FrameStyle.regular,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                  child: Text('Validate'),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: theme.spacing.regular),
+                  child: const Text('Validate'),
                 ),
               ),
             ),

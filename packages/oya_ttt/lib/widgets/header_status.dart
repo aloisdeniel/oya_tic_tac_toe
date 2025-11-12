@@ -27,7 +27,7 @@ class HeaderStatus extends StatelessWidget {
       smallerEdge: DiagonalEdge.bottom,
       color: theme.color.highlight.background,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: theme.spacing.small, vertical: theme.spacing.tiny + 4),
         child: DefaultTextStyle(
           style: theme.text.body.copyWith(
             color: theme.color.highlight.foreground,

@@ -42,11 +42,11 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const GlitchingAppLogo(),
-                      const SizedBox(height: 60),
+                      SizedBox(height: theme.spacing.xlarge),
                       const NewGameButton(),
-                      //const SizedBox(height: 20),
+                      //SizedBox(height: theme.spacing.medium),
                       //const StatsButton(),
-                      const SizedBox(height: 20),
+                      SizedBox(height: theme.spacing.medium),
                       const SettingsButton(),
                     ],
                   ),
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(48.0),
+              padding: EdgeInsets.all(theme.spacing.large),
               child: Stack(
                 children: [
                   Positioned(top: 0, left: 0, child: GlitchingAppLogo()),
@@ -80,11 +80,11 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 60),
+                        SizedBox(height: theme.spacing.xlarge),
                         const NewGameButton(),
-                        //const SizedBox(height: 20),
+                        //SizedBox(height: theme.spacing.medium),
                         //const StatsButton(),
-                        const SizedBox(height: 20),
+                        SizedBox(height: theme.spacing.medium),
                         const SettingsButton(),
                       ],
                     ),

@@ -97,7 +97,7 @@ class PickUserModal extends ConsumerWidget {
               Header(title: Text(title ?? 'Users')),
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(theme.spacing.regular),
                   children: [
                     if (canPickComputer) ...[
                       ComputerTile(
@@ -105,7 +105,7 @@ class PickUserModal extends ConsumerWidget {
                           Navigator.pop(context, PickUserComputerResult());
                         },
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: theme.spacing.medium),
                     ],
                     for (final user in users) ...[
                       UserTile(
@@ -114,7 +114,7 @@ class PickUserModal extends ConsumerWidget {
                           Navigator.pop(context, PickUserHumanResult(user));
                         },
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: theme.spacing.small),
                     ],
                     NewUserTile(onUserCreated: (newUser) {}),
                   ],

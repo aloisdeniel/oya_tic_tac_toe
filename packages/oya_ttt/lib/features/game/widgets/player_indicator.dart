@@ -30,7 +30,7 @@ class GamePlayerIndicator extends StatelessWidget {
             ? theme.color.highlight.background
             : theme.color.main.background,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: theme.spacing.medium, vertical: theme.spacing.regular),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
