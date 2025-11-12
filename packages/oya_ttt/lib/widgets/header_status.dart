@@ -2,9 +2,21 @@ import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/diagonal_decorated.dart';
 
+/// A status badge widget with a diagonal decorated background.
+///
+/// Displays content with a highlighted diagonal background and themed foreground
+/// color. Commonly used for status indicators in headers.
+///
+/// Example:
+/// ```dart
+/// HeaderStatus(
+///   child: Text('Player Turn'),
+/// )
+/// ```
 class HeaderStatus extends StatelessWidget {
   const HeaderStatus({super.key, required this.child});
 
+  /// The child widget to display inside the status badge.
   final Widget child;
 
   @override

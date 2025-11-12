@@ -4,10 +4,28 @@ import 'package:oya_ttt/widgets/base/default_decoration.dart';
 import 'package:oya_ttt/widgets/base/default_foreground.dart';
 import 'package:oya_ttt/widgets/base/default_padding.dart';
 
-enum FrameStyle { regular, primary } //TODO window
+/// Available frame styles for UI components.
+enum FrameStyle { regular, primary }
 
+/// Visual variants for a frame style based on interaction state.
 enum FrameStyleVariant { normal, disabled, hover }
 
+/// Applies default frame styling (decoration, foreground, padding) to its descendants.
+///
+/// This widget provides consistent theming for framed UI elements by setting
+/// default values that can be consumed by the [Frame] widget. It supports
+/// different styles (regular, primary) and variants (normal, disabled, hover).
+///
+/// Example:
+/// ```dart
+/// DefaultFrameStyle(
+///   style: FrameStyle.primary,
+///   variant: FrameStyleVariant.hover,
+///   text: theme.text.button,
+///   padding: EdgeInsets.all(16),
+///   child: Frame(child: Text('Styled Content')),
+/// )
+/// ```
 class DefaultFrameStyle extends StatelessWidget {
   const DefaultFrameStyle({
     super.key,
@@ -18,10 +36,19 @@ class DefaultFrameStyle extends StatelessWidget {
     this.padding,
   });
 
+  /// The child widget that will inherit the frame styling.
   final Widget child;
+
+  /// The frame style to apply.
   final FrameStyle style;
+
+  /// The variant of the style based on interaction state.
   final FrameStyleVariant variant;
+
+  /// Optional text style to apply to descendants.
   final TextStyle? text;
+
+  /// Optional padding to apply to the frame.
   final EdgeInsets? padding;
 
   @override

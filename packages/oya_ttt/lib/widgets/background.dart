@@ -3,8 +3,22 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 
+/// Enum representing available background illustrations for the game.
 enum BackgroundIllustration { city, city2, room, room2, park1, park2, elevator }
 
+/// A widget that displays a themed background with an illustration and glitch effect.
+///
+/// The [Background] widget provides various preset backgrounds (city, room, park, elevator)
+/// with an animated glitch effect applied to the illustration. The illustration is loaded
+/// from assets and displayed with a background color from the app theme.
+///
+/// Example:
+/// ```dart
+/// Background.city(
+///   child: YourContent(),
+///   decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+/// )
+/// ```
 class Background extends StatelessWidget {
   const Background.room({super.key, required this.child, this.decoration})
     : illustration = BackgroundIllustration.room;
@@ -34,10 +48,13 @@ class Background extends StatelessWidget {
     this.decoration,
   });
 
+  /// The child widget to display on top of the background.
   final Widget child;
 
+  /// The background illustration to display.
   final BackgroundIllustration illustration;
 
+  /// Optional decoration to apply on top of the background illustration.
   final Decoration? decoration;
 
   @override

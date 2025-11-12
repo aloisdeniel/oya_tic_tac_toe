@@ -1,7 +1,24 @@
 import 'package:flutter/widgets.dart';
 
+/// Specifies which edge should be smaller in a diagonal decoration.
 enum DiagonalEdge { top, bottom }
 
+/// A widget that paints a diagonal parallelogram background behind its child.
+///
+/// This widget creates a slanted background effect by painting a parallelogram
+/// shape. The slant can go from top to bottom or vice versa depending on the
+/// [smallerEdge] parameter.
+///
+/// Example:
+/// ```dart
+/// DiagonalDecorated(
+///   color: Colors.blue,
+///   smallerEdge: DiagonalEdge.top,
+///   start: true,
+///   end: true,
+///   child: Text('Slanted Background'),
+/// )
+/// ```
 class DiagonalDecorated extends StatelessWidget {
   const DiagonalDecorated({
     super.key,
@@ -12,10 +29,19 @@ class DiagonalDecorated extends StatelessWidget {
     this.end = true,
   });
 
+  /// The child widget to display with the diagonal background.
   final Widget child;
+
+  /// The background color of the diagonal decoration.
   final Color color;
+
+  /// Which edge (top or bottom) should be smaller, creating the diagonal effect.
   final DiagonalEdge smallerEdge;
+
+  /// Whether the diagonal extends to the start edge (respects text direction).
   final bool start;
+
+  /// Whether the diagonal extends to the end edge (respects text direction).
   final bool end;
 
   @override
