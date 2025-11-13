@@ -77,7 +77,6 @@ class Background extends StatelessWidget {
     if (decoration case final decoration?) {
       child = DecoratedBox(decoration: decoration, child: child);
     }
-    final asset = 'assets/background/${illustration.name}.png';
 
     return DecoratedBox(
       decoration: BoxDecoration(color: theme.color.main.background),
@@ -85,15 +84,24 @@ class Background extends StatelessWidget {
         children: [
           Positioned.fill(
             key: Key('bg'),
-            child: AnimatedGlitch(
-              scanLineJitter: 0.15,
-              horizontalShake: 0.001,
-              colorDrift: 0.01,
-              child: FadeInImage(
-                image: AssetImage(asset),
-                fit: BoxFit.cover,
-                placeholder: transparentImage,
-              ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isVertical = constraints.maxHeight > constraints.maxWidth;
+                final asset = isVertical
+                    ? 'assets/background/vertical/${illustration.name}.png'
+                    : 'assets/background/${illustration.name}.png';
+
+                return AnimatedGlitch(
+                  scanLineJitter: 0.15,
+                  horizontalShake: 0.001,
+                  colorDrift: 0.01,
+                  child: FadeInImage(
+                    image: AssetImage(asset),
+                    fit: BoxFit.cover,
+                    placeholder: transparentImage,
+                  ),
+                );
+              },
             ),
           ),
           Positioned.fill(child: child),

@@ -102,23 +102,38 @@ class PickUserModal extends ConsumerWidget {
                   padding: EdgeInsets.all(theme.spacing.regular),
                   children: [
                     if (canPickComputer) ...[
-                      ComputerTile(
-                        onTap: () {
-                          Navigator.pop(context, PickUserComputerResult());
-                        },
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 800),
+                          child: ComputerTile(
+                            onTap: () {
+                              Navigator.pop(context, PickUserComputerResult());
+                            },
+                          ),
+                        ),
                       ),
                       SizedBox(height: theme.spacing.medium),
                     ],
                     for (final user in users) ...[
-                      UserTile(
-                        user: user,
-                        onTap: () {
-                          Navigator.pop(context, PickUserHumanResult(user));
-                        },
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 800),
+                          child: UserTile(
+                            user: user,
+                            onTap: () {
+                              Navigator.pop(context, PickUserHumanResult(user));
+                            },
+                          ),
+                        ),
                       ),
                       SizedBox(height: theme.spacing.small),
                     ],
-                    NewUserTile(onUserCreated: (newUser) {}),
+                    Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 800),
+                        child: NewUserTile(onUserCreated: (newUser) {}),
+                      ),
+                    ),
                   ],
                 ),
               ),
