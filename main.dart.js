@@ -95374,7 +95374,7 @@ $0(){var s=0,r=A.C(t.n3),q,p,o
 var $async$$0=A.D(function(a,b){if(a===1)return A.z(b,r)
 for(;;)switch(s){case 0:p=A.d7("sqlite3.wasm")
 s=3
-return A.u(A.a_F("oya_ttt",A.d7("worker.dart.js"),p),$async$$0)
+return A.u(A.a_F("oya_ttt",A.d7("drift_worker.dart.js"),p),$async$$0)
 case 3:o=b
 p=o.c
 if(p.a!==0)A.abF("Using "+o.b.j(0)+" due to missing browser features: "+p.j(0))
