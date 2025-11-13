@@ -45,8 +45,8 @@ class HomeScreen extends StatelessWidget {
                       const GlitchingAppLogo(),
                       SizedBox(height: theme.spacing.xlarge),
                       const NewGameButton(),
-                      //SizedBox(height: theme.spacing.medium),
-                      //const StatsButton(),
+                      SizedBox(height: theme.spacing.medium),
+                      const StatsButton(),
                       SizedBox(height: theme.spacing.medium),
                       const SettingsButton(),
                     ],
@@ -83,8 +83,8 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         SizedBox(height: theme.spacing.xlarge),
                         const NewGameButton(),
-                        //SizedBox(height: theme.spacing.medium),
-                        //const StatsButton(),
+                        SizedBox(height: theme.spacing.medium),
+                        const StatsButton(),
                         SizedBox(height: theme.spacing.medium),
                         const SettingsButton(),
                       ],
@@ -117,7 +117,10 @@ class NewGameButton extends ConsumerWidget {
         }
       },
       style: FrameStyle.primary,
-      child: Text(AppLocalizations.of(context)!.newGame, style: TextStyle(fontSize: 18)),
+      child: Text(
+        AppLocalizations.of(context)!.newGame,
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 }
@@ -129,7 +132,10 @@ class StatsButton extends StatelessWidget {
     return AppButton(
       onPressed: () => context.push('/statistics'),
       style: FrameStyle.regular,
-      child: Text(AppLocalizations.of(context)!.statistics, style: TextStyle(fontSize: 18)),
+      child: Text(
+        AppLocalizations.of(context)!.statistics,
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 }
@@ -141,7 +147,10 @@ class SettingsButton extends StatelessWidget {
     return AppButton(
       onPressed: () => context.push('/settings'),
       style: FrameStyle.regular,
-      child: Text(AppLocalizations.of(context)!.settings, style: TextStyle(fontSize: 18)),
+      child: Text(
+        AppLocalizations.of(context)!.settings,
+        style: TextStyle(fontSize: 18),
+      ),
     );
   }
 }

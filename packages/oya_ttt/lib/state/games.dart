@@ -3,6 +3,7 @@ import 'dart:math' show Random;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:oya_ttt/state/services.dart';
+import 'package:oya_ttt/state/stats.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 /// Provider for the current active game.
@@ -122,11 +123,33 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
   ///  When [isLoading], the state update is part of a loading process
   Future<void> updateState(GameState newState, bool isLoading) async {
     if (state case AsyncData(:Game value)) {
+      final previousState = value.state;
       final newAsyncState = AsyncData(value.copyWith(state: newState));
       state = newAsyncState;
       final db = ref.watch($database);
       try {
         await db.saveGameState(value.id, newState);
+
+        // If the game just ended, save the stats
+        if (!previousState.isOver && newState.isOver) {
+          final duration = DateTime.now().difference(value.startedAt);
+          final durationSeconds = duration.inSeconds;
+
+          // Determine who won (1 for player1, 2 for player2, null for draw)
+          int? wonBy;
+          if (newState.winner != null) {
+            wonBy = newState.winner == GamePlayerId.player1 ? 1 : 2;
+          }
+
+          final statsNotifier = ref.read($statsNotifier.notifier);
+          await statsNotifier.createStat(
+            gameId: value.id,
+            userId1: value.player1.user?.id,
+            userId2: value.player2.user?.id,
+            wonBy: wonBy,
+            durationSeconds: durationSeconds,
+          );
+        }
       } catch (e, st) {
         Logger.root.severe('Failed to write to database', e, st);
       }

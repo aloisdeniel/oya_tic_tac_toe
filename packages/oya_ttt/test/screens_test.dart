@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oya_ttt/features/edit_user/screen.dart';
 import 'package:oya_ttt/features/game/screen.dart';
 import 'package:oya_ttt/features/home/screen.dart';
@@ -10,7 +11,10 @@ import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/features/pick_mode/screen.dart';
 import 'package:oya_ttt/features/ready_to_start/screen.dart';
 import 'package:oya_ttt/features/settings/screen.dart';
+import 'package:oya_ttt/l10n/app_localizations.dart';
 import 'package:oya_ttt/state/games.dart';
+import 'package:oya_ttt/state/settings.dart';
+import 'package:oya_ttt/state/stats.dart';
 import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
@@ -125,6 +129,19 @@ void main() {
       return GameScreen();
     },
   );
+
+  testScreen(
+    'stats',
+    preloadBackground: [BackgroundIllustration.screens],
+    overrides: [
+      $userStatistics.overrideWith((ref) {
+        return data.stats;
+      }),
+    ],
+    (context) {
+      return GameScreen();
+    },
+  );
 }
 
 void testScreen(
@@ -164,9 +181,24 @@ void testScreen(
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: overrides,
+        overrides: [
+          $userSettings.overrideWithBuild((ref, value) {
+            return UserSettings(
+              hapticFeedback: true,
+              disableVisualEffects: false,
+            );
+          }),
+          ...overrides,
+        ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('fr')],
           builder: (context, child) {
             return Breakpoints(
               minRegularWidth: 700,
