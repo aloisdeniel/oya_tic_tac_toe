@@ -35,11 +35,23 @@ class _TextInputState extends State<TextInput> {
       color: Colors.transparent,
       child: TextField(
         controller: widget.controller,
-        style: theme.text.body.copyWith(color: theme.color.main.foreground),
+        maxLines: 1,
+        style: theme.text.body.copyWith(
+          color: theme.color.highlight.foreground,
+        ),
         decoration: InputDecoration(
           hintText: widget.hint,
+          filled: true,
+          hintMaxLines: 1,
+
+          contentPadding: EdgeInsetsGeometry.symmetric(
+            horizontal: theme.spacing.tiny,
+            vertical: theme.spacing.small,
+          ),
+          border: InputBorder.none,
+          fillColor: theme.color.highlight.background,
           hintStyle: theme.text.body.copyWith(
-            color: theme.color.main.foregroundSecondary,
+            color: theme.color.highlight.foregroundSecondary,
           ),
         ),
       ),
