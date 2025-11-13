@@ -41,6 +41,7 @@ flutter:
 
   assets:
     - assets/background/
+    - assets/background/vertical/
     - assets/character/
     - assets/avatar/
 

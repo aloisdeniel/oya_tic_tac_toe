@@ -105,10 +105,7 @@ class _CharacterPickerState extends State<CharacterPicker> {
                   child: Transform.translate(
                     offset: Offset(translate * 300, 0),
                     child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(
-                        sigmaX: 20 * pageOpacity,
-                        sigmaY: 10,
-                      ),
+                      imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: FittedBox(
                         fit: BoxFit.fitHeight,
                         child: Row(

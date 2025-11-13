@@ -223,6 +223,10 @@ void testScreen(
       }
       for (var illustration in preloadBackground) {
         await precacheImage(
+          AssetImage('assets/background/vertical/${illustration.name}.png'),
+          tester.binding.rootElement!,
+        );
+        await precacheImage(
           AssetImage('assets/background/${illustration.name}.png'),
           tester.binding.rootElement!,
         );
