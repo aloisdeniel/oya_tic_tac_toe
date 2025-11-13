@@ -1,3 +1,4 @@
+import 'package:oya_ttt/state/stats.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 const user = User(id: 0, name: 'John', favoriteCharacter: GameCharacter.circle);
@@ -49,4 +50,12 @@ final p2WonBasicGame = Game(
       .play(Position(1, 0))
       .play(Position(2, 1)),
   startedAt: DateTime.now().subtract(const Duration(minutes: 2, seconds: 26)),
+);
+
+final stats = UserStatistics(
+  wins: 12,
+  losses: 5,
+  draws: 3,
+  totalGames: 20,
+  winRate: 12 / 20,
 );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oya_ttt/features/statistics/widgets/stat_tile.dart';
 import 'package:oya_ttt/state/stats.dart';
 import 'package:oya_ttt/theme/theme.dart';
@@ -18,7 +17,7 @@ class StatisticsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final statsAsync = ref.watch($userStatistics);
 
-    return Background.room2(
+    return Background.room(
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
