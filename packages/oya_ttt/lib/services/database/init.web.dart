@@ -12,8 +12,8 @@ DatabaseConnection connectOnWeb() {
     Future(() async {
       final result = await WasmDatabase.open(
         databaseName: 'oya_ttt',
-        sqlite3Uri: Uri.parse('/sqlite3.wasm'),
-        driftWorkerUri: Uri.parse('/worker.dart.js'),
+        sqlite3Uri: Uri.parse('sqlite3.wasm'),
+        driftWorkerUri: Uri.parse('worker.dart.js'),
       );
 
       if (result.missingFeatures.isNotEmpty) {
