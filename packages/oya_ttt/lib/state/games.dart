@@ -1,6 +1,7 @@
 import 'dart:math' show Random;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:oya_ttt/state/services.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
@@ -55,19 +56,31 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
         ? BasicGameState.initial() as GameState
         : MetaGameState.initial() as GameState;
 
-    final db = ref.watch($database);
-    final id = await db.createGame(
-      player1: player1,
-      player2: player2,
-      mode: mode,
-    );
-    final newGame = Game(
-      id: id,
-      player1: player1,
-      player2: player2,
-      state: initialState,
-      startedAt: DateTime.now(),
-    );
+    late Game newGame;
+    try {
+      final db = ref.watch($database);
+      final id = await db.createGame(
+        player1: player1,
+        player2: player2,
+        mode: mode,
+      );
+      newGame = Game(
+        id: id,
+        player1: player1,
+        player2: player2,
+        state: initialState,
+        startedAt: DateTime.now(),
+      );
+    } catch (e, st) {
+      Logger.root.severe('Failed to write to database', e, st);
+      newGame = Game(
+        id: DateTime.now().millisecondsSinceEpoch,
+        player1: player1,
+        player2: player2,
+        state: initialState,
+        startedAt: DateTime.now(),
+      );
+    }
 
     state = AsyncData(newGame);
     return newGame;
@@ -112,7 +125,11 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
       final newAsyncState = AsyncData(value.copyWith(state: newState));
       state = newAsyncState;
       final db = ref.watch($database);
-      await db.saveGameState(value.id, newState);
+      try {
+        await db.saveGameState(value.id, newState);
+      } catch (e, st) {
+        Logger.root.severe('Failed to write to database', e, st);
+      }
     }
   }
 }

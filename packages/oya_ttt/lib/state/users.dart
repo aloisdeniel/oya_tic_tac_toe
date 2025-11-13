@@ -66,18 +66,28 @@ class UsersNotifier extends AsyncNotifier<List<User>> {
     required String name,
     GameCharacter favoriteCharacter = GameCharacter.circle,
   }) async {
-    final db = ref.watch($database);
+    late User newUser;
+    try {
+      final db = ref.watch($database);
 
-    final newUserId = await db.createUser(
-      name: name,
-      favoriteCharacter: favoriteCharacter,
-    );
+      final newUserId = await db.createUser(
+        name: name,
+        favoriteCharacter: favoriteCharacter,
+      );
 
-    final newUser = User(
-      id: newUserId,
-      name: name,
-      favoriteCharacter: favoriteCharacter,
-    );
+      newUser = User(
+        id: newUserId,
+        name: name,
+        favoriteCharacter: favoriteCharacter,
+      );
+    } catch (e, st) {
+      logger.severe('Failed to save to database', e, st);
+      newUser = User(
+        id: DateTime.now().millisecondsSinceEpoch,
+        name: name,
+        favoriteCharacter: favoriteCharacter,
+      );
+    }
 
     if (state case AsyncData(:final value)) {
       state = AsyncData([...value, newUser]);
@@ -104,12 +114,16 @@ class UsersNotifier extends AsyncNotifier<List<User>> {
     String? name,
     GameCharacter? favoriteCharacter,
   }) async {
-    final db = ref.watch($database);
-    db.updateUser(
-      userId: userId,
-      name: name,
-      favoriteCharacter: favoriteCharacter,
-    );
+    try {
+      final db = ref.watch($database);
+      db.updateUser(
+        userId: userId,
+        name: name,
+        favoriteCharacter: favoriteCharacter,
+      );
+    } catch (e, st) {
+      logger.severe('Failed to update the database', e, st);
+    }
 
     if (state case AsyncData(:final value)) {
       state = AsyncData([
