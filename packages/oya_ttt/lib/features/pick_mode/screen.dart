@@ -49,17 +49,22 @@ class PickModeModal extends StatelessWidget {
                 HeaderStatus(child: status),
                 Header(title: Text(l10n.gameMode)),
                 Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.all(theme.spacing.regular),
-                  children: [
-                    for (final mode in GameMode.values)
-                      ModeTile(
-                        mode,
-                        onTap: () {
-                          Navigator.pop(context, mode);
-                        },
-                      ),
-                  ],
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 800),
+                    child: ListView(
+                      padding: EdgeInsets.all(theme.spacing.regular),
+                      children: [
+                        for (final mode in GameMode.values) ...[
+                          ModeTile(
+                            mode,
+                            onTap: () {
+                              Navigator.pop(context, mode);
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
                 AppButton(

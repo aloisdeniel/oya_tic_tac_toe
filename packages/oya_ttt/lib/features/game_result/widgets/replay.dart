@@ -23,6 +23,7 @@ class _GameReplayState extends State<GameReplay> {
     final maxTurns = widget.game.state.turn;
     final state = switch (widget.game.state) {
       BasicGameState v => v.rewind(_currentTurn),
+      MetaGameState v => v.rewind(_currentTurn),
       _ => null,
     };
     return Column(
@@ -59,8 +60,32 @@ class _GameReplayState extends State<GameReplay> {
                 Padding(
                   padding: EdgeInsets.all(theme.spacing.regular),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 140),
-                    child: GameMiniBoard(game: widget.game, state: state),
+                    constraints: BoxConstraints(maxWidth: 120),
+                    child: GameMiniBoard(game: widget.game, board: state.board),
+                  ),
+                )
+              else if (state is MetaGameState)
+                Padding(
+                  padding: EdgeInsets.all(theme.spacing.regular),
+                  child: Column(
+                    spacing: 6,
+                    children: [
+                      for (var r = 0; r < 3; r++)
+                        Row(
+                          spacing: 6,
+                          children: [
+                            for (var c = 0; c < 3; c++)
+                              ConstrainedBox(
+                                constraints: BoxConstraints(maxWidth: 80),
+                                child: GameMiniBoard(
+                                  spacing: 1,
+                                  game: widget.game,
+                                  board: state.boards[Position(r, c)]!,
+                                ),
+                              ),
+                          ],
+                        ),
+                    ],
                   ),
                 ),
               AppButton(

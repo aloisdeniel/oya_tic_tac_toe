@@ -25,8 +25,8 @@ class AppTheme extends InheritedWidget {
     return AppTheme(
       data: AppThemeData(
         text: switch (layout) {
-          LayoutMode.regular => AppThemeTextData.regular(color.main.foreground),
-          LayoutMode.small => AppThemeTextData.small(color.main.foreground),
+          LayoutMode.regular => AppThemeTextData.regular(),
+          LayoutMode.small => AppThemeTextData.small(),
         },
         spacing: switch (layout) {
           LayoutMode.regular => AppThemeSpacingData.regular(),

@@ -15,31 +15,27 @@ class ModeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = AppTheme.of(context);
-    
+
     final (name, description) = switch (mode) {
       GameMode.classic => (l10n.classicMode, l10n.classicModeDescription),
       GameMode.meta => (l10n.metaMode, l10n.metaModeDescription),
     };
-    
+
     return AppButton(
       onPressed: onTap,
       style: FrameStyle.regular,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            name,
-            style: theme.text.button.copyWith(
-              color: theme.color.main.foreground,
-            ),
-          ),
+          Text(name, style: theme.text.button),
           SizedBox(height: theme.spacing.tiny),
-          Text(
-            description,
-            style: theme.text.body.copyWith(
-              color: theme.color.main.foreground.withValues(alpha: 0.7),
+          Opacity(
+            opacity: 0.8,
+            child: Text(
+              description,
+              style: theme.text.body,
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ],
       ),

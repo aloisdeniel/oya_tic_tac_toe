@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/base/pointer_area.dart';
 import 'package:oya_ttt/widgets/character.dart';
+import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 /// Widget that displays the meta tic-tac-toe game board
@@ -20,29 +22,31 @@ class MetaBoardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xFF000000),
+    final theme = AppTheme.of(context);
+    return Background.park2(
+      decoration: BoxDecoration(
+        color: theme.color.main.background.withValues(alpha: 0.8),
+      ),
       child: Center(
         child: AspectRatio(
           aspectRatio: 1,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(theme.spacing.regular),
             child: Column(
+              spacing: theme.spacing.regular,
               children: [
                 for (var metaRow = 0; metaRow < 3; metaRow++)
                   Expanded(
                     child: Row(
+                      spacing: theme.spacing.regular,
                       children: [
                         for (var metaCol = 0; metaCol < 3; metaCol++)
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: _SmallBoard(
-                                game: game,
-                                state: state,
-                                boardPosition: Position(metaRow, metaCol),
-                                onCellTapped: onCellTapped,
-                              ),
+                            child: _SmallBoard(
+                              game: game,
+                              state: state,
+                              boardPosition: Position(metaRow, metaCol),
+                              onCellTapped: onCellTapped,
                             ),
                           ),
                       ],
@@ -75,26 +79,34 @@ class _SmallBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     final metaCell = state.metaBoard.at(boardPosition);
-    final isActive = state.activeBoard == null || state.activeBoard == boardPosition;
+    final isActive =
+        state.activeBoard == null || state.activeBoard == boardPosition;
     final isBoardWon = metaCell != null;
 
     // If board is won, show the winner's character overlaid
     if (isBoardWon) {
       final winner = game.player(metaCell);
-      return Container(
-        decoration: BoxDecoration(
-          color: theme.color.accents(winner.character).foreground.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: theme.color.accents(winner.character).foreground,
-            width: 2,
+      return AnimatedGlitch(
+        scanLineJitter: 0.1,
+        colorDrift: 0.02,
+        child: Container(
+          decoration: BoxDecoration(
+            color: theme.color
+                .accents(winner.character)
+                .foreground
+                .withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(1),
+            border: Border.all(
+              color: theme.color.accents(winner.character).foreground,
+              width: 2,
+            ),
           ),
-        ),
-        child: Center(
-          child: AppCharacterSymbol(
-            character: winner.character,
-            color: theme.color.accents(winner.character).foreground,
-            size: 60,
+          child: Center(
+            child: AppCharacterSymbol(
+              character: winner.character,
+              color: theme.color.accents(winner.character).foreground,
+              size: 60,
+            ),
           ),
         ),
       );
@@ -104,7 +116,7 @@ class _SmallBoard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.color.main.background.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(1),
         border: Border.all(
           color: isActive
               ? theme.color.main.foreground.withValues(alpha: 0.5)
@@ -156,7 +168,9 @@ class _MetaCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final cellPlayerId = state.boards[metaPosition.boardPos]!.at(metaPosition.cellPos);
+    final cellPlayerId = state.boards[metaPosition.boardPos]!.at(
+      metaPosition.cellPos,
+    );
     final player = cellPlayerId != null ? game.player(cellPlayerId) : null;
 
     if (player != null) {
@@ -201,14 +215,18 @@ class _MetaCell extends StatelessWidget {
         child: switch (pointerState) {
           PointerState(isHovering: true) when isHumanPlayer => Container(
             decoration: BoxDecoration(
-              color: theme.color.accents(nextPlayer.character).foreground
+              color: theme.color
+                  .accents(nextPlayer.character)
+                  .foreground
                   .withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(2),
             ),
             child: Center(
               child: AppCharacterSymbol(
                 character: nextPlayer.character,
-                color: theme.color.accents(nextPlayer.character).foreground
+                color: theme.color
+                    .accents(nextPlayer.character)
+                    .foreground
                     .withValues(alpha: 0.5),
                 size: 12,
               ),
