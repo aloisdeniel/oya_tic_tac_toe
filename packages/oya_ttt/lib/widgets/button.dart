@@ -2,7 +2,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oya_ttt/state/settings.dart';
+import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/base/default_foreground.dart';
 import 'package:oya_ttt/widgets/base/default_padding.dart';
 import 'package:oya_ttt/widgets/base/frame.dart';
 import 'package:oya_ttt/widgets/base/pointer_area.dart';
@@ -43,8 +45,13 @@ class AppButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final haptic = ref.watch($hapticFeedbackSetting);
+    final character = ref.watch($user).value?.favoriteCharacter;
 
     final theme = AppTheme.of(context);
+    final hoverForeground = character == null
+        ? theme.color.highlight.foreground
+        : theme.color.accents(character).foreground;
+
     return DefaultPadding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.spacing.medium,
@@ -60,7 +67,14 @@ class AppButton extends ConsumerWidget {
               }
             : null,
         builder: (context, state, _) {
-          Widget result = DefaultFrameStyle(
+          Widget result = child;
+          if (state.isHovering || state.isPressed) {
+            result = DefaultForeground(
+              foreground: hoverForeground,
+              child: child,
+            );
+          }
+          result = DefaultFrameStyle(
             style: style,
             text: theme.text.button,
             variant: switch (state) {
@@ -69,7 +83,7 @@ class AppButton extends ConsumerWidget {
               PointerState(isPressed: true) => FrameStyleVariant.hover,
               PointerState() => FrameStyleVariant.normal,
             },
-            child: Frame(child: child),
+            child: Frame(child: result),
           );
           if (state.isPressed || state.isHovering) {
             result = AnimatedGlitch(
