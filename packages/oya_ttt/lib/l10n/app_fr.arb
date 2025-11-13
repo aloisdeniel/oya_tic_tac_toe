@@ -87,5 +87,9 @@
   
   "winRate": "Taux de victoire",
   
-  "backToHome": "Retour à l'accueil"
+  "backToHome": "Retour à l'accueil",
+  
+  "hapticFeedback": "Retour haptique",
+  
+  "disableVisualEffects": "Désactiver les effets visuels"
 }

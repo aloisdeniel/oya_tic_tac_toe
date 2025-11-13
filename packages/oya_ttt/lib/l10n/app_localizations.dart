@@ -361,6 +361,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to Home'**
   String get backToHome;
+
+  /// Haptic feedback setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic Feedback'**
+  String get hapticFeedback;
+
+  /// Disable visual effects setting label
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Visual Effects'**
+  String get disableVisualEffects;
 }
 
 class _AppLocalizationsDelegate

@@ -146,4 +146,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get backToHome => 'Retour à l\'accueil';
+
+  @override
+  String get hapticFeedback => 'Retour haptique';
+
+  @override
+  String get disableVisualEffects => 'Désactiver les effets visuels';
 }
