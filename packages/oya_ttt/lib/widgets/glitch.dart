@@ -3,6 +3,8 @@ import 'dart:ui' show FragmentProgram, FragmentShader;
 import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/state/settings.dart';
 
 import 'base/animated_sampler.dart';
 
@@ -25,7 +27,7 @@ import 'base/animated_sampler.dart';
 ///   child: Image.asset('logo.png'),
 /// )
 /// ```
-class AnimatedGlitch extends StatefulWidget {
+class AnimatedGlitch extends ConsumerStatefulWidget {
   const AnimatedGlitch({
     super.key,
     required this.child,
@@ -59,10 +61,10 @@ class AnimatedGlitch extends StatefulWidget {
   final Widget child;
 
   @override
-  State<AnimatedGlitch> createState() => _AnimatedGlitchState();
+  ConsumerState<AnimatedGlitch> createState() => _AnimatedGlitchState();
 }
 
-class _AnimatedGlitchState extends State<AnimatedGlitch>
+class _AnimatedGlitchState extends ConsumerState<AnimatedGlitch>
     with SingleTickerProviderStateMixin {
   late final _controller = AnimationController(
     vsync: this,
@@ -83,6 +85,11 @@ class _AnimatedGlitchState extends State<AnimatedGlitch>
 
   @override
   Widget build(BuildContext context) {
+    final disabledAnimations = ref.watch($disableVisualEffectsSetting);
+    if (disabledAnimations) {
+      return widget.child;
+    }
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) {
@@ -114,7 +121,7 @@ class _AnimatedGlitchState extends State<AnimatedGlitch>
 /// Unlike [AnimatedGlitch], this widget does not animate on its own.
 /// It applies a glitch effect based on the provided time and effect parameters.
 /// This is useful when you want to control the glitch animation externally.
-class Glitch extends StatefulWidget {
+class Glitch extends ConsumerStatefulWidget {
   const Glitch({
     super.key,
     required this.child,
@@ -144,10 +151,10 @@ class Glitch extends StatefulWidget {
   final Widget child;
 
   @override
-  State<Glitch> createState() => _GlitchState();
+  ConsumerState<Glitch> createState() => _GlitchState();
 }
 
-class _GlitchState extends State<Glitch> {
+class _GlitchState extends ConsumerState<Glitch> {
   FragmentShader? _shader;
 
   @override
@@ -193,6 +200,10 @@ class _GlitchState extends State<Glitch> {
 
   @override
   Widget build(BuildContext context) {
+    final disabledAnimations = ref.watch($disableVisualEffectsSetting);
+    if (disabledAnimations) {
+      return widget.child;
+    }
     final shader = _shader;
     if (shader == null) return widget.child;
     return AnimatedSampler((ui.Image image, Size size, ui.Canvas canvas) {

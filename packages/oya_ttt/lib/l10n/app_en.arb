@@ -241,5 +241,15 @@
   "backToHome": "Back to Home",
   "@backToHome": {
     "description": "Back to home button label"
+  },
+
+  "hapticFeedback": "Haptic Feedback",
+  "@hapticFeedback": {
+    "description": "Haptic feedback setting label"
+  },
+
+  "disableVisualEffects": "Disable Visual Effects",
+  "@disableVisualEffects": {
+    "description": "Disable visual effects setting label"
   }
 }

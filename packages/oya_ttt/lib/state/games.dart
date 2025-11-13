@@ -1,6 +1,7 @@
 import 'dart:math' show Random;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:oya_ttt/state/services.dart';
 import 'package:oya_ttt/state/stats.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -56,19 +57,31 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
         ? BasicGameState.initial() as GameState
         : MetaGameState.initial() as GameState;
 
-    final db = ref.watch($database);
-    final id = await db.createGame(
-      player1: player1,
-      player2: player2,
-      mode: mode,
-    );
-    final newGame = Game(
-      id: id,
-      player1: player1,
-      player2: player2,
-      state: initialState,
-      startedAt: DateTime.now(),
-    );
+    late Game newGame;
+    try {
+      final db = ref.watch($database);
+      final id = await db.createGame(
+        player1: player1,
+        player2: player2,
+        mode: mode,
+      );
+      newGame = Game(
+        id: id,
+        player1: player1,
+        player2: player2,
+        state: initialState,
+        startedAt: DateTime.now(),
+      );
+    } catch (e, st) {
+      Logger.root.severe('Failed to write to database', e, st);
+      newGame = Game(
+        id: DateTime.now().millisecondsSinceEpoch,
+        player1: player1,
+        player2: player2,
+        state: initialState,
+        startedAt: DateTime.now(),
+      );
+    }
 
     state = AsyncData(newGame);
     return newGame;
@@ -114,27 +127,31 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
       final newAsyncState = AsyncData(value.copyWith(state: newState));
       state = newAsyncState;
       final db = ref.watch($database);
-      await db.saveGameState(value.id, newState);
-      
-      // If the game just ended, save the stats
-      if (!previousState.isOver && newState.isOver) {
-        final duration = DateTime.now().difference(value.startedAt);
-        final durationSeconds = duration.inSeconds;
-        
-        // Determine who won (1 for player1, 2 for player2, null for draw)
-        int? wonBy;
-        if (newState.winner != null) {
-          wonBy = newState.winner == GamePlayerId.player1 ? 1 : 2;
+      try {
+        await db.saveGameState(value.id, newState);
+
+        // If the game just ended, save the stats
+        if (!previousState.isOver && newState.isOver) {
+          final duration = DateTime.now().difference(value.startedAt);
+          final durationSeconds = duration.inSeconds;
+
+          // Determine who won (1 for player1, 2 for player2, null for draw)
+          int? wonBy;
+          if (newState.winner != null) {
+            wonBy = newState.winner == GamePlayerId.player1 ? 1 : 2;
+          }
+
+          final statsNotifier = ref.read($statsNotifier.notifier);
+          await statsNotifier.createStat(
+            gameId: value.id,
+            userId1: value.player1.user?.id,
+            userId2: value.player2.user?.id,
+            wonBy: wonBy,
+            durationSeconds: durationSeconds,
+          );
         }
-        
-        final statsNotifier = ref.read($statsNotifier.notifier);
-        await statsNotifier.createStat(
-          gameId: value.id,
-          userId1: value.player1.user?.id,
-          userId2: value.player2.user?.id,
-          wonBy: wonBy,
-          durationSeconds: durationSeconds,
-        );
+      } catch (e, st) {
+        Logger.root.severe('Failed to write to database', e, st);
       }
     }
   }
