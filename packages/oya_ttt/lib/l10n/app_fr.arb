@@ -91,5 +91,13 @@
   
   "hapticFeedback": "Retour haptique",
   
-  "disableVisualEffects": "Désactiver les effets visuels"
+  "disableVisualEffects": "Désactiver les effets visuels",
+
+  "classicMode": "Classique",
+
+  "metaMode": "Meta",
+
+  "classicModeDescription": "Morpion traditionnel 3x3",
+
+  "metaModeDescription": "Morpion ultime : 9 grilles en une !"
 }

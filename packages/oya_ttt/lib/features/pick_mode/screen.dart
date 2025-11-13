@@ -51,15 +51,15 @@ class PickModeModal extends StatelessWidget {
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.all(theme.spacing.regular),
-                    children: [
-                      //for (final mode in GameMode.values)
+                  children: [
+                    for (final mode in GameMode.values)
                       ModeTile(
-                        GameMode.classic,
+                        mode,
                         onTap: () {
-                          Navigator.pop(context, GameMode.classic);
+                          Navigator.pop(context, mode);
                         },
                       ),
-                    ],
+                  ],
                   ),
                 ),
                 AppButton(

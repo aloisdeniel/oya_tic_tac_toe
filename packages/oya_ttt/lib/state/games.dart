@@ -89,19 +89,55 @@ class CurrentGameNotifier extends AsyncNotifier<Game?> {
 
   /// Processes a player's move at the specified [position].
   ///
+  /// For BasicGameState: [position] is a Position
+  /// For MetaGameState: [position] is a MetaPosition
+  ///
   /// If the game is against an AI opponent and the game is not over after
   /// the player's move, the AI will automatically make its move after a
-  /// 1-second delay.
-  Future<void> play(Position position) async {
-    if (state case AsyncData(
-      value: Game(
-        player2: GamePlayer(isAI: final againstAi),
-        state: BasicGameState state,
-      ),
-    )) {
-      final newState = state.play(position);
+  /// delay.
+  Future<void> play(dynamic position) async {
+    final currentState = state;
+    if (currentState is! AsyncData) return;
+    
+    final game = currentState.value;
+    if (game == null) return;
+    
+    final againstAi = game.player2.isAI;
+    
+    // Handle BasicGameState (classic mode)
+    if (game.state is BasicGameState) {
+      if (position is! Position) {
+        throw ArgumentError('Expected Position for BasicGameState');
+      }
+      final gameState = game.state as BasicGameState;
+      final newState = gameState.play(position);
       final aiPlay = !newState.isOver && againstAi;
       updateState(newState, aiPlay);
+      
+      if (aiPlay) {
+        const errorRate = 0.20;
+        // Simulate thinking. The later in the game, the longer it is.
+        await Future.delayed(
+          Duration(milliseconds: 500 + 200 * (newState.turn + _rng.nextInt(4))),
+        );
+        final legalMoves = newState.legalMoves.toList();
+        final aiMove = switch (_rng.nextDouble()) {
+          <= errorRate => legalMoves[_rng.nextInt(legalMoves.length)],
+          _ => newState.calculateNextMove().pos,
+        };
+        updateState(newState.play(aiMove), againstAi);
+      }
+    }
+    // Handle MetaGameState (meta mode)
+    else if (game.state is MetaGameState) {
+      if (position is! MetaPosition) {
+        throw ArgumentError('Expected MetaPosition for MetaGameState');
+      }
+      final gameState = game.state as MetaGameState;
+      final newState = gameState.play(position);
+      final aiPlay = !newState.isOver && againstAi;
+      updateState(newState, aiPlay);
+      
       if (aiPlay) {
         const errorRate = 0.20;
         // Simulate thinking. The later in the game, the longer it is.

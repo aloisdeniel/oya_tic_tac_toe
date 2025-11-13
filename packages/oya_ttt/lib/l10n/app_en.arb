@@ -251,5 +251,25 @@
   "disableVisualEffects": "Disable Visual Effects",
   "@disableVisualEffects": {
     "description": "Disable visual effects setting label"
+  },
+
+  "classicMode": "Classic",
+  "@classicMode": {
+    "description": "Classic game mode name"
+  },
+
+  "metaMode": "Meta",
+  "@metaMode": {
+    "description": "Meta game mode name"
+  },
+
+  "classicModeDescription": "Traditional 3x3 Tic-Tac-Toe",
+  "@classicModeDescription": {
+    "description": "Classic game mode description"
+  },
+
+  "metaModeDescription": "Ultimate Tic-Tac-Toe: 9 boards in one!",
+  "@metaModeDescription": {
+    "description": "Meta game mode description"
   }
 }

@@ -373,6 +373,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Disable Visual Effects'**
   String get disableVisualEffects;
+
+  /// Classic game mode name
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get classicMode;
+
+  /// Meta game mode name
+  ///
+  /// In en, this message translates to:
+  /// **'Meta'**
+  String get metaMode;
+
+  /// Classic game mode description
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional 3x3 Tic-Tac-Toe'**
+  String get classicModeDescription;
+
+  /// Meta game mode description
+  ///
+  /// In en, this message translates to:
+  /// **'Ultimate Tic-Tac-Toe: 9 boards in one!'**
+  String get metaModeDescription;
 }
 
 class _AppLocalizationsDelegate

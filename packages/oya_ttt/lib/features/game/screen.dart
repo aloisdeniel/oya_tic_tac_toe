@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:oya_ttt/features/game/widgets/board.dart';
+import 'package:oya_ttt/features/game/widgets/meta_board.dart';
 import 'package:oya_ttt/features/game/widgets/player_indicator.dart';
 import 'package:oya_ttt/features/game/widgets/status_indicator.dart';
 import 'package:oya_ttt/features/game_result/screen.dart';
@@ -35,6 +36,28 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               game: game,
               board: state.board,
               onCellTapped: (Position value) async {
+                if (_isPlaying) return;
+
+                setState(() {
+                  _isPlaying = true;
+                });
+
+                final notifier = ref.read($currentGame.notifier);
+                try {
+                  await notifier.play(value);
+                } catch (e, st) {
+                  Logger.root.severe('Failed to play', e, st);
+                }
+
+                setState(() {
+                  _isPlaying = false;
+                });
+              },
+            ),
+            MetaGameState state => MetaBoardView(
+              game: game,
+              state: state,
+              onCellTapped: (MetaPosition value) async {
                 if (_isPlaying) return;
 
                 setState(() {
