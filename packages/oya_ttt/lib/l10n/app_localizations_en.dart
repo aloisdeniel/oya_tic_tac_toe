@@ -145,4 +145,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backToHome => 'Back to Home';
+
+  @override
+  String get hapticFeedback => 'Haptic Feedback';
+
+  @override
+  String get disableVisualEffects => 'Disable Visual Effects';
 }

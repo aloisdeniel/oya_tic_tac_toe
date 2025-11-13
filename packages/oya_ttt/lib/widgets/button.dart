@@ -1,4 +1,9 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oya_ttt/state/settings.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/default_padding.dart';
 import 'package:oya_ttt/widgets/base/frame.dart';
@@ -20,7 +25,7 @@ import 'package:oya_ttt/widgets/glitch.dart';
 ///   child: Text('Click Me'),
 /// )
 /// ```
-class AppButton extends StatelessWidget {
+class AppButton extends ConsumerWidget {
   const AppButton({
     super.key,
     required this.child,
@@ -38,12 +43,24 @@ class AppButton extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final haptic = ref.watch($hapticFeedbackSetting);
+
     final theme = AppTheme.of(context);
     return DefaultPadding(
-      padding: EdgeInsets.symmetric(horizontal: theme.spacing.medium, vertical: theme.spacing.small),
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.spacing.medium,
+        vertical: theme.spacing.small,
+      ),
       child: PointerArea(
-        onTap: onPressed,
+        onTap: onPressed != null
+            ? () {
+                onPressed?.call();
+                if (haptic) {
+                  HapticFeedback.lightImpact();
+                }
+              }
+            : null,
         builder: (context, state, _) {
           Widget result = DefaultFrameStyle(
             style: style,
