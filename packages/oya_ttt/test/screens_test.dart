@@ -142,6 +142,59 @@ void main() {
       return GameScreen();
     },
   );
+
+  // Meta game tests
+  testScreen(
+    'meta_game_empty',
+    preloadBackground: [BackgroundIllustration.screens],
+    overrides: [
+      $currentGame.overrideWithBuild((ref, _) {
+        return data.emptyMetaGame;
+      }),
+    ],
+    (context) {
+      return GameScreen();
+    },
+  );
+
+  testScreen(
+    'meta_game_ingame',
+    preloadBackground: [BackgroundIllustration.screens],
+    overrides: [
+      $currentGame.overrideWithBuild((ref, _) {
+        return data.inGameMetaGame;
+      }),
+    ],
+    (context) {
+      return GameScreen();
+    },
+  );
+
+  testScreen(
+    'meta_game_won_p1',
+    preloadBackground: [BackgroundIllustration.screens],
+    overrides: [
+      $currentGame.overrideWithBuild((ref, _) {
+        return data.p1WonMetaGame;
+      }),
+    ],
+    (context) {
+      return GameScreen();
+    },
+  );
+
+  testScreen(
+    'meta_game_won_p2',
+    preloadBackground: [BackgroundIllustration.screens],
+    overrides: [
+      $currentGame.overrideWithBuild((ref, _) {
+        return data.p2WonMetaGame;
+      }),
+    ],
+    (context) {
+      return GameScreen();
+    },
+  );
 }
 
 void testScreen(
