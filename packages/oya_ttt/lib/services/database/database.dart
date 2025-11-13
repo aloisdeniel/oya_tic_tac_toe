@@ -52,12 +52,25 @@ class Users extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
-@DriftDatabase(tables: [Games, GameStates, Users])
+// Stats table
+@DataClassName('StatRecord')
+class Stats extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get gameId =>
+      integer().references(Games, #id, onDelete: KeyAction.cascade)();
+  IntColumn get userId1 => integer().nullable()();
+  IntColumn get userId2 => integer().nullable()();
+  IntColumn get wonBy => integer().nullable()(); // 1 for player1, 2 for player2, null for draw
+  DateTimeColumn get date => dateTime().withDefault(currentDateAndTime)();
+  IntColumn get duration => integer()(); // Duration in seconds
+}
+
+@DriftDatabase(tables: [Games, GameStates, Users, Stats])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
@@ -66,7 +79,10 @@ class AppDatabase extends _$AppDatabase {
         await m.createAll();
       },
       onUpgrade: (Migrator m, int from, int to) async {
-        // Add future migrations here
+        if (from < 2) {
+          // Add Stats table in version 2
+          await m.createTable(stats);
+        }
       },
     );
   }
@@ -231,6 +247,39 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> deleteUser(int userId) async {
     await (delete(users)..where((u) => u.id.equals(userId))).go();
+  }
+
+  // Stats operations
+  Future<int> createStat({
+    required int gameId,
+    int? userId1,
+    int? userId2,
+    int? wonBy,
+    required int durationSeconds,
+  }) async {
+    return await into(stats).insert(
+      StatsCompanion.insert(
+        gameId: gameId,
+        userId1: Value(userId1),
+        userId2: Value(userId2),
+        wonBy: Value(wonBy),
+        duration: durationSeconds,
+      ),
+    );
+  }
+
+  Future<List<StatRecord>> loadAllStats() async {
+    return await select(stats).get();
+  }
+
+  Future<List<StatRecord>> loadStatsByUser(int userId) async {
+    return await (select(stats)
+          ..where((s) => s.userId1.equals(userId) | s.userId2.equals(userId)))
+        .get();
+  }
+
+  Future<List<StatRecord>> loadStatsForGame(int gameId) async {
+    return await (select(stats)..where((s) => s.gameId.equals(gameId))).get();
   }
 
   // Helper methods
