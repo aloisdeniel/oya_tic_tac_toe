@@ -51,11 +51,29 @@ class SettingsScreen extends ConsumerWidget {
                       padding: EdgeInsets.all(theme.spacing.regular),
                       children: [
                         SettingTile(
-                          label: l10n.character,
+                          label: l10n.name,
                           value: AppButton(
                             style: FrameStyle.regular,
                             onPressed: () async {
                               updateUserName(context, ref);
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              spacing: theme.spacing.regular,
+                              children: [
+                                Text(user.value?.name ?? ''),
+                                Icon(Icons.edit, size: 20),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: theme.spacing.regular),
+                        SettingTile(
+                          label: l10n.character,
+                          value: AppButton(
+                            style: FrameStyle.regular,
+                            onPressed: () async {
+                              updateUserCharacter(context, ref);
                             },
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -73,24 +91,6 @@ class SettingsScreen extends ConsumerWidget {
                           ),
                         ),
 
-                        SizedBox(height: theme.spacing.regular),
-                        SettingTile(
-                          label: l10n.name,
-                          value: AppButton(
-                            style: FrameStyle.regular,
-                            onPressed: () async {
-                              updateUserCharacter(context, ref);
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              spacing: theme.spacing.regular,
-                              children: [
-                                Text(user.value?.name ?? ''),
-                                Icon(Icons.edit, size: 20),
-                              ],
-                            ),
-                          ),
-                        ),
                         SizedBox(height: theme.spacing.regular),
 
                         // Haptic Feedback Setting

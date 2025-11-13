@@ -152,4 +152,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get disableVisualEffects => 'Désactiver les effets visuels';
+
+  @override
+  String get classicMode => 'Classique';
+
+  @override
+  String get metaMode => 'Meta';
+
+  @override
+  String get classicModeDescription => 'Morpion traditionnel 3x3';
+
+  @override
+  String get metaModeDescription => 'Morpion ultime : 9 grilles en une !';
 }

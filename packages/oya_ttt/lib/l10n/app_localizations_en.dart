@@ -151,4 +151,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get disableVisualEffects => 'Disable Visual Effects';
+
+  @override
+  String get classicMode => 'Classic';
+
+  @override
+  String get metaMode => 'Meta';
+
+  @override
+  String get classicModeDescription => 'Traditional 3x3 Tic-Tac-Toe';
+
+  @override
+  String get metaModeDescription => 'Ultimate Tic-Tac-Toe: 9 boards in one!';
 }
