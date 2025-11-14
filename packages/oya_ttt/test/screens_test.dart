@@ -1,3 +1,5 @@
+import 'dart:ui' show FragmentProgram;
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:oya_ttt/features/edit_user/screen.dart';
 import 'package:oya_ttt/features/game/screen.dart';
@@ -188,7 +190,7 @@ void testScreen(
             $userSettings.overrideWithBuild((ref, value) {
               return UserSettings(
                 hapticFeedback: true,
-                disableVisualEffects: true,
+                disableVisualEffects: false,
               );
             }),
             ...overrides,
@@ -218,6 +220,7 @@ void testScreen(
       );
 
       await tester.runAsync(() async {
+        await FragmentProgram.fromAsset('shaders/glitch.frag');
         await loadFontsAndIcons();
         await precacheAllAssets(tester.binding.rootElement!);
       });

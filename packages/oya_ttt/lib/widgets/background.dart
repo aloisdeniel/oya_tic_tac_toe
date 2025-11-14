@@ -96,16 +96,21 @@ class Background extends StatelessWidget {
                   scanLineJitter: 0.15,
                   horizontalShake: 0.001,
                   colorDrift: 0.01,
-                  child: FadeInImage(
-                    image: TestableAssetImage(asset),
-                    fit: BoxFit.cover,
-                    placeholder: transparentImage,
-                  ),
+                  child: TestableAssetImage.isTestEnvironment
+                      ? Image(
+                          image: TestableAssetImage(asset),
+                          fit: BoxFit.cover,
+                        )
+                      : FadeInImage(
+                          image: TestableAssetImage(asset),
+                          fit: BoxFit.cover,
+                          placeholder: transparentImage,
+                        ),
                 );
               },
             ),
           ),
-          Positioned.fill(child: child),
+          Positioned.fill(key: Key('content'), child: child),
         ],
       ),
     );

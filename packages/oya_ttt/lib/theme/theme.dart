@@ -24,6 +24,7 @@ class AppTheme extends InheritedWidget {
     const color = AppThemeColorData.dark();
     return AppTheme(
       data: AppThemeData(
+        id: '${layout.name}_dark',
         text: switch (layout) {
           LayoutMode.regular => AppThemeTextData.regular(),
           LayoutMode.small => AppThemeTextData.small(),
@@ -46,6 +47,6 @@ class AppTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant AppTheme oldWidget) {
-    return data != oldWidget.data;
+    return data.id != oldWidget.data.id;
   }
 }
