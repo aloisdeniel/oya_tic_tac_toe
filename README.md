@@ -18,7 +18,6 @@ Oya Tic Tac Toe is a modern, cross-platform Flutter application that reimagines 
 ### Meta Mode (Ultimate Tic Tac Toe)
 <img src="packages/oya_ttt/test/screenshots/regular/meta_game_empty.png" width="250" alt="Meta Game - Empty Board" />
 <img src="packages/oya_ttt/test/screenshots/regular/meta_game_ingame.png" width="250" alt="Meta Game - In Progress" />
-<img src="packages/oya_ttt/test/screenshots/regular/meta_game_won_p1.png" width="250" alt="Meta Game - Won" />
 
 ### Features
 <img src="packages/oya_ttt/test/screenshots/regular/stats.png" width="250" alt="Statistics" />
