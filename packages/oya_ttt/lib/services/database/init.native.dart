@@ -10,7 +10,7 @@ AppDatabase initDatabase() {
   final db = LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    file.deleteSync();
+    //file.deleteSync();
     return NativeDatabase(file);
   });
   return AppDatabase(db);

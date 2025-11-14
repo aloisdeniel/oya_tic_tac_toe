@@ -96,16 +96,23 @@ class _EditUserScreenState extends State<EditUserModal> {
               ),
               Padding(
                 padding: EdgeInsets.all(theme.spacing.large),
-                child: AppButton(
-                  onPressed: () => Navigator.pop(context, controller.text),
-                  style: FrameStyle.primary,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: theme.spacing.regular,
-                    ),
-                    child: Text(l10n.validate),
-                  ),
+                child: AnimatedBuilder(
+                  animation: controller,
+                  builder: (context, _) {
+                    return AppButton(
+                      onPressed: controller.text.isNotEmpty
+                          ? () => Navigator.pop(context, controller.text)
+                          : null,
+                      style: FrameStyle.primary,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: theme.spacing.regular,
+                        ),
+                        child: Text(l10n.validate),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
