@@ -4,6 +4,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -20,7 +21,10 @@ class PickModeModal extends StatelessWidget {
   }) {
     return Navigator.push<GameMode>(
       context,
-      MaterialPageRoute(builder: (context) => PickModeModal(status: status)),
+      GradientPageRoute(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PickModeModal(status: status),
+      ),
     );
   }
 

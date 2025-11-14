@@ -5,6 +5,7 @@ import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character_picker.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -32,8 +33,9 @@ class PickCharacterModal extends StatefulWidget {
   }) {
     return Navigator.push<GameCharacter>(
       context,
-      MaterialPageRoute(
-        builder: (context) => PickCharacterModal(
+      GradientPageRoute(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            PickCharacterModal(
           status: status,
           title: title,
           subtitle: subtitle,

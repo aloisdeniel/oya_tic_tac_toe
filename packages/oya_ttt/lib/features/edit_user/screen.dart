@@ -3,6 +3,7 @@ import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt/widgets/text_input.dart';
 import 'package:oya_ttt/l10n/app_localizations.dart';
@@ -22,8 +23,9 @@ class EditUserModal extends StatefulWidget {
   }) {
     return Navigator.push<String>(
       context,
-      MaterialPageRoute(
-        builder: (context) => EditUserModal(status: status, name: user.name),
+      GradientPageRoute(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            EditUserModal(status: status, name: user.name),
       ),
     );
   }

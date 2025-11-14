@@ -55,35 +55,31 @@ class GradientPageTransition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        AnimatedBuilder(
-          animation: animation,
-          builder: (context, oldChild) {
-            final begin = 1 - animation.value * 4;
-            final end = 3 - animation.value * 4;
-            return ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return LinearGradient(
-                  begin: switch (direction) {
-                    Axis.horizontal => Alignment(begin, 0),
-                    Axis.vertical => Alignment(0, begin),
-                  },
-                  end: switch (direction) {
-                    Axis.horizontal => Alignment(end, 0),
-                    Axis.vertical => Alignment(0, end),
-                  },
-                  colors: [Colors.white, Colors.transparent],
-                  stops: [0, 1],
-                ).createShader(bounds);
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, oldChild) {
+        final begin = 1 - animation.value * 4;
+        final end = 3 - animation.value * 4;
+        return ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return LinearGradient(
+              begin: switch (direction) {
+                Axis.horizontal => Alignment(begin, 0),
+                Axis.vertical => Alignment(0, begin),
               },
-              blendMode: BlendMode.dstOut,
-              child: oldChild,
-            );
+              end: switch (direction) {
+                Axis.horizontal => Alignment(end, 0),
+                Axis.vertical => Alignment(0, end),
+              },
+              colors: [Colors.white, Colors.transparent],
+              stops: [0, 1],
+            ).createShader(bounds);
           },
-          child: child,
-        ),
-      ],
+          blendMode: BlendMode.dstOut,
+          child: oldChild,
+        );
+      },
+      child: child,
     );
   }
 }
@@ -92,6 +88,7 @@ class GradientPageTransition extends StatelessWidget {
 class GradientPageRoute<T> extends PageRouteBuilder<T> {
   GradientPageRoute({
     required super.pageBuilder,
+    Axis direction = Axis.vertical,
     super.transitionDuration = const Duration(milliseconds: 600),
     super.reverseTransitionDuration = const Duration(milliseconds: 600),
   }) : super(
@@ -104,6 +101,7 @@ class GradientPageRoute<T> extends PageRouteBuilder<T> {
 
            return GradientPageTransition(
              animation: curvedAnimation,
+             direction: direction,
              secondaryAnimation: secondaryAnimation,
              child: child,
            );

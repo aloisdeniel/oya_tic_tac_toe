@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:oya_ttt/features/edit_user/screen.dart';
 import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/state/users.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 import 'package:oya_ttt/l10n/app_localizations.dart';
 
@@ -11,10 +12,8 @@ Future<User?> createInitialUser(BuildContext context, WidgetRef ref) async {
   final logger = Logger('CreateInitialUser');
   final name = await Navigator.push<String>(
     context,
-    MaterialPageRoute(
-      builder: (context) {
-        return EditUserModal();
-      },
+    GradientPageRoute(
+      pageBuilder: (context, animation, secondaryAnimation) => EditUserModal(),
     ),
   );
   logger.info('Provided name: $name');

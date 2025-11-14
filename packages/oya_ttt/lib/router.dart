@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
@@ -9,7 +8,6 @@ import 'features/onboarding/screen.dart';
 import 'features/home/screen.dart';
 import 'features/settings/screen.dart';
 import 'features/game/screen.dart';
-import 'features/game_result/screen.dart';
 import 'features/statistics/screen.dart';
 
 final $initialLocation = FutureProvider((ref) async {
@@ -50,19 +48,19 @@ final $appRouter = FutureProvider((ref) async {
         ),
       ),
       GoRoute(
-        path: '/settings',
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          child: const SettingsScreen(),
-          transitionsBuilder: GradientPageTransition.vertical,
-        ),
-      ),
-      GoRoute(
         path: '/game',
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: GameScreen(),
           transitionsBuilder: GradientPageTransition.horizontal,
+        ),
+      ),
+      GoRoute(
+        path: '/settings',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SettingsScreen(),
+          transitionsBuilder: GradientPageTransition.vertical,
         ),
       ),
       GoRoute(

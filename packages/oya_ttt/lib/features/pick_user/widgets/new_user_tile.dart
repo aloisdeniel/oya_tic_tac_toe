@@ -7,6 +7,7 @@ import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 import 'package:oya_ttt/l10n/app_localizations.dart';
 
@@ -23,10 +24,9 @@ class NewUserTile extends ConsumerWidget {
         final logger = Logger('CreateInitialUser');
         final name = await Navigator.push<String>(
           context,
-          MaterialPageRoute(
-            builder: (context) {
-              return EditUserModal();
-            },
+          GradientPageRoute(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                EditUserModal(),
           ),
         );
         logger.info('Provided name: $name');
