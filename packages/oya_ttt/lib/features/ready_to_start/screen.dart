@@ -8,6 +8,7 @@ import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'package:oya_ttt/widgets/header.dart';
 import 'package:oya_ttt/widgets/header_status.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
@@ -20,7 +21,10 @@ class ReadyToStartModal extends StatelessWidget {
   static Future<Game?> show(BuildContext context, {required Game game}) {
     return Navigator.push<Game>(
       context,
-      MaterialPageRoute(builder: (context) => ReadyToStartModal(game: game)),
+      GradientPageRoute(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ReadyToStartModal(game: game),
+      ),
     );
   }
 
