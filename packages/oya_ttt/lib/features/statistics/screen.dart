@@ -43,54 +43,60 @@ class StatisticsScreen extends ConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: theme.spacing.large),
-                  Padding(
-                    padding: EdgeInsets.all(theme.spacing.small),
-                    child: Column(
-                      spacing: theme.spacing.large,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 800),
+                      child: Padding(
+                        padding: EdgeInsets.all(theme.spacing.small),
+                        child: Column(
                           spacing: theme.spacing.large,
                           children: [
-                            Expanded(
-                              child: StatTile(
-                                value: '${stats.wins}',
-                                label: l10n.wins,
-                                accent: theme.color.accents.clover,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              spacing: theme.spacing.large,
+                              children: [
+                                Expanded(
+                                  child: StatTile(
+                                    value: '${stats.wins}',
+                                    label: l10n.wins,
+                                    accent: theme.color.accents.clover,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: StatTile(
+                                    value: '${stats.losses}',
+                                    label: l10n.losses,
+                                    accent: theme.color.accents.cross,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Expanded(
-                              child: StatTile(
-                                value: '${stats.losses}',
-                                label: l10n.losses,
-                                accent: theme.color.accents.cross,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              spacing: theme.spacing.large,
+                              children: [
+                                Expanded(
+                                  child: StatTile(
+                                    value: '${stats.totalGames}',
+                                    label: l10n.totalGames,
+                                    accent: null,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: StatTile(
+                                    value:
+                                        '${stats.winRate.toStringAsFixed(1)}%',
+                                    label: l10n.winRate,
+                                    accent: stats.winRate < 50
+                                        ? theme.color.accents.diamond
+                                        : theme.color.accents.circle,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          spacing: theme.spacing.large,
-                          children: [
-                            Expanded(
-                              child: StatTile(
-                                value: '${stats.totalGames}',
-                                label: l10n.totalGames,
-                                accent: null,
-                              ),
-                            ),
-                            Expanded(
-                              child: StatTile(
-                                value: '${stats.winRate.toStringAsFixed(1)}%',
-                                label: l10n.winRate,
-                                accent: stats.winRate < 50
-                                    ? theme.color.accents.diamond
-                                    : theme.color.accents.circle,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   const Spacer(),

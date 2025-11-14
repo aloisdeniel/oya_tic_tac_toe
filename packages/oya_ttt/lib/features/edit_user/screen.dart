@@ -68,18 +68,32 @@ class _EditUserScreenState extends State<EditUserModal> {
             children: [
               if (widget.status case final status?) HeaderStatus(child: status),
               SizedBox(height: theme.spacing.large),
-              Text(
-                widget.title ?? l10n.whatsYourName,
-                style: theme.text.header2.copyWith(
-                  color: theme.color.main.foreground,
+              Expanded(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 800),
+                    child: Column(
+                      children: [
+                        Text(
+                          widget.title ?? l10n.whatsYourName,
+                          style: theme.text.header2.copyWith(
+                            color: theme.color.main.foreground,
+                          ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: EdgeInsets.all(theme.spacing.medium),
+                          child: TextInput(
+                            hint: l10n.name,
+                            controller: controller,
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              Spacer(),
-              Padding(
-                padding: EdgeInsets.all(theme.spacing.medium),
-                child: TextInput(hint: l10n.name, controller: controller),
-              ),
-              Spacer(),
               Padding(
                 padding: EdgeInsets.all(theme.spacing.large),
                 child: AppButton(
