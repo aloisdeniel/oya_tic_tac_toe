@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 class TestableAssetImage extends AssetImage {
   const TestableAssetImage(super.assetName);
 
   static bool get isTestEnvironment =>
-      Platform.environment.containsKey('FLUTTER_TEST');
+      !kIsWeb && Platform.environment.containsKey('FLUTTER_TEST');
 
   @override
   Future<AssetBundleImageKey> obtainKey(ImageConfiguration configuration) {
