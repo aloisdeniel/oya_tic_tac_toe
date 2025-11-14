@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:oya_ttt/state/games.dart';
 import 'package:oya_ttt/state/users.dart';
+import 'package:oya_ttt/widgets/gradient_page_transition.dart';
 import 'features/onboarding/screen.dart';
 import 'features/home/screen.dart';
 import 'features/settings/screen.dart';
@@ -33,26 +35,43 @@ final $appRouter = FutureProvider((ref) async {
     routes: [
       GoRoute(
         path: '/onboarding',
-        builder: (context, state) => const OnboardingScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const OnboardingScreen(),
+          transitionsBuilder: GradientPageTransition.horizontal,
+        ),
       ),
-      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: '/home',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const HomeScreen(),
+          transitionsBuilder: GradientPageTransition.horizontal,
+        ),
+      ),
       GoRoute(
         path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SettingsScreen(),
+          transitionsBuilder: GradientPageTransition.vertical,
+        ),
       ),
       GoRoute(
         path: '/game',
-        builder: (context, state) {
-          return GameScreen();
-        },
-      ),
-      GoRoute(
-        path: '/game-result',
-        builder: (context, state) => const GameResultScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: GameScreen(),
+          transitionsBuilder: GradientPageTransition.horizontal,
+        ),
       ),
       GoRoute(
         path: '/statistics',
-        builder: (context, state) => const StatisticsScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const StatisticsScreen(),
+          transitionsBuilder: GradientPageTransition.vertical,
+        ),
       ),
     ],
   );
