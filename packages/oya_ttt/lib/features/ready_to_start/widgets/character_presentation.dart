@@ -1,11 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
-import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/character.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
-class CharacterPresentation extends StatelessWidget {
+class CharacterPresentation extends StatefulWidget {
   const CharacterPresentation({
     super.key,
     required this.character,
@@ -18,12 +17,18 @@ class CharacterPresentation extends StatelessWidget {
   final AppCharacterDirection direction;
 
   @override
+  State<CharacterPresentation> createState() => _CharacterPresentationState();
+}
+
+class _CharacterPresentationState extends State<CharacterPresentation> {
+  @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
     return Stack(
       alignment: Alignment.center,
       children: [
         Positioned.fill(
+          key: Key('symbol'),
           child: Transform.scale(
             scale: 1.5,
             child: AnimatedGlitch(
@@ -31,26 +36,25 @@ class CharacterPresentation extends StatelessWidget {
               horizontalShake: 0.1,
               scanLineJitter: 0.25,
               child: Opacity(
-                opacity: symbolOpacity,
+                opacity: widget.symbolOpacity,
                 child: FittedBox(
-                  child: FadeIn(
-                    delay: const Duration(milliseconds: 300),
-                    child: AppCharacterSymbol(character: character),
-                  ),
+                  child: AppCharacterSymbol(character: widget.character),
                 ),
               ),
             ),
           ),
         ),
-        FadeIn(
-          child: AppCharacter(
-            direction: direction,
-            character: character,
-            gradientFromBottom: [
-              theme.color.accents(character).foreground,
-              theme.color.accents(character).foreground.withValues(alpha: 0),
-            ],
-          ),
+        AppCharacter(
+          key: Key('character'),
+          direction: widget.direction,
+          character: widget.character,
+          gradientFromBottom: [
+            theme.color.accents(widget.character).foreground,
+            theme.color
+                .accents(widget.character)
+                .foreground
+                .withValues(alpha: 0),
+          ],
         ),
       ],
     );

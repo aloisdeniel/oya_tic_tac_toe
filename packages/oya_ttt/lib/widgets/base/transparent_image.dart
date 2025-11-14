@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 final transparentImage = MemoryImage(kTransparentImage);
 
 /// Raw bytes of a 1x1 transparent PNG image.
-final Uint8List kTransparentImage = new Uint8List.fromList(<int>[
+final kTransparentImage = Uint8List.fromList(<int>[
   0x89,
   0x50,
   0x4E,

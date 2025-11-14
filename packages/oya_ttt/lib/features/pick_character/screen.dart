@@ -36,13 +36,13 @@ class PickCharacterModal extends StatefulWidget {
       GradientPageRoute(
         pageBuilder: (context, animation, secondaryAnimation) =>
             PickCharacterModal(
-          status: status,
-          title: title,
-          subtitle: subtitle,
-          background: background,
-          character: character,
-          characters: characters,
-        ),
+              status: status,
+              title: title,
+              subtitle: subtitle,
+              background: background,
+              character: character,
+              characters: characters,
+            ),
       ),
     );
   }
@@ -93,11 +93,6 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
             ),
             Expanded(
               child: CharacterPicker(
-                key: ValueKey(layout),
-                viewportFraction: switch (layout) {
-                  LayoutMode.regular => 0.45,
-                  LayoutMode.small => 0.9,
-                },
                 initial: widget.character,
                 characters: widget.characters
                     .where((x) => x != GameCharacter.robot)

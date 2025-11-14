@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:oya_ttt/theme/theme.dart';
+import 'package:oya_ttt/widgets/base/asset_image.dart';
 import 'package:oya_ttt/widgets/base/transparent_image.dart';
 import 'package:oya_ttt/widgets/glitch.dart';
 
@@ -96,7 +97,7 @@ class Background extends StatelessWidget {
                   horizontalShake: 0.001,
                   colorDrift: 0.01,
                   child: FadeInImage(
-                    image: AssetImage(asset),
+                    image: TestableAssetImage(asset),
                     fit: BoxFit.cover,
                     placeholder: transparentImage,
                   ),

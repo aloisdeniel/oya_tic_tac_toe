@@ -23,37 +23,32 @@ class MetaBoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    return Background.park2(
-      decoration: BoxDecoration(
-        color: theme.color.main.background.withValues(alpha: 0.8),
-      ),
-      child: Center(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Padding(
-            padding: EdgeInsets.all(theme.spacing.regular),
-            child: Column(
-              spacing: theme.spacing.regular,
-              children: [
-                for (var metaRow = 0; metaRow < 3; metaRow++)
-                  Expanded(
-                    child: Row(
-                      spacing: theme.spacing.regular,
-                      children: [
-                        for (var metaCol = 0; metaCol < 3; metaCol++)
-                          Expanded(
-                            child: _SmallBoard(
-                              game: game,
-                              state: state,
-                              boardPosition: Position(metaRow, metaCol),
-                              onCellTapped: onCellTapped,
-                            ),
+    return Center(
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Padding(
+          padding: EdgeInsets.all(theme.spacing.regular),
+          child: Column(
+            spacing: theme.spacing.regular,
+            children: [
+              for (var metaRow = 0; metaRow < 3; metaRow++)
+                Expanded(
+                  child: Row(
+                    spacing: theme.spacing.regular,
+                    children: [
+                      for (var metaCol = 0; metaCol < 3; metaCol++)
+                        Expanded(
+                          child: _SmallBoard(
+                            game: game,
+                            state: state,
+                            boardPosition: Position(metaRow, metaCol),
+                            onCellTapped: onCellTapped,
                           ),
-                      ],
-                    ),
+                        ),
+                    ],
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),
