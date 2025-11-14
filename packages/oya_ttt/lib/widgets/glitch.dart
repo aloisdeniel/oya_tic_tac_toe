@@ -71,6 +71,8 @@ class _AnimatedGlitchState extends ConsumerState<AnimatedGlitch>
     duration: const Duration(seconds: 50),
   );
 
+  final _childKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +111,7 @@ class _AnimatedGlitchState extends ConsumerState<AnimatedGlitch>
             (1.0 - widget.scanLineJitter * 1.2).clamp(0, 1),
           ),
           colorDrift: (widget.colorDrift * 0.04, _controller.value * 500),
-          child: widget.child,
+          child: KeyedSubtree(key: _childKey, child: widget.child),
         );
       },
     );

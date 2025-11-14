@@ -1,16 +1,34 @@
 # Oya Tic Tac Toe
 
-A modern, multi-platform Tic Tac Toe game built with Flutter, featuring classic and meta game modes with AI opponents.
+Oya Tic Tac Toe is a modern, cross-platform Flutter application that reimagines the classic game with both traditional 3x3 gameplay and Meta Tic Tac Toe (Ultimate Tic Tac Toe)—a recursive variant featuring a 3x3 grid of smaller boards where your move determines your opponent's next board. Built with a clean architecture separating pure Dart game logic (oya_ttt_core) from the Flutter UI (oya_ttt), the game includes AI opponents with multiple difficulty levels, local multiplayer, customizable user profiles with character avatars, internationalization support (English/French), game history tracking, and a beautiful themed interface with custom backgrounds and animations, all deployable to iOS, Android, Web, Windows, macOS, and Linux.
 
-## Overview
+## Screenshots
 
-This is a monorepo containing a sophisticated Tic Tac Toe implementation that goes beyond the traditional game. It includes both classic 3x3 Tic Tac Toe and "Meta" Tic Tac Toe (also known as Ultimate Tic Tac Toe), a recursive variant where each cell of the main board contains a full Tic Tac Toe game.
+
+### Home & Setup
+<img src="packages/oya_ttt/test/screenshots/regular/home.png" width="250" alt="Home Screen" />
+<img src="packages/oya_ttt/test/screenshots/regular/pick_character.png" width="250" alt="Character Selection" />
+<img src="packages/oya_ttt/test/screenshots/regular/pick_mode.png" width="250" alt="Mode Selection" />
+
+### Classic Mode
+<img src="packages/oya_ttt/test/screenshots/regular/game_empty.png" width="250" alt="Classic Game - Empty Board" />
+<img src="packages/oya_ttt/test/screenshots/regular/game_ingame.png" width="250" alt="Classic Game - In Progress" />
+<img src="packages/oya_ttt/test/screenshots/regular/game_won_p1.png" width="250" alt="Classic Game - Won" />
+
+### Meta Mode (Ultimate Tic Tac Toe)
+<img src="packages/oya_ttt/test/screenshots/regular/meta_game_empty.png" width="250" alt="Meta Game - Empty Board" />
+<img src="packages/oya_ttt/test/screenshots/regular/meta_game_ingame.png" width="250" alt="Meta Game - In Progress" />
+<img src="packages/oya_ttt/test/screenshots/regular/meta_game_won_p1.png" width="250" alt="Meta Game - Won" />
+
+### Features
+<img src="packages/oya_ttt/test/screenshots/regular/stats.png" width="250" alt="Statistics" />
+<img src="packages/oya_ttt/test/screenshots/regular/settings.png" width="250" alt="Settings" />
+<img src="packages/oya_ttt/test/screenshots/regular/edit_user.png" width="250" alt="Edit User Profile" />
+
 
 ## Features
 
-- **Two Game Modes:**
-  - Classic 3x3 Tic Tac Toe
-  - Meta Tic Tac Toe (Ultimate Tic Tac Toe) - a 3x3 grid of 3x3 boards
+- **Two Game Modes:** Classic 3x3 Tic Tac Toe and Meta Tic Tac Toe (Ultimate Tic Tac Toe)
 - **AI Opponents:** Built-in AI with multiple difficulty levels
 - **Local Multiplayer:** Play against friends on the same device
 - **User Profiles:** Create and customize player profiles with avatars
@@ -51,42 +69,6 @@ flutter pub get
 ```bash
 flutter run
 ```
-
-## Development
-
-### Running Tests
-
-Core logic tests:
-```bash
-cd packages/oya_ttt_core
-dart test
-```
-
-Flutter app tests (including golden/snapshot tests):
-```bash
-cd packages/oya_ttt
-flutter test
-```
-
-### Building
-
-For your target platform:
-```bash
-cd packages/oya_ttt
-flutter build [platform]  # apk, ios, web, windows, macos, linux
-```
-
-## Game Rules
-
-### Classic Mode
-Standard 3x3 Tic Tac Toe. Get three in a row (horizontally, vertically, or diagonally) to win.
-
-### Meta Mode (Ultimate Tic Tac Toe)
-- The game consists of 9 small Tic Tac Toe boards arranged in a 3x3 grid
-- Your move determines which board your opponent must play in next
-- If sent to a completed board, you can play on any available board
-- Win a small board to claim that position on the meta board
-- Win the meta board (three small boards in a row) to win the game
 
 ## License
 

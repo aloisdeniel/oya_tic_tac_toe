@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oya_ttt/widgets/base/asset_image.dart';
 import 'package:oya_ttt_core/oya_ttt_core.dart';
 
 export 'symbol.dart';
@@ -50,8 +51,8 @@ class AppCharacterAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = Image.asset(
-      'assets/avatar/${character.name}.png',
+    Widget result = Image(
+      image: TestableAssetImage('assets/avatar/${character.name}.png'),
       width: size,
       height: size,
     );
@@ -98,7 +99,9 @@ class AppCharacter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = Image.asset('assets/character/${character.name}.png');
+    Widget result = Image(
+      image: TestableAssetImage('assets/character/${character.name}.png'),
+    );
     if (gradientFromBottom case final colors?) {
       result = ShaderMask(
         shaderCallback: (bounds) => LinearGradient(

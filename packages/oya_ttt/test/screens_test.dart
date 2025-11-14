@@ -11,43 +11,34 @@ import 'package:oya_ttt/features/pick_character/screen.dart';
 import 'package:oya_ttt/features/pick_mode/screen.dart';
 import 'package:oya_ttt/features/ready_to_start/screen.dart';
 import 'package:oya_ttt/features/settings/screen.dart';
+import 'package:oya_ttt/features/statistics/screen.dart';
 import 'package:oya_ttt/l10n/app_localizations.dart';
 import 'package:oya_ttt/state/games.dart';
 import 'package:oya_ttt/state/settings.dart';
 import 'package:oya_ttt/state/stats.dart';
 import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
-import 'package:oya_ttt/widgets/background.dart';
 import 'package:oya_ttt/widgets/base/responsive.dart';
-import 'package:oya_ttt_core/oya_ttt_core.dart';
 import 'package:snaptest/snaptest.dart';
 
 import 'data.dart' as data;
+import 'precache_assets.dart';
 
 void main() {
-  testScreen('onboarding', preloadBackground: [BackgroundIllustration.city2], (
-    context,
-  ) {
+  testScreen('onboarding', (context) {
     return OnboardingScreen();
   });
 
-  testScreen(
-    'pick_character',
-    preloadBackground: [BackgroundIllustration.room2],
-    (context) {
-      return PickCharacterModal(status: Text('New user'));
-    },
-  );
+  testScreen('pick_character', (context) {
+    return PickCharacterModal(status: Text('New user'));
+  });
 
-  testScreen('edit_user', preloadBackground: [BackgroundIllustration.room2], (
-    context,
-  ) {
+  testScreen('edit_user', (context) {
     return EditUserModal();
   });
 
   testScreen(
     'home',
-    preloadBackground: [BackgroundIllustration.room],
     overrides: [$user.overrideWithValue(AsyncData(data.user))],
     (context) {
       return HomeScreen();
@@ -56,33 +47,22 @@ void main() {
 
   testScreen(
     'settings',
-    preloadBackground: [BackgroundIllustration.room2],
     overrides: [$user.overrideWithValue(AsyncData(data.user))],
     (context) {
       return SettingsScreen();
     },
   );
 
-  testScreen(
-    'pick_mode',
-    preloadBackground: [BackgroundIllustration.elevator],
-    (context) {
-      return PickModeModal(status: Text('New game'));
-    },
-  );
+  testScreen('pick_mode', (context) {
+    return PickModeModal(status: Text('New game'));
+  });
 
-  testScreen(
-    'ready_to_start',
-    preloadBackground: [BackgroundIllustration.elevator],
-    overrides: [],
-    (context) {
-      return ReadyToStartModal(game: data.emptyBasicGame);
-    },
-  );
+  testScreen('ready_to_start', overrides: [], (context) {
+    return ReadyToStartModal(game: data.emptyBasicGame);
+  });
 
   testScreen(
     'game_empty',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.emptyBasicGame;
@@ -95,7 +75,6 @@ void main() {
 
   testScreen(
     'game_ingame',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.inGameBasicGame;
@@ -107,7 +86,6 @@ void main() {
   );
   testScreen(
     'game_won_p1',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.p1WonBasicGame;
@@ -119,7 +97,6 @@ void main() {
   );
   testScreen(
     'game_won_p2',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.p2WonBasicGame;
@@ -132,21 +109,19 @@ void main() {
 
   testScreen(
     'stats',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $userStatistics.overrideWith((ref) {
         return data.stats;
       }),
     ],
     (context) {
-      return GameScreen();
+      return StatisticsScreen();
     },
   );
 
   // Meta game tests
   testScreen(
     'meta_game_empty',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.emptyMetaGame;
@@ -159,7 +134,6 @@ void main() {
 
   testScreen(
     'meta_game_ingame',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.inGameMetaGame;
@@ -172,7 +146,6 @@ void main() {
 
   testScreen(
     'meta_game_won_p1',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.p1WonMetaGame;
@@ -185,7 +158,6 @@ void main() {
 
   testScreen(
     'meta_game_won_p2',
-    preloadBackground: [BackgroundIllustration.screens],
     overrides: [
       $currentGame.overrideWithBuild((ref, _) {
         return data.p2WonMetaGame;
@@ -200,79 +172,72 @@ void main() {
 void testScreen(
   String description,
   Widget Function(BuildContext context) builder, {
-  Duration pumpAfter = const Duration(milliseconds: 8000),
+  Duration pumpAfter = const Duration(milliseconds: 10000),
   List<Override> overrides = const [],
-  List<GameCharacter> preloadCharacters = const [
-    GameCharacter.circle,
-    GameCharacter.cross,
-    GameCharacter.robot,
-  ],
-  List<BackgroundIllustration> preloadBackground = const [],
 }) {
-  testWidgets(description, (tester) async {
-    await tester.runAsync(() async {
-      for (var char in preloadCharacters) {
-        await precacheImage(
-          AssetImage('assets/avatar/${char.name}.png'),
-          tester.binding.rootElement!,
-        );
-        await precacheImage(
-          AssetImage('assets/character/${char.name}.png'),
-          tester.binding.rootElement!,
-        );
-      }
-      for (var illustration in preloadBackground) {
-        await precacheImage(
-          AssetImage('assets/background/vertical/${illustration.name}.png'),
-          tester.binding.rootElement!,
-        );
-        await precacheImage(
-          AssetImage('assets/background/${illustration.name}.png'),
-          tester.binding.rootElement!,
-        );
-      }
-    });
-    final settings = SnaptestSettings.rendered(
-      devices: [Devices.ios.iPhone16, Devices.macOS.macBookPro],
-    );
-
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          $userSettings.overrideWithBuild((ref, value) {
-            return UserSettings(
-              hapticFeedback: true,
-              disableVisualEffects: false,
-            );
-          }),
-          ...overrides,
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
+  const devices = {'small': Size(600, 1280), 'regular': Size(1280, 920)};
+  for (var device in devices.entries) {
+    testWidgets(description, (tester) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = device.value;
+      final root = GlobalKey();
+      await tester.pumpWidget(
+        ProviderScope(
+          key: root,
+          overrides: [
+            $userSettings.overrideWithBuild((ref, value) {
+              return UserSettings(
+                hapticFeedback: true,
+                disableVisualEffects: true,
+              );
+            }),
+            ...overrides,
           ],
-          supportedLocales: const [Locale('en'), Locale('fr')],
-          builder: (context, child) {
-            return Breakpoints(
-              minRegularWidth: 700,
-              child: Builder(
-                builder: (context) {
-                  return AppTheme.dark(context: context, child: child!);
-                },
-              ),
-            );
-          },
-          home: Builder(builder: builder),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en'), Locale('fr')],
+            builder: (context, child) {
+              return Breakpoints(
+                minRegularWidth: 700,
+                child: Builder(
+                  builder: (context) {
+                    return AppTheme.dark(context: context, child: child!);
+                  },
+                ),
+              );
+            },
+            home: Builder(builder: builder),
+          ),
         ),
-      ),
-    );
+      );
 
-    tester.pumpAndSettle(pumpAfter);
+      await tester.runAsync(() async {
+        await loadFontsAndIcons();
+        await precacheAllAssets(tester.binding.rootElement!);
+      });
 
-    await snap(matchToGolden: true, settings: settings);
-  });
+      final binding = TestWidgetsFlutterBinding.instance;
+      final endTime = binding.clock.fromNowBy(pumpAfter);
+      do {
+        if (binding.clock.now().isAfter(endTime)) {
+          break;
+        }
+        await binding.pump(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+        );
+      } while (binding.hasScheduledFrame);
+
+      await expectLater(
+        find.byKey(root),
+        matchesGoldenFile('screenshots/${device.key}/$description.png'),
+      );
+    });
+  }
 }

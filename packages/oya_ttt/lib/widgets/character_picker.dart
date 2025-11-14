@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/base/fade_in.dart';
 import 'package:oya_ttt/widgets/base/frame.dart';
+import 'package:oya_ttt/widgets/base/responsive.dart';
 import 'package:oya_ttt/widgets/big_background_text.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character.dart';
@@ -33,11 +34,8 @@ class CharacterPicker extends StatefulWidget {
     super.key,
     required this.initial,
     required this.onChanged,
-    required this.viewportFraction,
     this.characters = GameCharacter.values,
   });
-
-  final double viewportFraction;
 
   /// The initially selected character.
   final GameCharacter initial;
@@ -55,6 +53,7 @@ class CharacterPicker extends StatefulWidget {
 class _CharacterPickerState extends State<CharacterPicker> {
   final _pageKey = GlobalKey();
   late final GameCharacter initial = widget.initial;
+  LayoutMode? _layoutMode;
   GameCharacter characterAtPage(int i) {
     final index = initial.index - _initialPage + i;
     return widget.characters[index % widget.characters.length];
@@ -65,8 +64,11 @@ class _CharacterPickerState extends State<CharacterPicker> {
   }
 
   static const _initialPage = 10000;
-  late final pageController = PageController(
-    viewportFraction: widget.viewportFraction,
+  late var pageController = PageController(
+    viewportFraction: switch (_layoutMode) {
+      LayoutMode.regular || null => 0.45,
+      LayoutMode.small => 0.9,
+    },
     initialPage: _initialPage,
   );
 
@@ -77,6 +79,31 @@ class _CharacterPickerState extends State<CharacterPicker> {
       }
     }
     return _initialPage.toDouble();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final mode = Responsive.of(context);
+    if (_layoutMode == null) {
+      _layoutMode = mode;
+    } else if (_layoutMode != mode) {
+      widget.onChanged(initial);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            pageController.dispose();
+            pageController = PageController(
+              viewportFraction: switch (_layoutMode) {
+                LayoutMode.regular || null => 0.45,
+                LayoutMode.small => 0.9,
+              },
+              initialPage: _initialPage,
+            );
+          });
+        }
+      });
+    }
   }
 
   @override

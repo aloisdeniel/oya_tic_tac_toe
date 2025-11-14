@@ -25,9 +25,11 @@ class GameResultScreen extends ConsumerWidget {
       color: theme.color.main.background.withValues(alpha: 0.95),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: theme.spacing.medium,
         children: [
           if (game.value?.winner?.character case final character?) ...[
             Expanded(
+              key: Key('character'),
               flex: 3,
               child: DiagonalDecorated(
                 smallerEdge: DiagonalEdge.bottom,
@@ -56,14 +58,14 @@ class GameResultScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: theme.spacing.medium),
           ],
-          SizedBox(height: theme.spacing.medium),
           if (game.value case final game?) ...[
             FadeIn(
               child: Text(
                 switch (game.winner) {
-                  GamePlayer(:final user) => l10n.playerWon(user?.name ?? l10n.computer),
+                  GamePlayer(:final user) => l10n.playerWon(
+                    user?.name ?? l10n.computer,
+                  ),
                   null => l10n.draw,
                 },
                 style: theme.text.header1.copyWith(
@@ -88,7 +90,6 @@ class GameResultScreen extends ConsumerWidget {
               style: FrameStyle.regular,
               child: Text(l10n.newGame),
             ),
-            SizedBox(height: theme.spacing.regular),
           ] else ...[
             FadeIn(
               child: Text(
