@@ -14,6 +14,10 @@ void main() {
     Logger.root.onRecord.listen((record) {
       // ignore: avoid_print
       print('${record.level.name}: ${record.time}: ${record.message}');
+      if (record.error != null) {
+        print('${record.error}');
+        print('${record.stackTrace}');
+      }
     });
   }
   runApp(const OyatttApp());
@@ -36,10 +40,7 @@ class OyatttApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('fr'),
-            ],
+            supportedLocales: const [Locale('en'), Locale('fr')],
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,

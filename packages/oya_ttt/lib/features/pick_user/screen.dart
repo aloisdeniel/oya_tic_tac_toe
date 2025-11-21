@@ -6,6 +6,7 @@ import 'package:oya_ttt/features/pick_user/widgets/user_tile.dart';
 import 'package:oya_ttt/state/users.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/base/modal_result.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/gradient_page_transition.dart';
@@ -55,17 +56,21 @@ class PickUserModal extends ConsumerWidget {
     String? title,
     Widget? subtitle,
     bool canPickComputer = false,
+    PickerResultResultCallback<PickUserResult>? onResult,
   }) {
     return Navigator.push<PickUserResult>(
       context,
       GradientPageRoute(
-        pageBuilder: (context, animation, secondaryAnimation) => PickUserModal(
-          status: status,
-          title: title,
-          subtitle: subtitle,
-          filter: filter,
-          background: background,
-          canPickComputer: canPickComputer,
+        pageBuilder: (context, animation, secondaryAnimation) => PickerResult(
+          onResult: onResult,
+          child: PickUserModal(
+            status: status,
+            title: title,
+            subtitle: subtitle,
+            filter: filter,
+            background: background,
+            canPickComputer: canPickComputer,
+          ),
         ),
       ),
     );
@@ -108,7 +113,10 @@ class PickUserModal extends ConsumerWidget {
                           constraints: BoxConstraints(maxWidth: 800),
                           child: ComputerTile(
                             onTap: () {
-                              Navigator.pop(context, PickUserComputerResult());
+                              PickerResult.send<PickUserResult>(
+                                context,
+                                PickUserComputerResult(),
+                              );
                             },
                           ),
                         ),
@@ -122,7 +130,10 @@ class PickUserModal extends ConsumerWidget {
                           child: UserTile(
                             user: user,
                             onTap: () {
-                              Navigator.pop(context, PickUserHumanResult(user));
+                              PickerResult.send<PickUserResult>(
+                                context,
+                                PickUserHumanResult(user),
+                              );
                             },
                           ),
                         ),

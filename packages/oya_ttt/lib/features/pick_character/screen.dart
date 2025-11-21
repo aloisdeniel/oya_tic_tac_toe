@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
-import 'package:oya_ttt/widgets/base/responsive.dart';
+import 'package:oya_ttt/widgets/base/modal_result.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/character_picker.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
@@ -30,19 +30,22 @@ class PickCharacterModal extends StatefulWidget {
     String? title,
     Widget? subtitle,
     BackgroundIllustration background = BackgroundIllustration.room2,
+    PickerResultResultCallback<GameCharacter>? onResult,
   }) {
     return Navigator.push<GameCharacter>(
       context,
       GradientPageRoute(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            PickCharacterModal(
-              status: status,
-              title: title,
-              subtitle: subtitle,
-              background: background,
-              character: character,
-              characters: characters,
-            ),
+        pageBuilder: (context, animation, secondaryAnimation) => PickerResult(
+          onResult: onResult,
+          child: PickCharacterModal(
+            status: status,
+            title: title,
+            subtitle: subtitle,
+            background: background,
+            character: character,
+            characters: characters,
+          ),
+        ),
       ),
     );
   }
@@ -64,7 +67,6 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final layout = Responsive.of(context);
     final l10n = AppLocalizations.of(context)!;
     return Background(
       illustration: widget.background,
@@ -108,7 +110,7 @@ class _PickCharacterScreenState extends State<PickCharacterModal> {
               minimum: EdgeInsets.all(theme.spacing.large),
               child: AppButton(
                 onPressed: () {
-                  Navigator.pop(context, character);
+                  PickerResult.send(context, character);
                 },
                 style: FrameStyle.primary,
                 child: Padding(

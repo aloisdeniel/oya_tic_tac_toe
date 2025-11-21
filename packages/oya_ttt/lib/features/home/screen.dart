@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:oya_ttt/features/home/widgets/new_game.dart';
+import 'package:oya_ttt/features/new_game/screen.dart';
 import 'package:oya_ttt/features/pick_user/screen.dart';
 import 'package:oya_ttt/features/pick_user/widgets/user_tile.dart';
 import 'package:oya_ttt/features/ready_to_start/screen.dart';
@@ -108,7 +108,7 @@ class NewGameButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AppButton(
       onPressed: () async {
-        final game = await showNewGame(context, ref);
+        final game = await showNewGame(context);
         if (game != null && context.mounted) {
           final resultGame = await ReadyToStartModal.show(context, game: game);
           if (resultGame != null && context.mounted) {
