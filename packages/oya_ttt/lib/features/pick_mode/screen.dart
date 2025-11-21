@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oya_ttt/features/pick_mode/widgets/mode_tile.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/base/modal_result.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/gradient_page_transition.dart';
@@ -18,12 +19,15 @@ class PickModeModal extends StatelessWidget {
   static Future<GameMode?> show(
     BuildContext context, {
     required Widget status,
+    PickerResultResultCallback<GameMode>? onResult,
   }) {
     return Navigator.push<GameMode>(
       context,
       GradientPageRoute(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            PickModeModal(status: status),
+        pageBuilder: (context, animation, secondaryAnimation) => PickerResult(
+          onResult: onResult,
+          child: PickModeModal(status: status),
+        ),
       ),
     );
   }
@@ -62,7 +66,7 @@ class PickModeModal extends StatelessWidget {
                           ModeTile(
                             mode,
                             onTap: () {
-                              Navigator.pop(context, mode);
+                              PickerResult.send(context, mode);
                             },
                           ),
                           const SizedBox(height: 12),

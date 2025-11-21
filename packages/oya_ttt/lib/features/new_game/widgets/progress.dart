@@ -82,7 +82,10 @@ class NewGameProgressStep extends StatelessWidget {
           DiagonalDecorated(
             color: foreground,
             smallerEdge: DiagonalEdge.bottom,
-            child: SizedBox(width: theme.spacing.medium, height: theme.spacing.small),
+            child: SizedBox(
+              width: theme.spacing.medium,
+              height: theme.spacing.small,
+            ),
           ),
           DefaultTextStyle(
             style: theme.text.footnote.copyWith(color: foreground),

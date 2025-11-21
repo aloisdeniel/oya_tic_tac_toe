@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oya_ttt/theme/theme.dart';
 import 'package:oya_ttt/widgets/background.dart';
+import 'package:oya_ttt/widgets/base/modal_result.dart';
 import 'package:oya_ttt/widgets/button.dart';
 import 'package:oya_ttt/widgets/frame_style.dart';
 import 'package:oya_ttt/widgets/gradient_page_transition.dart';
@@ -20,12 +21,15 @@ class EditUserModal extends StatefulWidget {
     BuildContext context, {
     required User user,
     Widget? status,
+    PickerResultResultCallback<String>? onResult,
   }) {
     return Navigator.push<String>(
       context,
       GradientPageRoute(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            EditUserModal(status: status, name: user.name),
+        pageBuilder: (context, animation, secondaryAnimation) => PickerResult(
+          onResult: onResult,
+          child: EditUserModal(status: status, name: user.name),
+        ),
       ),
     );
   }
@@ -101,7 +105,7 @@ class _EditUserScreenState extends State<EditUserModal> {
                   builder: (context, _) {
                     return AppButton(
                       onPressed: controller.text.isNotEmpty
-                          ? () => Navigator.pop(context, controller.text)
+                          ? () => PickerResult.send(context, controller.text)
                           : null,
                       style: FrameStyle.primary,
                       child: Padding(
